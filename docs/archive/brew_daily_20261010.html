@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍺 BREW DAILY - 2026年10月10日（Sat）</title>
+    <style>
+        :root {
+            --beer-amber: #F5A623;
+            --beer-dark: #3D2B1F;
+            --beer-cream: #FFF8E7;
+            --beer-foam: #FEFAE0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Hiragino Sans', 'Meiryo', 'Yu Gothic', sans-serif;
+            background: var(--beer-cream);
+            color: var(--beer-dark);
+            line-height: 1.8;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--beer-dark) 0%, #6B3A2A 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .magazine-title {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .magazine-subtitle {
+            font-size: 1.1rem;
+            color: var(--beer-amber);
+            margin-top: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .magazine-date {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-top: 0.3rem;
+        }
+
+        .categories-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            background: var(--beer-foam);
+            flex-wrap: wrap;
+            border-bottom: 2px solid var(--beer-amber);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--beer-dark);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--beer-amber);
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .article-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .article-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .rank {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--beer-amber);
+            min-width: 2.5rem;
+        }
+
+        .category {
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .popularity {
+            margin-left: auto;
+            font-size: 0.85rem;
+        }
+
+        .article-title {
+            font-size: 1.15rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--beer-dark);
+            line-height: 1.5;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.8rem;
+        }
+
+        .highlight {
+            background: #FFF3CD;
+            border: 1px solid #FFD700;
+            border-radius: 4px;
+            padding: 0.5rem 0.8rem;
+            font-size: 0.88rem;
+            font-weight: bold;
+            margin-bottom: 0.8rem;
+            color: #856404;
+        }
+
+        .summary {
+            font-size: 0.92rem;
+            line-height: 1.9;
+            color: #333;
+            text-align: justify;
+        }
+
+        .article-footer {
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid #eee;
+        }
+
+        .summary-body p + p {
+            margin-top: 1em;
+        }
+
+        .analysis-box {
+            background: #F0F7FF;
+            border: 1px solid #B8D4F0;
+            border-radius: 6px;
+            padding: 1rem 1.2rem;
+            margin-top: 1.2rem;
+        }
+
+        .analysis-title {
+            font-weight: bold;
+            color: #1E6B9E;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .analysis-text {
+            font-size: 0.92rem;
+            line-height: 1.9;
+            color: #2a2a3a;
+        }
+
+        .source-link {
+            color: #1E6B9E;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .source-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--beer-dark);
+            color: #aaa;
+            font-size: 0.85rem;
+            margin-top: 3rem;
+        }
+
+        footer strong {
+            color: var(--beer-amber);
+        }
+
+        @media (max-width: 600px) {
+            .magazine-title { font-size: 2rem; }
+            .article-meta { flex-direction: column; gap: 0.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="magazine-title">🍺 BREW DAILY</div>
+        <div class="magazine-subtitle">世界のブルワリー最新情報マガジン</div>
+        <div class="magazine-date">📅 2026年10月10日（Sat） 発行 | 麦芽・ホップ・水・副原料 注目トピック9選</div>
+    </header>
+
+    <div class="categories-legend">
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#8B6914;"></span>
+            🌾 麦芽（Malt）
+        </div>
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#4A7C2F;"></span>
+            🌿 ホップ（Hops）
+        </div>
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#1E6B9E;"></span>
+            💧 水（Water）
+        </div>
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#9B4E9E;"></span>
+            🌽 副原料（Adjunct）
+        </div>
+    </div>
+
+    <main>
+        <h2 class="section-title">📊 本日の注目トピック（世界の公式情報より）</h2>
+
+        <article class="article-card" style="border-left: 4px solid #9B4E9E;">
+            <div class="article-header">
+                <span class="rank">#1</span>
+                <span class="category" style="background:#9B4E9E;">🌽 副原料</span>
+                <span class="popularity">⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">ノースカロライナ発、モルトハウス×コーヒー焙煎所のコラボラガー「Bimble」</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Cellarest Beer Project</span>
+                <span class="country">🌍 アメリカ（ノースカロライナ州アッシュビル）</span>
+            </div>
+            <div class="highlight">💡 ブラジル・メキシコ産コーヒー豆をブレンド、アカシア材フーダーで仕込み</div>
+            <div class="summary-body">
+                <p class="summary">ノースカロライナ州アッシュビルのCellarest Beer Projectが、地元のRiverbend Malt House、コーヒー焙煎所Coffee Libraryと組み、新作「Bimble」を発表した。ドイツ系ラガー酵母で低温発酵させ、アカシア材のフーダー（大型木樽）で仕込んだブロンドラガーがベースとなっている。</p>
+                <p class="summary">麦芽はRiverbendのSouthern Select、Great Chit、Vienna、Double Kilned Munichを使用し、ホップはWillamette。そこにブラジル・ミナスジェライス州産（カトゥアイ種・ナチュラル精製）とメキシコ・ベラクルス州産（水洗式精製）のコーヒー豆2種をブレンドしている。</p>
+                <p class="summary">Cellarestの共同創業者Mark Goodwin氏は、メキシコ産の持つシナモンやブラウンシュガーの風味に、ブラジル産のカカオ・ミルクチョコレートのコクを重ねたかったと説明。現在は生ビールで提供中で、16オンス缶の4缶パックも近日発売予定だという。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">コーヒーはビールの副原料として定番化しつつあるが、産地や精製方法の違いを「ブレンド」として設計する発想は、ワインのアッサンブラージュに近い。取引先との商品企画でも、単に「コーヒービール」とひとくくりにせず、豆の産地や焙煎度合いをストーリーとして伝える売り方は参考になりそうだ。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.brewbound.com/pr/2026/09/08/cellarest-beer-project-debuts-bimble-in-collaboration-with-riverbend-malt-house-and-coffee-library" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #8B6914;">
+            <div class="article-header">
+                <span class="rank">#2</span>
+                <span class="category" style="background:#8B6914;">🌾 麦芽</span>
+                <span class="popularity">⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">サッポロビール×北海道大学、日本初のビール用大麦品種「北大1号」で150周年記念ビールを共同開発</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 サッポロビール</span>
+                <span class="country">🌍 日本（北海道）</span>
+            </div>
+            <div class="highlight">💡 100年以上前に誕生した日本初の人工交配ビール大麦を復活起用</div>
+            <div class="summary-body">
+                <p class="summary">サッポロビールは2026年1月、札幌市内で開いた経営方針説明会で、北海道大学と共同で記念ビールを開発すると発表した。使用するのは、北海道大学が100年以上前に育種した日本初の人工交配によるビール用大麦品種「北大1号」。</p>
+                <p class="summary">発表はサッポロビール執行役員・北海道本部長の牧野成久氏が担当。両者の150周年を記念した取り組みで、「サッポロ クラシック」ブランドの製品として2026年夏に北海道限定で発売予定とされた。アルコール度数や価格など詳細は今後発表されるという。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">国産原料を軸にした「地域史」をブランドストーリーに組み込む手法は、地方の中堅ブルワリーにこそ応用の余地がある。土地に根ざした歴史を持つ会社であれば、原料や酵母の由来を掘り起こして語ることは、大手にはない説得力を持たせられるはずだ。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://150th.hokudai.ac.jp/en/news/5458" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #4A7C2F;">
+            <div class="article-header">
+                <span class="rank">#3</span>
+                <span class="category" style="background:#4A7C2F;">🌿 ホップ</span>
+                <span class="popularity">⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">米国ブルワーズ・アソシエーション、2026年ホップ収穫前レポートを公開　作付面積は4年連続減も下げ止まりの兆し</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Brewers Association</span>
+                <span class="country">🌍 アメリカ（太平洋岸北西部）</span>
+            </div>
+            <div class="highlight">💡 作付面積41,642エーカー、品質・収量は平年並みの見通し</div>
+            <div class="summary-body">
+                <p class="summary">米国ブルワーズ・アソシエーションは2026年の収穫前ホップ状況レポートを公開した。主産地である太平洋岸北西部の作付面積は41,642エーカーで、4年連続の減少となったものの、前年からの下げ幅はわずかにとどまった。</p>
+                <p class="summary">生育期は全体的に高温・乾燥傾向だったが、病害の発生は比較的少なく、全体の見通しは「平年並みの品質・収量」とされる。一方で、近隣での山火事による煙害（スモークテイント）のリスクは収穫終盤まで残るとしている。</p>
+                <p class="summary">品種別には作付面積の減少に偏りがあり、一部品種で供給不足の懸念も。ブルワーには必要量を早めに栽培者・取扱業者へ伝えるよう呼びかけている。9月にはヤキマで新品種の官能評価イベント「Hopsource」も開催された。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">ホップは天候リスクに加え、作付面積そのものが年々流動的になっている。輸入ホップに頼る日本の中小ブルワリーにとっては、特定品種への依存を減らす仕込み設計や、年ごとの供給状況を早めに業者から確認する体制づくりが、今後ますます重要になりそうだ。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.brewersassociation.org/brewing-industry-updates/2026-pre-harvest-hop-roundup/" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #8B6914;">
+            <div class="article-header">
+                <span class="rank">#4</span>
+                <span class="category" style="background:#8B6914;">🌾 麦芽</span>
+                <span class="popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">独ベストモルツ、新品種大麦「Excalibur」を製麦ラインナップに追加　主力品種「Amidala」を置き換えへ</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 BESTMALZ（Saatzucht Ackermann / Palatia Malz）</span>
+                <span class="country">🌍 ドイツ</span>
+            </div>
+            <div class="highlight">💡 2027年収穫から既存品種「Amidala」を置き換え予定</div>
+            <div class="summary-body">
+                <p class="summary">ドイツのモルトメーカーBESTMALZは2026年2月、Saatzucht Ackermann社が開発した新品種大麦「Excalibur」を原料ラインナップに加えたと発表した。Palatia Malz社のMichael Huber氏は、製麦特性に大きな可能性があるとコメントしている。</p>
+                <p class="summary">Excaliburは既存の主力品種「Amidala」を置き換える位置づけで、2026年収穫分から試験醸造用の種子が播種に提供され、本格的な置き換えは2027年収穫からとなる見込み。ドイツ醸造大麦協会（Braugersten-Gemeinschaft）の評価プロセスを経て採用が決まった。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">ドイツでは主力品種の世代交代が計画的に進められており、品種評価の仕組みが制度化されている点が日本との違いだ。輸入大麦・麦芽の調達先の品種動向を定点観測しておくことは、数年単位での原料コストや品質の見通しを立てるうえで地味だが効く情報になる。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://bestmalz.de/en/?p=19619" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #1E6B9E;">
+            <div class="article-header">
+                <span class="rank">#5</span>
+                <span class="category" style="background:#1E6B9E;">💧 水</span>
+                <span class="popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">カールスバーグ・カナダ、水効率化の取り組みで「2026 Impact Award」を受賞　2年間で10万立方メートル削減</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Carlsberg Canada</span>
+                <span class="country">🌍 カナダ（オンタリオ州キッチナー）</span>
+            </div>
+            <div class="highlight">💡 450世帯分の年間使用量に相当する水を削減</div>
+            <div class="summary-body">
+                <p class="summary">カールスバーグ・カナダは、持続可能性を評価する「2026 Impact Award」を受賞した。同社はオンタリオ州キッチナーの生産拠点で、地域の「Water Efficient Technology（WET）プログラム」と連携し、水使用量の可視化や異常検知の強化などの改修を実施した。</p>
+                <p class="summary">この結果、2023年から2024年にかけて水使用量を10万立方メートル削減。これは450世帯以上が1年間使える水量に相当し、WETプログラム史上最大の節水実績になったという。ウォータールー地域は地下水を主な水源とするカナダ最大のコミュニティで、節水は地域資源の保全にも直結する。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">「ビールの9割以上は水」という当たり前の事実を、具体的な立方メートル数と世帯換算で語れるかどうかで説得力が変わる。需給調整など製造業としてコントロールできない事象が多い中でも、水のように数値化・改善しやすい領域から着実に成果を積み上げる姿勢は見習いたい。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://ccentral.ca/2026-impact-awards-winner-carlsberg-canada-1" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #8B6914;">
+            <div class="article-header">
+                <span class="rank">#6</span>
+                <span class="category" style="background:#8B6914;">🌾 麦芽</span>
+                <span class="popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">米リバーベンド・モルトハウス、赤系麦芽の新製品「Ridgeline Red」を発売　グレインビル100%まで使用可</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Riverbend Malt House</span>
+                <span class="country">🌍 アメリカ（ノースカロライナ州アッシュビル）</span>
+            </div>
+            <div class="highlight">💡 トーストした穀物とハチミツの香り、後味はルーズリーフティー風</div>
+            <div class="summary-body">
+                <p class="summary">2010年創業のクラフトモルトハウス、Riverbend Malt House（ノースカロライナ州）は、ブルワー顧客からの要望を受けて開発した新麦芽「Ridgeline Red」を発売した。トーストした穀物やパンの皮、濃厚なハチミツの香りに続き、イチジクとレーズンの複雑な味わい、ルーズリーフティーのようなすっきりした後味が特徴という。</p>
+                <p class="summary">エール・ラガー双方に使え、グレインビル（穀物配合）の最大100%まで使用可能な汎用性をうたう。試験醸造したCellarest Beer Projectは糖化効率をピルスナーモルト同等と評価（pH調整は必要）、Salt Face Mule Brewing Co.はウェストコーストIPAで狙い通りの見た目・味を得たとコメントしている。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">「赤系麦芽だけでレッドエールの色と味を完結させる」という訴求は、ブレンド調整の手間を減らしたい小規模ブルワリーに刺さりやすい。単一原料でどこまで表現の幅を持たせられるかは、差別化のポイントになりうる。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://bevnet.com/pr/2026/08/07/riverbend-malt-house-introduces-ridgeline-red" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #4A7C2F;">
+            <div class="article-header">
+                <span class="rank">#7</span>
+                <span class="category" style="background:#4A7C2F;">🌿 ホップ</span>
+                <span class="popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">ニュージーランド・クレイトンホップス、2026年収穫レポートを公開　自社開発品種「NZ Rhapzody」は収量減もアロマは高評価</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Clayton Hops</span>
+                <span class="country">🌍 ニュージーランド（ネルソン）</span>
+            </div>
+            <div class="highlight">💡 収量は平均を下回るも「際立った香りの表現力」</div>
+            <div class="summary-body">
+                <p class="summary">ニュージーランド・ネルソン地方のClayton Hopsは、2026年（CY26）のホップ収穫レポートを公開した。同社が自社開発し商業展開している品種「NZ Rhapzody」は、海外のブルワーからも評価を得ているという。</p>
+                <p class="summary">今期の収量は平均を下回ったが、香りの表現力は際立っていたとされる。CEOのPaul Teen氏は、生育期の環境は厳しかったものの品質は堅調に保たれたと説明。畑からペレット化までの加工工程は過去最速だったと報告している。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">南半球産ホップは北半球と収穫期がずれるため、年間を通じたフレッシュホップ供給の選択肢として注目度が上がっている。収量より香りの質を優先する姿勢は、量産品との差別化を図る小規模ホップ農家ならではの戦略と言える。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.craftypint.com/news/4090/clayton-hops-issue-their-2026-hop-harvest-report" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #8B6914;">
+            <div class="article-header">
+                <span class="rank">#8</span>
+                <span class="category" style="background:#8B6914;">🌾 麦芽</span>
+                <span class="popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">米コーネル大学、118年の育種プログラム史上初の「冬播き製麦用大麦」新品種「LakeEffect」を発表</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Cornell University（Small Grains Breeding Program）</span>
+                <span class="country">🌍 アメリカ（ニューヨーク州）</span>
+            </div>
+            <div class="highlight">💡 初交配から商業リリースまでわずか7年で達成</div>
+            <div class="summary-body">
+                <p class="summary">コーネル大学の穀物育種プログラム（Cornell Small Grains Breeding Program）は、新品種の冬播き製麦用大麦「LakeEffect」を発表した。同プログラムが118年の歴史で初めてリリースする冬播きの製麦用大麦だという。</p>
+                <p class="summary">育種を主導したMark Sorrells教授によれば、農家が求める栽培特性と、醸造家・蒸留所が求める製麦品質の両立を目指した品種。最初の交配から商業リリースまで7年という異例の短期間で実現した。認定種子生産者が2026年夏に採種し、同年秋播き用として商業生産者へ供給される予定。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">冬播き品種は春播きに比べて輪作体系に組み込みやすく、農家にとっての導入ハードルが下がる利点がある。大学の育種プログラムが実需者（醸造家）の声を起点に開発期間を大幅短縮した点は、産学連携のモデルケースとして注目に値する。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://blogs.cornell.edu/whatscroppingup/category/plant-breeding" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #1E6B9E;">
+            <div class="article-header">
+                <span class="rank">#9</span>
+                <span class="category" style="background:#1E6B9E;">💧 水</span>
+                <span class="popularity">⭐⭐</span>
+            </div>
+            <h2 class="article-title">米アクアティック・ブルーイング、「BetterBev」グリーン飲料生産者認定を取得　仕込み水を再利用</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Aquatic Brewing</span>
+                <span class="country">🌍 アメリカ（マサチューセッツ州フォールマス）</span>
+            </div>
+            <div class="highlight">💡 使用済みの水を下水に流さず仕込み工程で再利用</div>
+            <div class="summary-body">
+                <p class="summary">マサチューセッツ州フォールマスの小規模ブルワリー、Aquatic Brewingが、UMassアマースト校のEnergy Transition Instituteが運営する「BetterBev」プログラムの「green beverage producer」認定を取得した。同プログラムは米環境保護庁（EPA）の汚染予防助成を受けて運営されている。</p>
+                <p class="summary">同社は工程で使った水を下水に流さず、糖化など別の仕込み工程で再利用。水・CO2使用量は業界平均より少ないとされる。このほか、発酵時のCO2を回収してビールの炭酸化に使う「スポンディング」や、コミュニティソーラーでの電力相殺、麦芽かすなど副産物の地元農家への寄付も行っている。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">2020年創業、海洋学者が立ち上げた小さなブルワリーでも、水の再利用や副産物の地域循環は十分実践できることを示す好例だ。設備投資の規模よりも、工程を一つずつ見直す地道な積み重ねが認定につながっている点は、規模を問わず参考になる。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.brewbound.com/pr/2026/08/24/falmouths-aquatic-brewing-earns-green-brewery-recognition" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+    </main>
+
+    <footer>
+        <p><strong>BREW DAILY</strong> は世界中の醸造所公式情報を自動収集し、AI が日本語に翻訳・要約した独自マガジンです。</p>
+        <p style="margin-top:0.5rem;">Generated by Claude AI | Powered by Anthropic | 2026年10月10日（Sat）</p>
+    </footer>
+</body>
+</html>
