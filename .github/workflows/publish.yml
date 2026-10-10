@@ -1,0 +1,50 @@
+name: 🍺 BREW DAILY 毎朝自動発行
+
+on:
+  schedule:
+    - cron: '0 22 * * *'  # 日本時間 毎朝7時 (UTC 22:00)
+  workflow_dispatch:       # 手動実行ボタンも有効化
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: Python セットアップ
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: ライブラリインストール
+        run: pip install anthropic
+
+      - name: 🍺 マガジン生成
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          mkdir -p docs
+          python brew_magazine.py
+          cp output/latest.html docs/index.html
+
+      - name: 過去の号をアーカイブ
+        run: |
+          mkdir -p docs/archive
+          cp output/brew_daily_*.html docs/archive/ 2>/dev/null || true
+
+      - name: アーカイブ一覧ページを生成
+        run: python generate_archive.py
+
+      - name: GitHub Pages へデプロイ
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          commit_message: "🍺 ${{ github.run_id }} BREW DAILY 自動更新"
