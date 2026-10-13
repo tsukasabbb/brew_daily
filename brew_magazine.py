@@ -250,35 +250,39 @@ def generate_html_magazine(articles: list[dict], date_str: str) -> str:
         pop = article.get("estimated_popularity", 5)
         stars = "⭐" * min(int(pop / 2), 5)
 
-        # 本文を段落に分割（改行2つで分割）
+        # 本文を段落に分割
         summary_paragraphs = article.get('summary_ja', '').replace('\\n', '\n').split('\n\n')
-        summary_html = ''.join(f'<p class="summary">{p.strip()}</p>' for p in summary_paragraphs if p.strip())
+        body_html = ''.join(f'<p>{p.strip()}</p>' for p in summary_paragraphs if p.strip())
+        if not body_html:
+            body_html = f'<p>{article.get("summary_ja","")}</p>'
 
         analysis = article.get('analysis_ja', '')
+        analysis_block = f"""
+            <div class="analysis">
+                <p class="analysis-label">編集部の考察</p>
+                <p>{analysis}</p>
+            </div>""" if analysis else ""
 
         articles_html += f"""
-        <article class="article-card" style="border-left: 4px solid {color};">
-            <div class="article-header">
-                <span class="rank">#{i}</span>
-                <span class="category" style="background:{color};">{icon} {cat}</span>
-                <span class="popularity">{stars}</span>
+        <article class="article" id="article-{i}">
+            <div class="article-kicker">
+                <span class="article-rank">{i:02d}</span>
+                <span class="article-category" style="background:{color};">{icon} {cat}</span>
+                <span class="article-popularity">{stars}</span>
             </div>
-            <h2 class="article-title">{article.get('title_ja', article.get('title_en', ''))}</h2>
-            <div class="article-meta">
-                <span class="brewery">🏭 {article.get('brewery_ja', article.get('brewery', ''))}</span>
-                <span class="country">🌍 {article.get('country_ja', article.get('country', ''))}</span>
+            <h2 class="article-headline">{article.get('title_ja', article.get('title_en', ''))}</h2>
+            <p class="article-deck">💡 {article.get('highlight', '')}</p>
+            <div class="article-byline">
+                <span>🏭 {article.get('brewery_ja', article.get('brewery', ''))}</span>
+                <span>🌍 {article.get('country_ja', article.get('country', ''))}</span>
             </div>
-            <div class="highlight">💡 {article.get('highlight', '')}</div>
-            <div class="summary-body">
-                {summary_html if summary_html else f'<p class="summary">{article.get("summary_ja","")}</p>'}
+            <div class="article-body">
+                {body_html}
             </div>
-            <div class="analysis-box">
-                <div class="analysis-title">🔍 編集部の考察</div>
-                <p class="analysis-text">{analysis}</p>
-            </div>
-            <div class="article-footer">
-                <a href="{article.get('url', '#')}" target="_blank" rel="noopener" class="source-link">
-                    📰 オリジナル記事を読む
+            {analysis_block}
+            <div class="article-source">
+                <a href="{article.get('url', '#')}" target="_blank" rel="noopener">
+                    オリジナル記事を読む →
                 </a>
             </div>
         </article>
@@ -289,261 +293,336 @@ def generate_html_magazine(articles: list[dict], date_str: str) -> str:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🍺 BREW DAILY - {date_str}</title>
+    <title>BREW DAILY — {date_str}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* ── デザイントークン ── */
         :root {{
-            --beer-amber: #F5A623;
-            --beer-dark: #3D2B1F;
-            --beer-cream: #FFF8E7;
-            --beer-foam: #FEFAE0;
+            --amber:      #C07A00;
+            --amber-light:#FFF3CC;
+            --ink:        #1A1208;
+            --ink-soft:   #4A3728;
+            --ink-muted:  #7A6A5A;
+            --paper:      #FAF7F2;
+            --paper-warm: #F5F0E8;
+            --rule:       #D4C4A8;
+            --white:      #FFFFFF;
+            --blue:       #1A4E8C;
+            --blue-light: #EBF2FB;
+            /* カテゴリ */
+            --malt:    #8B5E00;
+            --hop:     #3A6B20;
+            --water:   #1A4E8C;
+            --adjunct: #7A3A8C;
         }}
 
-        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+        /* ── リセット & ベース ── */
+        *, *::before, *::after {{ margin: 0; padding: 0; box-sizing: border-box; }}
+
+        html {{ font-size: 18px; scroll-behavior: smooth; }}
 
         body {{
-            font-family: 'Hiragino Sans', 'Meiryo', 'Yu Gothic', sans-serif;
-            background: var(--beer-cream);
-            color: var(--beer-dark);
+            font-family: 'Noto Serif JP', 'Yu Mincho', Georgia, serif;
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.9;
+            -webkit-font-smoothing: antialiased;
+        }}
+
+        /* ── マストヘッド（新聞風上部） ── */
+        .masthead {{
+            background: var(--white);
+            border-bottom: 3px double var(--ink);
+            padding: 1.5rem 1rem 1rem;
+            text-align: center;
+        }}
+
+        .masthead-eyebrow {{
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.25em;
+            color: var(--ink-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }}
+
+        .masthead-title {{
+            font-family: 'Noto Serif JP', serif;
+            font-size: clamp(2.4rem, 6vw, 4rem);
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            color: var(--ink);
+            line-height: 1.1;
+        }}
+
+        .masthead-rule {{
+            border: none;
+            border-top: 1px solid var(--ink);
+            margin: 0.6rem auto;
+            width: 100%;
+        }}
+
+        .masthead-meta {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 0.72rem;
+            color: var(--ink-muted);
+            flex-wrap: wrap;
+            gap: 0.3rem;
+        }}
+
+        .masthead-tagline {{
+            font-size: 0.78rem;
+            color: var(--ink-soft);
+            margin-top: 0.4rem;
+            font-style: italic;
+        }}
+
+        /* ── カテゴリナビ ── */
+        .category-nav {{
+            background: var(--ink);
+            padding: 0.55rem 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }}
+
+        .category-nav a {{
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #CCC;
+            text-decoration: none;
+            padding: 0.25rem 1rem;
+            letter-spacing: 0.1em;
+            border-right: 1px solid #444;
+            transition: color 0.15s;
+        }}
+        .category-nav a:first-child {{ border-left: 1px solid #444; }}
+        .category-nav a:hover {{ color: var(--amber); }}
+        .category-nav .dot {{
+            display: inline-block;
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            margin-right: 5px;
+            vertical-align: middle;
+        }}
+
+        /* ── メインコンテンツ ── */
+        main {{
+            max-width: 740px;   /* 65〜70文字幅に相当。読みやすい行長 */
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 4rem;
+        }}
+
+        /* ── セクション見出し ── */
+        .section-heading {{
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--white);
+            background: var(--ink);
+            display: inline-block;
+            padding: 0.25rem 0.8rem;
+            margin-bottom: 1.8rem;
+        }}
+
+        /* ── 記事カード ── */
+        .article {{
+            border-top: 2px solid var(--ink);
+            padding-top: 2rem;
+            margin-bottom: 3.5rem;
+        }}
+
+        /* ランク + カテゴリ行 */
+        .article-kicker {{
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.6rem;
+        }}
+
+        .article-rank {{
+            font-family: 'Noto Serif JP', serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--rule);
+            line-height: 1;
+            min-width: 2.2rem;
+        }}
+
+        .article-category {{
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--white);
+            padding: 0.2rem 0.65rem;
+            border-radius: 2px;
+        }}
+
+        .article-popularity {{
+            margin-left: auto;
+            font-size: 0.8rem;
+            color: var(--amber);
+        }}
+
+        /* 見出し：大きめ・読みやすい行間 */
+        .article-headline {{
+            font-family: 'Noto Serif JP', serif;
+            font-size: 1.45rem;
+            font-weight: 700;
+            line-height: 1.5;
+            color: var(--ink);
+            margin-bottom: 0.7rem;
+        }}
+
+        /* デック（副見出し = ハイライト） */
+        .article-deck {{
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--ink-soft);
+            border-left: 3px solid var(--amber);
+            padding-left: 0.75rem;
+            margin-bottom: 0.9rem;
+            line-height: 1.6;
+        }}
+
+        /* バイライン（醸造所・国） */
+        .article-byline {{
+            display: flex;
+            gap: 1.2rem;
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 0.72rem;
+            color: var(--ink-muted);
+            letter-spacing: 0.03em;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.7rem;
+            border-bottom: 1px solid var(--rule);
+        }}
+
+        /* 本文：読みやすいフォントサイズ・行間・段落間隔 */
+        .article-body p {{
+            font-size: 1rem;       /* 18px相当 */
+            line-height: 1.95;
+            color: var(--ink-soft);
+            margin-bottom: 1.25em;
+            text-align: justify;
+            text-justify: inter-ideograph;
+        }}
+
+        .article-body p:last-child {{ margin-bottom: 0; }}
+
+        /* 考察ボックス */
+        .analysis {{
+            background: var(--blue-light);
+            border-left: 4px solid var(--blue);
+            padding: 1rem 1.25rem;
+            margin-top: 1.5rem;
+        }}
+
+        .analysis-label {{
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 0.5rem;
+        }}
+
+        .analysis p {{
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 0.88rem;
+            line-height: 1.85;
+            color: #1a2a3a;
+        }}
+
+        /* ソースリンク */
+        .article-source {{
+            margin-top: 1.2rem;
+            font-family: 'Noto Sans JP', sans-serif;
+        }}
+
+        .article-source a {{
+            font-size: 0.75rem;
+            color: var(--blue);
+            text-decoration: none;
+            border-bottom: 1px solid var(--blue);
+            padding-bottom: 1px;
+        }}
+
+        .article-source a:hover {{ color: var(--amber); border-color: var(--amber); }}
+
+        /* ── フッター ── */
+        .site-footer {{
+            background: var(--ink);
+            color: #999;
+            text-align: center;
+            padding: 2rem 1rem;
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 0.75rem;
             line-height: 1.8;
         }}
 
-        header {{
-            background: linear-gradient(135deg, var(--beer-dark) 0%, #6B3A2A 100%);
-            color: white;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }}
+        .site-footer strong {{ color: var(--amber); }}
 
-        .magazine-title {{
-            font-size: 3rem;
-            font-weight: 900;
-            letter-spacing: 0.1em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }}
-
-        .magazine-subtitle {{
-            font-size: 1.1rem;
-            color: var(--beer-amber);
-            margin-top: 0.5rem;
-            letter-spacing: 0.05em;
-        }}
-
-        .magazine-date {{
-            font-size: 0.9rem;
-            color: #ccc;
-            margin-top: 0.3rem;
-        }}
-
-        .categories-legend {{
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            padding: 1rem 2rem;
-            background: var(--beer-foam);
-            flex-wrap: wrap;
-            border-bottom: 2px solid var(--beer-amber);
-        }}
-
-        .legend-item {{
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-size: 0.85rem;
-        }}
-
-        .legend-dot {{
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            display: inline-block;
-        }}
-
-        main {{
-            max-width: 900px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }}
-
-        .section-title {{
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--beer-dark);
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 3px solid var(--beer-amber);
-        }}
-
-        .article-card {{
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }}
-
-        .article-card:hover {{
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-        }}
-
-        .article-header {{
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            margin-bottom: 0.8rem;
-        }}
-
-        .rank {{
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--beer-amber);
-            min-width: 2.5rem;
-        }}
-
-        .category {{
-            color: white;
-            padding: 0.2rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }}
-
-        .popularity {{
-            margin-left: auto;
-            font-size: 0.85rem;
-        }}
-
-        .article-title {{
-            font-size: 1.15rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            color: var(--beer-dark);
-            line-height: 1.5;
-        }}
-
-        .article-meta {{
-            display: flex;
-            gap: 1.5rem;
-            font-size: 0.85rem;
-            color: #666;
-            margin-bottom: 0.8rem;
-        }}
-
-        .highlight {{
-            background: #FFF3CD;
-            border: 1px solid #FFD700;
-            border-radius: 4px;
-            padding: 0.5rem 0.8rem;
-            font-size: 0.88rem;
-            font-weight: bold;
-            margin-bottom: 0.8rem;
-            color: #856404;
-        }}
-
-        .summary {{
-            font-size: 0.92rem;
-            line-height: 1.9;
-            color: #333;
-            text-align: justify;
-        }}
-
-        .article-footer {{
-            margin-top: 1rem;
-            padding-top: 0.8rem;
-            border-top: 1px solid #eee;
-        }}
-
-        .summary-body p + p {{
-            margin-top: 1em;
-        }}
-
-        .analysis-box {{
-            background: #F0F7FF;
-            border: 1px solid #B8D4F0;
-            border-radius: 6px;
-            padding: 1rem 1.2rem;
-            margin-top: 1.2rem;
-        }}
-
-        .analysis-title {{
-            font-weight: bold;
-            color: #1E6B9E;
-            font-size: 0.95rem;
-            margin-bottom: 0.5rem;
-        }}
-
-        .analysis-text {{
-            font-size: 0.92rem;
-            line-height: 1.9;
-            color: #2a2a3a;
-        }}
-
-        .source-link {{
-            color: #1E6B9E;
-            text-decoration: none;
-            font-size: 0.85rem;
-        }}
-
-        .source-link:hover {{
-            text-decoration: underline;
-        }}
-
-        footer {{
-            text-align: center;
-            padding: 2rem;
-            background: var(--beer-dark);
-            color: #aaa;
-            font-size: 0.85rem;
-            margin-top: 3rem;
-        }}
-
-        footer strong {{
-            color: var(--beer-amber);
-        }}
-
+        /* ── レスポンシブ ── */
         @media (max-width: 600px) {{
-            .magazine-title {{ font-size: 2rem; }}
-            .article-meta {{ flex-direction: column; gap: 0.3rem; }}
+            html {{ font-size: 16px; }}
+            main {{ padding: 1.5rem 1rem 3rem; }}
+            .masthead-title {{ letter-spacing: 0.04em; }}
+            .article-headline {{ font-size: 1.25rem; }}
+            .category-nav a {{ padding: 0.25rem 0.7rem; font-size: 0.68rem; }}
+            .masthead-meta {{ justify-content: center; }}
         }}
     </style>
 </head>
 <body>
-    <header>
-        <div class="magazine-title">🍺 BREW DAILY</div>
-        <div class="magazine-subtitle">世界のブルワリー最新情報マガジン</div>
-        <div class="magazine-date">📅 {date_str} 発行 | 麦芽・ホップ・水・副原料 最新トピック Top 10</div>
+
+    <!-- マストヘッド -->
+    <header class="masthead">
+        <p class="masthead-eyebrow">世界のブルワリー最新情報マガジン</p>
+        <h1 class="masthead-title">🍺 BREW DAILY</h1>
+        <hr class="masthead-rule">
+        <div class="masthead-meta">
+            <span>📅 {date_str} 発行</span>
+            <span>麦芽・ホップ・水・副原料 Top 10</span>
+            <span>Powered by Claude AI</span>
+        </div>
+        <p class="masthead-tagline">世界の醸造所公式情報を AI が毎朝収集・翻訳・解説</p>
     </header>
 
-    <div class="categories-legend">
-        <div class="legend-item">
-            <span class="legend-dot" style="background:#8B6914;"></span>
-            🌾 麦芽（Malt）
-        </div>
-        <div class="legend-item">
-            <span class="legend-dot" style="background:#4A7C2F;"></span>
-            🌿 ホップ（Hops）
-        </div>
-        <div class="legend-item">
-            <span class="legend-dot" style="background:#1E6B9E;"></span>
-            💧 水（Water）
-        </div>
-        <div class="legend-item">
-            <span class="legend-dot" style="background:#9B4E9E;"></span>
-            🌽 副原料（Adjunct）
-        </div>
-    </div>
+    <!-- カテゴリナビ -->
+    <nav class="category-nav" aria-label="カテゴリ">
+        <a href="#"><span class="dot" style="background:var(--malt)"></span>麦芽</a>
+        <a href="#"><span class="dot" style="background:var(--hop)"></span>ホップ</a>
+        <a href="#"><span class="dot" style="background:var(--water)"></span>水</a>
+        <a href="#"><span class="dot" style="background:var(--adjunct)"></span>副原料</a>
+        <a href="archive.html">バックナンバー</a>
+    </nav>
 
     <main>
-        <h2 class="section-title">📊 今日のランキング Top 10</h2>
-        {articles_html if articles_html else '<p style="text-align:center; padding:2rem; color:#666;">本日の記事を取得中にエラーが発生しました。</p>'}
+        <p class="section-heading">Today's Ranking — Top 10</p>
+        {articles_html if articles_html else '<p style="text-align:center;padding:3rem;color:#666;">本日の記事取得中にエラーが発生しました。</p>'}
     </main>
 
-    <footer>
-        <p><strong>BREW DAILY</strong> は世界中の醸造所公式情報を自動収集し、AI が日本語に翻訳・要約した独自マガジンです。</p>
-        <p style="margin-top:0.5rem;">Generated by Claude AI | Powered by Anthropic | {date_str}</p>
+    <footer class="site-footer">
+        <p><strong>BREW DAILY</strong> は世界中の醸造所公式情報を自動収集し、AI が日本語に翻訳・解説した独自マガジンです。</p>
+        <p>Generated by Claude AI &nbsp;|&nbsp; Powered by Anthropic &nbsp;|&nbsp; {date_str}</p>
     </footer>
+
 </body>
 </html>"""
 
@@ -747,18 +826,19 @@ def main():
     print("🍺 BREW DAILY マガジン生成開始")
     print("=" * 60)
 
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
-    if not api_key:
-        print("❌ エラー: ANTHROPIC_API_KEY 環境変数が設定されていません")
-        sys.exit(1)
-
-    client = anthropic.Anthropic(api_key=api_key)
+    use_demo = "--demo" in sys.argv
     now = datetime.now()
     date_str = now.strftime("%Y年%m月%d日（%a）")
     file_date = now.strftime("%Y%m%d")
 
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key and not use_demo:
+        print("❌ エラー: ANTHROPIC_API_KEY 環境変数が設定されていません")
+        sys.exit(1)
+
+    client = anthropic.Anthropic(api_key=api_key) if api_key else None
+
     # Step 1: 記事収集
-    use_demo = "--demo" in sys.argv
     if use_demo:
         print("\n📌 デモモードで実行中（内蔵サンプルデータを使用）")
         articles = _get_sample_articles()
