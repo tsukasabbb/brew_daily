@@ -3,605 +3,537 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BREW DAILY — 2026年10月13日（Tue）</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>🍺 BREW DAILY - 2026年10月13日（Tue）</title>
     <style>
-        /* ── デザイントークン ── */
         :root {
-            --amber:      #C07A00;
-            --amber-light:#FFF3CC;
-            --ink:        #1A1208;
-            --ink-soft:   #4A3728;
-            --ink-muted:  #7A6A5A;
-            --paper:      #FAF7F2;
-            --paper-warm: #F5F0E8;
-            --rule:       #D4C4A8;
-            --white:      #FFFFFF;
-            --blue:       #1A4E8C;
-            --blue-light: #EBF2FB;
-            /* カテゴリ */
-            --malt:    #8B5E00;
-            --hop:     #3A6B20;
-            --water:   #1A4E8C;
-            --adjunct: #7A3A8C;
+            --beer-amber: #F5A623;
+            --beer-dark: #3D2B1F;
+            --beer-cream: #FFF8E7;
+            --beer-foam: #FEFAE0;
         }
 
-        /* ── リセット & ベース ── */
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html { font-size: 18px; scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Noto Serif JP', 'Yu Mincho', Georgia, serif;
-            background: var(--paper);
-            color: var(--ink);
-            line-height: 1.9;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* ── マストヘッド（新聞風上部） ── */
-        .masthead {
-            background: var(--white);
-            border-bottom: 3px double var(--ink);
-            padding: 1.5rem 1rem 1rem;
-            text-align: center;
-        }
-
-        .masthead-eyebrow {
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.72rem;
-            letter-spacing: 0.25em;
-            color: var(--ink-muted);
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-
-        .masthead-title {
-            font-family: 'Noto Serif JP', serif;
-            font-size: clamp(2.4rem, 6vw, 4rem);
-            font-weight: 900;
-            letter-spacing: 0.08em;
-            color: var(--ink);
-            line-height: 1.1;
-        }
-
-        .masthead-rule {
-            border: none;
-            border-top: 1px solid var(--ink);
-            margin: 0.6rem auto;
-            width: 100%;
-        }
-
-        .masthead-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.72rem;
-            color: var(--ink-muted);
-            flex-wrap: wrap;
-            gap: 0.3rem;
-        }
-
-        .masthead-tagline {
-            font-size: 0.78rem;
-            color: var(--ink-soft);
-            margin-top: 0.4rem;
-            font-style: italic;
-        }
-
-        /* ── カテゴリナビ ── */
-        .category-nav {
-            background: var(--ink);
-            padding: 0.55rem 1rem;
-            display: flex;
-            justify-content: center;
-            gap: 0;
-            flex-wrap: wrap;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .category-nav a {
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #CCC;
-            text-decoration: none;
-            padding: 0.25rem 1rem;
-            letter-spacing: 0.1em;
-            border-right: 1px solid #444;
-            transition: color 0.15s;
-        }
-        .category-nav a:first-child { border-left: 1px solid #444; }
-        .category-nav a:hover { color: var(--amber); }
-        .category-nav .dot {
-            display: inline-block;
-            width: 7px; height: 7px;
-            border-radius: 50%;
-            margin-right: 5px;
-            vertical-align: middle;
-        }
-
-        /* ── メインコンテンツ ── */
-        main {
-            max-width: 740px;   /* 65〜70文字幅に相当。読みやすい行長 */
-            margin: 0 auto;
-            padding: 2.5rem 1.5rem 4rem;
-        }
-
-        /* ── セクション見出し ── */
-        .section-heading {
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--white);
-            background: var(--ink);
-            display: inline-block;
-            padding: 0.25rem 0.8rem;
-            margin-bottom: 1.8rem;
-        }
-
-        /* ── 記事カード ── */
-        .article {
-            border-top: 2px solid var(--ink);
-            padding-top: 2rem;
-            margin-bottom: 3.5rem;
-        }
-
-        /* ランク + カテゴリ行 */
-        .article-kicker {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            margin-bottom: 0.6rem;
-        }
-
-        .article-rank {
-            font-family: 'Noto Serif JP', serif;
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--rule);
-            line-height: 1;
-            min-width: 2.2rem;
-        }
-
-        .article-category {
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--white);
-            padding: 0.2rem 0.65rem;
-            border-radius: 2px;
-        }
-
-        .article-popularity {
-            margin-left: auto;
-            font-size: 0.8rem;
-            color: var(--amber);
-        }
-
-        /* 見出し：大きめ・読みやすい行間 */
-        .article-headline {
-            font-family: 'Noto Serif JP', serif;
-            font-size: 1.45rem;
-            font-weight: 700;
-            line-height: 1.5;
-            color: var(--ink);
-            margin-bottom: 0.7rem;
-        }
-
-        /* デック（副見出し = ハイライト） */
-        .article-deck {
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--ink-soft);
-            border-left: 3px solid var(--amber);
-            padding-left: 0.75rem;
-            margin-bottom: 0.9rem;
-            line-height: 1.6;
-        }
-
-        /* バイライン（醸造所・国） */
-        .article-byline {
-            display: flex;
-            gap: 1.2rem;
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.72rem;
-            color: var(--ink-muted);
-            letter-spacing: 0.03em;
-            margin-bottom: 1.2rem;
-            padding-bottom: 0.7rem;
-            border-bottom: 1px solid var(--rule);
-        }
-
-        /* 本文：読みやすいフォントサイズ・行間・段落間隔 */
-        .article-body p {
-            font-size: 1rem;       /* 18px相当 */
-            line-height: 1.95;
-            color: var(--ink-soft);
-            margin-bottom: 1.25em;
-            text-align: justify;
-            text-justify: inter-ideograph;
-        }
-
-        .article-body p:last-child { margin-bottom: 0; }
-
-        /* 考察ボックス */
-        .analysis {
-            background: var(--blue-light);
-            border-left: 4px solid var(--blue);
-            padding: 1rem 1.25rem;
-            margin-top: 1.5rem;
-        }
-
-        .analysis-label {
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--blue);
-            margin-bottom: 0.5rem;
-        }
-
-        .analysis p {
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.88rem;
-            line-height: 1.85;
-            color: #1a2a3a;
-        }
-
-        /* ソースリンク */
-        .article-source {
-            margin-top: 1.2rem;
-            font-family: 'Noto Sans JP', sans-serif;
-        }
-
-        .article-source a {
-            font-size: 0.75rem;
-            color: var(--blue);
-            text-decoration: none;
-            border-bottom: 1px solid var(--blue);
-            padding-bottom: 1px;
-        }
-
-        .article-source a:hover { color: var(--amber); border-color: var(--amber); }
-
-        /* ── フッター ── */
-        .site-footer {
-            background: var(--ink);
-            color: #999;
-            text-align: center;
-            padding: 2rem 1rem;
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.75rem;
+            font-family: 'Hiragino Sans', 'Meiryo', 'Yu Gothic', sans-serif;
+            background: var(--beer-cream);
+            color: var(--beer-dark);
             line-height: 1.8;
         }
 
-        .site-footer strong { color: var(--amber); }
+        header {
+            background: linear-gradient(135deg, var(--beer-dark) 0%, #6B3A2A 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
 
-        /* ── レスポンシブ ── */
+        .magazine-title {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .magazine-subtitle {
+            font-size: 1.1rem;
+            color: var(--beer-amber);
+            margin-top: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .magazine-date {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-top: 0.3rem;
+        }
+
+        .categories-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            background: var(--beer-foam);
+            flex-wrap: wrap;
+            border-bottom: 2px solid var(--beer-amber);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--beer-dark);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--beer-amber);
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .article-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .article-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .rank {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--beer-amber);
+            min-width: 2.5rem;
+        }
+
+        .category {
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .popularity {
+            margin-left: auto;
+            font-size: 0.85rem;
+        }
+
+        .article-title {
+            font-size: 1.15rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--beer-dark);
+            line-height: 1.5;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.8rem;
+        }
+
+        .highlight {
+            background: #FFF3CD;
+            border: 1px solid #FFD700;
+            border-radius: 4px;
+            padding: 0.5rem 0.8rem;
+            font-size: 0.88rem;
+            font-weight: bold;
+            margin-bottom: 0.8rem;
+            color: #856404;
+        }
+
+        .summary {
+            font-size: 0.92rem;
+            line-height: 1.9;
+            color: #333;
+            text-align: justify;
+        }
+
+        .article-footer {
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid #eee;
+        }
+
+        .summary-body p + p {
+            margin-top: 1em;
+        }
+
+        .analysis-box {
+            background: #F0F7FF;
+            border: 1px solid #B8D4F0;
+            border-radius: 6px;
+            padding: 1rem 1.2rem;
+            margin-top: 1.2rem;
+        }
+
+        .analysis-title {
+            font-weight: bold;
+            color: #1E6B9E;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .analysis-text {
+            font-size: 0.92rem;
+            line-height: 1.9;
+            color: #2a2a3a;
+        }
+
+        .source-link {
+            color: #1E6B9E;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .source-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--beer-dark);
+            color: #aaa;
+            font-size: 0.85rem;
+            margin-top: 3rem;
+        }
+
+        footer strong {
+            color: var(--beer-amber);
+        }
+
         @media (max-width: 600px) {
-            html { font-size: 16px; }
-            main { padding: 1.5rem 1rem 3rem; }
-            .masthead-title { letter-spacing: 0.04em; }
-            .article-headline { font-size: 1.25rem; }
-            .category-nav a { padding: 0.25rem 0.7rem; font-size: 0.68rem; }
-            .masthead-meta { justify-content: center; }
+            .magazine-title { font-size: 2rem; }
+            .article-meta { flex-direction: column; gap: 0.3rem; }
         }
     </style>
 </head>
 <body>
-
-    <!-- マストヘッド -->
-    <header class="masthead">
-        <p class="masthead-eyebrow">世界のブルワリー最新情報マガジン</p>
-        <h1 class="masthead-title">🍺 BREW DAILY</h1>
-        <hr class="masthead-rule">
-        <div class="masthead-meta">
-            <span>📅 2026年10月13日（Tue） 発行</span>
-            <span>麦芽・ホップ・水・副原料 Top 10</span>
-            <span>Powered by Claude AI</span>
-        </div>
-        <p class="masthead-tagline">世界の醸造所公式情報を AI が毎朝収集・翻訳・解説</p>
+    <header>
+        <div class="magazine-title">🍺 BREW DAILY</div>
+        <div class="magazine-subtitle">世界のブルワリー最新情報マガジン</div>
+        <div class="magazine-date">📅 2026年10月13日（Tue） 発行 | 麦芽・ホップ・水・副原料 注目トピック10選</div>
     </header>
 
-    <!-- カテゴリナビ -->
-    <nav class="category-nav" aria-label="カテゴリ">
-        <a href="#"><span class="dot" style="background:var(--malt)"></span>麦芽</a>
-        <a href="#"><span class="dot" style="background:var(--hop)"></span>ホップ</a>
-        <a href="#"><span class="dot" style="background:var(--water)"></span>水</a>
-        <a href="#"><span class="dot" style="background:var(--adjunct)"></span>副原料</a>
-        <a href="archive.html">バックナンバー</a>
-    </nav>
+    <div class="categories-legend">
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#8B6914;"></span>
+            🌾 麦芽（Malt）
+        </div>
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#4A7C2F;"></span>
+            🌿 ホップ（Hops）
+        </div>
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#1E6B9E;"></span>
+            💧 水（Water）
+        </div>
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#9B4E9E;"></span>
+            🌽 副原料（Adjunct）
+        </div>
+    </div>
 
     <main>
-        <p class="section-heading">Today's Ranking — Top 10</p>
-        
-        <article class="article" id="article-1">
-            <div class="article-kicker">
-                <span class="article-rank">01</span>
-                <span class="article-category" style="background:#8B6914;">🌾 麦芽</span>
-                <span class="article-popularity">⭐⭐⭐⭐</span>
+        <h2 class="section-title">📊 本日の注目トピック（世界の公式情報より）</h2>
+
+        <article class="article-card" style="border-left: 4px solid #4A7C2F;">
+            <div class="article-header">
+                <span class="rank">#1</span>
+                <span class="category" style="background:#4A7C2F;">🌿 ホップ</span>
+                <span class="popularity">⭐⭐⭐⭐</span>
             </div>
-            <h2 class="article-headline">シエラネバダが革新的な新品種クリスタル麦芽「Aurora 120L」を正式発表</h2>
-            <p class="article-deck">💡 糖化効率15%向上・トフィー＆バニラの複雑な風味</p>
-            <div class="article-byline">
-                <span>🏭 シエラネバダ・ブルーイング</span>
-                <span>🌍 アメリカ</span>
+            <h2 class="article-title">サッポロビール、うどんこ病抵抗性ホップ新品種「フラノ2004B号」を発表　国内初、気候変動対応目標を4年前倒しで達成</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 サッポロビール</span>
+                <span class="country">🌍 日本（北海道・上富良野町）</span>
             </div>
-            <div class="article-body">
-                <p>シエラネバダ・ブルーイングは2025年6月、自社の農業研究部門と大手モルトメーカーであるBriess Malt & Ingredientsとの5年間にわたる共同研究の成果として、新品種クリスタル麦芽「Aurora 120L」を正式に発表した。</p><p>この新品種は従来のクリスタル120に比べて糖化効率が約15%向上しており、醸造効率の大幅な改善が期待されている。開発の背景には、近年の原材料コスト上昇と持続可能な醸造への業界全体の取り組みがある。シエラネバダは2030年までにカーボンニュートラルを達成するという目標を掲げており、原料段階からの効率化がその重要な柱となっている。</p><p>Aurora 120Lの最大の特徴は、その複雑なフレーバープロファイルにある。ローストの色度（EBC換算で約290〜310）は従来品とほぼ同等でありながら、キャラメルのトフィーノートに加えて、ほのかなバニラやダークチェリーのニュアンスが加わっている。これはモルティング工程での温度プロファイルを精密にコントロールすることで、メイラード反応の進行を最適化した結果である。</p><p>糖組成の分析では、マルトース比率が従来品より約8%高く、発酵性糖の割合が増加していることが確認されている。これにより、同じ麦芽使用量でも最終的なアルコール度数がわずかに高くなる傾向があり、レシピ設計時には注意が必要だとシエラネバダの醸造チームは警告している。</p><p>適用スタイルとしては、IPAやAmber Ale、Red Aleなどに特に適しているとされているが、シエラネバダの試験醸造ではベルジャンダブルやバーレーワインにも優れた結果をもたらしたという。同社のヘッドブリュワーであるBrian Grossman氏は「Aurora 120Lは私たちのパレスト・エールからエクストリームビールまで、幅広いラインナップに革命をもたらす可能性がある」とコメントしている。</p><p>現在、Aurora 120Lはシエラネバダの直営醸造所での限定的な使用段階にあり、2026年春から一般醸造所向けの商業供給を開始する予定だ。初年度の供給量は限定的で、優先的にクラフトブルワリー向けに割り当てられる見通しである。価格は従来のCrystal 120と比較して約12%高めに設定される予定だが、糖化効率の向上を考慮すると実質的なコストパフォーマンスは同等以上になると試算されている。</p>
+            <div class="highlight">💡 2030年目標の気候変動適応品種を4年前倒しで開発、2027年から商業栽培へ</div>
+            <div class="summary-body">
+                <p class="summary">サッポロビールは2026年7月29日、うどんこ病への抵抗性を持つ新しいホップ品種「フラノ2004B号」を開発したと発表した。原料開発研究所（北海道上川郡上富良野町）で育成されたもので、2026年6月に農林水産省へ品種登録を出願している。登録されれば、同社調べで日本で登録されたホップ品種として初めてのうどんこ病抵抗性品種になるという。同社は「2030年までに気候変動に適応するための新品種を登録出願する」という目標を掲げていたが、これを4年前倒しで達成した形になる。</p>
+                <p class="summary">うどんこ病は葉や球花に白い粉状の斑点を生じさせる病気で、感染すると球花の成長が抑えられ、苦味成分の減少や収穫量・品質の低下につながる。研究では気温約20℃で感染が進みやすく、夜間に感染リスクが高まることが示唆されており、主産地である北海道・東北で夜間気温が上昇すると被害が増える恐れがあるという。現在の主な対策は農薬散布だが、使用しても発生するケースがあり、将来的な農薬規制の強化も見込まれるなか、抵抗性品種は持続可能な対策の一つになるとしている。「フラノ2004B号」は収穫量・苦味成分量・醸造試験のいずれでも従来品種と同等以上の成績だと説明されている。</p>
+                <p class="summary">商業栽培は2027年からを目指し、将来的には主力ビールブランドでの使用や海外での商業栽培も検討するとしている。原料開発研究所の久慈正義主幹研究員（購買部ホップフィールドマネージャー兼務）は「収穫量や苦味成分量が有望でうどんこ病に強い『フラノ2004B号』が、高品質で安定的なホップの生産・調達に貢献できることを期待しています」とコメントしている。</p>
             </div>
-            
-            <div class="analysis">
-                <p class="analysis-label">編集部の考察</p>
-                <p>Aurora 120Lの登場は、クラフトビール業界における「高品質原料への投資」というトレンドを象徴している。糖化効率15%向上は一見地味に見えるが、年間生産量が数千バレルに達する醸造所では大きなコスト削減につながる。日本市場では、地ビールブームを背景に国産クラフトブルワリーが急増しており、このような高性能麦芽への需要は今後確実に高まると予想される。特に輸入原料への依存度が高い日本の醸造所にとって、効率化と品質向上を同時に達成できる素材は喉から手が出るほど欲しい存在だ。国内モルトメーカーが類似品を開発するきっかけになる可能性も高く、業界全体の技術革新を促す触媒になりうる。</p>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">気候変動による病害リスクの増大は、北海道・東北を主要産地とする日本のホップ生産にとって避けられない課題であり、大手メーカーが育種段階から対策品種を用意し始めた意味は大きい。中小のクラフトブルワリーは自前の育種プログラムを持つことが難しいため、こうした大手の技術開発の成果がどのような形で供給網全体に共有されていくかが今後の注目点になる。国産ホップの安定調達という観点では、品種そのものの普及だけでなく、契約栽培農家への技術移転のスピードも実務上は重要になりそうだ。</p>
             </div>
-            <div class="article-source">
-                <a href="https://sierranevada.com/news/aurora-malt-2025" target="_blank" rel="noopener">
-                    オリジナル記事を読む →
+            <div class="article-footer">
+                <a href="https://prtimes.jp/main/html/rd/p/000003246.000012361.html" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
                 </a>
             </div>
         </article>
-        
-        <article class="article" id="article-2">
-            <div class="article-kicker">
-                <span class="article-rank">02</span>
-                <span class="article-category" style="background:#4A7C2F;">🌿 ホップ</span>
-                <span class="article-popularity">⭐⭐⭐⭐</span>
+
+        <article class="article-card" style="border-left: 4px solid #4A7C2F;">
+            <div class="article-header">
+                <span class="rank">#2</span>
+                <span class="category" style="background:#4A7C2F;">🌿 ホップ</span>
+                <span class="popularity">⭐⭐⭐⭐</span>
             </div>
-            <h2 class="article-headline">2025年ドイツ・ハラタウ産ホップ収穫レポート：α酸6.2%の高品質年</h2>
-            <p class="article-deck">💡 α酸6.2%・リナロール23%増の過去最高品質</p>
-            <div class="article-byline">
-                <span>🏭 ヴァイエンシュテファン醸造・農業大学</span>
-                <span>🌍 ドイツ</span>
+            <h2 class="article-title">独2026年ホップ収穫、最終報告で前年比22%減の3.4万トン　アルファ酸は27%不足、灌漑整備が焦点に</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 ドイツホップ生産者協会 / Piroué</span>
+                <span class="country">🌍 ドイツ（ハラタウ地区）</span>
             </div>
-            <div class="article-body">
-                <p>ドイツ・バイエルン州のハラタウ地方から、2025年ホップ収穫に関する公式レポートが発表された。ヴァイエンシュテファン醸造・農業大学の研究チームと地域ホップ農家組合が共同でまとめた今年の収穫報告によると、品質・収量ともに近年で最高水準を記録したという。</p><p>α酸含有量の平均値は6.2%を記録し、過去5年平均の5.7%を大きく上回った。特にハラタウトラディション種では最高7.1%を記録した圃場もあり、例年より香り成分も豊富であることが分析データで示されている。主要アロマ成分であるリナロールの含有量は前年比23%増で、フローラルかつスパイシーな香りプロファイルが際立っている。</p><p>今年の好結果の主な要因として、6〜8月の気候条件が理想的だったことが挙げられる。降水量が平年比90%と適度で日照時間は平年比110%を記録し、ホップの成熟に最適な条件が整った。また、地域農家が昨年から導入した精密農業技術（ドローンによる生育状況モニタリングと土壌センサーを活用した灌漑制御）が功を奏したとの見解も示されている。</p><p>収穫量は前年比で約8%増加し、ハラタウ地方全体で約2,200トンに達した。この量はドイツ国内需要をほぼ賄えるほどの規模であり、一部は輸出に回される見込みだ。日本への輸出割当量も増加する方向で交渉が進んでいると関係者は述べている。</p><p>品種別では、ペルレ（Perle）が最も多く生産されており、全体の約35%を占める。続いてハラタウトラディション（22%）、マグナム（18%）と続く。近年需要が高まっているアロマホップのハラタウブラン（Hallertau Blanc）は昨年比で栽培面積が15%増加し、クラフトビール市場での引き合いの強さを反映している。</p><p>ヴァイエンシュテファンのホップ研究所所長Dr.クラウス・バウアー氏は「2025年は1990年代の黄金期に匹敵するほどの優れた収穫年だ。特にアロマホップの品質は過去20年で最高レベルにある」と評価している。</p>
+            <div class="highlight">💡 ドイツ全体の収穫量33,779トン（前年比22%減）、ハラタウ中心部で記録的な「暑熱日」45日</div>
+            <div class="summary-body">
+                <p class="summary">ドイツのホップ生産者団体などは2026年8月26日、「ホップフェンルントファールト（Hopfenrundfahrt）2026」として2026年産ホップの最終的な収穫・市況報告を公表した。ドイツ全体の作付面積は17,861ヘクタールで前年比約5%減。生産者協会会長のアディ・シャプフル氏は収穫量を33,779トン（67万5,588Ztr.）とし、前年比で約22%（9,400トン）の減少になると発表した。世界最大の産地であるハラタウ地区は14,765ヘクタールで28,750トンの収穫見通し。世界全体のホップ作付面積は約51,500ヘクタールで前年比約2.5%減となった。</p>
+                <p class="summary">ホップ取引団体Piroué（ピルエ）は、平年収穫に対してアルファ酸量で27%（約1,400トン）の不足を見込むと発表し、品種によっては平年を最大40%下回る可能性があるとした。背景には記録的な高温がある。ハラタウ中心部のヒュル（Hüll）では「暑熱日」が45日を記録し、観測開始以来最多になったという。7月単月の水分バランスはマイナス85mm、7月までの累計ではマイナス179mmに達した。乾燥により病害は少なかったものの、ハダニの被害が8月に再び増加し、主力品種ヘルクレスでは生育上部への水分供給不足とみられる梢頭部の枯れ込みも確認された。</p>
+                <p class="summary">市場面では、シャプフル氏がドイツの生産者の平年収入を約3億ユーロと見積もり、2026年は8,000万〜1億ユーロ規模の収入減になりうるとした。Piroueによると、2026年3月時点の米国在庫は6万6,700トンで前年比約13%減だが、年間生産量の約1.7倍に相当する水準が続いている。バイエルン州のミヒャエラ・カニバー農業相は、2025年2月設立のハラタウ灌漑組合（461農家・約1.2万ヘクタールが加盟）への計画支援として930万ユーロの交付を明らかにし、「同じ船に乗る者は共に漕がねばならない」と述べた。バイエルンのホップ農地で灌漑設備があるのは約20%にとどまり、米国のほぼ100%とは対照的だという。</p>
             </div>
-            
-            <div class="analysis">
-                <p class="analysis-label">編集部の考察</p>
-                <p>ハラタウ産ホップの高品質な収穫は、世界中の醸造所にとって朗報だ。特に日照時間の増加による天然のα酸・アロマ成分の増加は、醸造コストを抑えながら風味豊かなビールを生産できることを意味する。日本のクラフトビール市場では輸入ホップへの依存度が高いため、品質向上と供給量増加は直接的なメリットとなる。一方で、気候変動の影響でこうした「当たり年」が不規則になっているという懸念もある。精密農業技術の導入が安定供給への鍵となっており、日本のホップ産地である岩手や北海道の農家も参考にすべき事例だ。</p>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">ドイツの供給減少とアルファ酸不足は、海外ホップへの依存度が高い日本のクラフトブルワリーにとって、調達コストや特定品種の入手難易度に直結しうる話題だ。アルファ酸が品種によって偏って不足するという指摘は、苦味設計に品種依存度の高いレシピを持つブルワリーほど影響を受けやすいことを意味する。灌漑設備の整備状況が産地間で大きく異なる点も見逃せず、気候変動への適応速度の差が今後の調達リスクの地域差として表れてくる可能性がある。</p>
             </div>
-            <div class="article-source">
-                <a href="https://weihenstephan.de/hop-harvest-2025" target="_blank" rel="noopener">
-                    オリジナル記事を読む →
+            <div class="article-footer">
+                <a href="https://www.hopfen.de/wp-content/uploads/2026/08/Alle-Pressestatements-Hopfenrunfahrt-2026.pdf" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
                 </a>
             </div>
         </article>
-        
-        <article class="article" id="article-3">
-            <div class="article-kicker">
-                <span class="article-rank">03</span>
-                <span class="article-category" style="background:#1E6B9E;">💧 水</span>
-                <span class="article-popularity">⭐⭐⭐⭐</span>
+
+        <article class="article-card" style="border-left: 4px solid #1E6B9E;">
+            <div class="article-header">
+                <span class="rank">#3</span>
+                <span class="category" style="background:#1E6B9E;">💧 水</span>
+                <span class="popularity">⭐⭐⭐⭐</span>
             </div>
-            <h2 class="article-headline">アサヒビールが仕込み水ミネラル精密制御システム「AquaControl Pro」を公開</h2>
-            <p class="article-deck">💡 全工場で±2ppmの精度を実現する水質制御</p>
-            <div class="article-byline">
-                <span>🏭 アサヒビール株式会社</span>
-                <span>🌍 日本</span>
+            <h2 class="article-title">ディアジオ、アイルランドに3億ユーロの新醸造所「リトルコネル」を開設　地下水と再生可能電力100%で稼働</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Diageo（ギネス）</span>
+                <span class="country">🌍 アイルランド（キルデア州）</span>
             </div>
-            <div class="article-body">
-                <p>アサヒビールは2025年5月の株主総会において、独自開発の仕込み水ミネラル精密制御システム「AquaControl Pro」の詳細を初めて公開した。このシステムは、スーパードライをはじめとする主力製品の味の一貫性を科学的に担保するために5年以上の歳月をかけて開発されたものだ。</p><p>AquaControl Proの核心は、リアルタイムイオン測定センサーと自動添加装置を組み合わせた「動的ミネラル補正技術」にある。仕込み水のカルシウムイオン（Ca²⁺）、マグネシウムイオン（Mg²⁺）、重炭酸イオン（HCO₃⁻）、硫酸イオン（SO₄²⁻）、塩化物イオン（Cl⁻）の5項目を0.1ppm単位でリアルタイム測定し、目標プロファイルとの差分を毎秒計算。必要に応じて食品グレードの各種ミネラル塩を自動的に添加する仕組みだ。</p><p>スーパードライに求められる水質プロファイルは、カルシウム50〜60ppm、マグネシウム10〜15ppm、硫酸塩80〜100ppm、塩化物30〜40ppmとされており、これを全国8か所の工場で均一に再現することが長年の課題だった。地域によって原水の水質が大きく異なるため、従来は手動による添加調整に依存していたが、AquaControl Proの導入により全工場で±2ppm以内の精度を達成したという。</p><p>同社の研究開発部門によると、ミネラルバランスの精密制御はビールの味わいに複数の経路で影響する。カルシウムはプロテインの沈殿を促進してビールの透明度を向上させ、酵母の健全な発酵を助ける。硫酸塩はホップの苦味をシャープで切れのある印象に変え、塩化物はモルトの甘みと丸みを引き出す。これらの相互作用を最適化することが「辛口」というスーパードライのアイデンティティを守ることにつながる。</p><p>同システムはすでに国内全工場への導入が完了しており、海外のアサヒ・グループ工場への展開も2026年を目標に進められている。将来的にはAIを活用した予測補正機能の追加も検討されており、季節や原水の変動を事前に予測して補正するシステムへの進化を目指している。</p>
+            <div class="highlight">💡 年間最大1.5万トンのCO2排出を回避する設計、2029年完成予定の第2醸造所にさらに4億ユーロを投資</div>
+            <div class="summary-body">
+                <p class="summary">飲料大手ディアジオは2026年5月、アイルランド・キルデア州に新設した3億ユーロ規模のリトルコネル醸造所を公開した。敷地面積は40エーカーで、建設期間は18カ月未満。同社はセントジェームズズ・ゲート（ダブリン）で製造していたエール・ラガー類の生産をこの新醸造所に移す一方、看板ブランドのギネスはセントジェームズズ・ゲートでの醸造を継続し、同拠点を「ブランドの世界的な心臓部」として位置づけるとしている。</p>
+                <p class="summary">リトルコネル醸造所は、先進的な醸造・プロセス技術によってエネルギーと水の使用量を抑える設計で、電力は100%再生可能エネルギーで稼働する。仕込み水はボーリング（井戸）から取水し、発酵前に処理される。工程全体は銘柄によって10〜14日かかるという。同規模の一般的な施設と比べ、年間最大1万5,000トンのCO2排出を回避できる設計とされる。ディアジオは同じ敷地内に、ギネスおよびノンアルコール版「ギネス0.0」専用の第2醸造所（投資額4億ユーロ）を計画しており、2029年完成を目指す。</p>
+                <p class="summary">CEOのデイブ・ルイス氏は「ギネスは世界中で二桁成長を続けている」と述べ、ギネスとギネス0.0の好調が投資判断を後押ししていると説明した。式典では、冷却から排水処理、蓄熱までの各システムの統合が特に印象的だという現場技術者のコメントも紹介された。アイルランドのマーティン首相は、2029年まで続く見通しの継続投資を「心強い」と評価している。</p>
             </div>
-            
-            <div class="analysis">
-                <p class="analysis-label">編集部の考察</p>
-                <p>アサヒの「AquaControl Pro」は、大手ビールメーカーが品質管理にいかにテクノロジーを活用しているかを示す好例だ。±2ppmという精度での水質制御は、研究室レベルでは当然だが、大規模商業生産で実現したのは画期的と言える。日本のクラフトビール醸造所では水質管理が後回しにされがちだが、本事例は水がビールの品質に与える影響の大きさを改めて示している。中小規模の醸造所がこのような高精度システムを導入するのはコスト面で困難だが、廉価版の水質モニタリングツールの普及が業界全体の底上げにつながることが期待される。</p>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">ギネスのような大手が、節水・省エネ設計とボーリング水源の活用を新拠点のコンセプトそのものに組み込んでいる点は、設備投資の初期段階から環境負荷を前提に組み込む発想が業界標準化しつつあることを示している。設備投資余力に乏しい中小ブルワリーがそのまま同じ技術を導入するのは難しいが、既存設備の仕込み水管理や排水処理を見直す際の参考になる要素は多く、特に水源の種類（地表水か地下水か）と処理工程の設計思想は規模を問わず検討の価値がある。</p>
             </div>
-            <div class="article-source">
-                <a href="https://asahibeer.co.jp/news/aquacontrol-2025" target="_blank" rel="noopener">
-                    オリジナル記事を読む →
+            <div class="article-footer">
+                <a href="https://www.irishtimes.com/business/2026/05/12/diageo-boss-promises-more-investment-on-the-back-of-soaring-sales-of-the-black-stuff/" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
                 </a>
             </div>
         </article>
-        
-        <article class="article" id="article-4">
-            <div class="article-kicker">
-                <span class="article-rank">04</span>
-                <span class="article-category" style="background:#9B4E9E;">🌽 副原料</span>
-                <span class="article-popularity">⭐⭐⭐</span>
+
+        <article class="article-card" style="border-left: 4px solid #8B6914;">
+            <div class="article-header">
+                <span class="rank">#4</span>
+                <span class="category" style="background:#8B6914;">🌾 麦芽</span>
+                <span class="popularity">⭐⭐⭐</span>
             </div>
-            <h2 class="article-headline">BrewDogがオーツ麦30%使用ヘイジーIPA「Velvet Thunder」のレシピと製法を完全公開</h2>
-            <p class="article-deck">💡 オーツ麦30%配合レシピを業界初の完全無償公開</p>
-            <div class="article-byline">
-                <span>🏭 ブリュードッグ</span>
-                <span>🌍 スコットランド</span>
+            <h2 class="article-title">全米ビア・フェスティバル（GABF）、2026年に「クラフトモルト」カテゴリーを新設　穀物比率50%以上が出品条件</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Brewers Association / Craft Maltsters Guild</span>
+                <span class="country">🌍 アメリカ</span>
             </div>
-            <div class="article-body">
-                <p>スコットランドのクラフトブルワリー・ブリュードッグは、同社のオープンソース醸造哲学の一環として、ヘイジーIPA「Velvet Thunder」の完全なレシピと製法をウェブサイト上で無償公開した。ロールドオーツを全穀物比の30%使用するという大胆な配合が最大の特徴で、この比率はニューイングランドスタイルIPAの中でも特に高い部類に入る。</p><p>穀物構成はペールモルト55%、ロールドオーツ30%、小麦モルト15%。オーツ麦はフレーク状に加工されたロールドオーツを使用し、糊化しやすいよう先にマッシュタブに投入するプロテインレスト（50℃・15分）を挟む二段階マッシング法を採用している。この工程がオーツ由来のベータグルカンを適度に分解し、過度な粘性を防ぎながらシルキーなマウスフィールを生み出す鍵となっている。</p><p>苦味は20IBUと抑えめに設定されており、ホップはシトラ、モザイク、ネルソンソーヴィンの3品種をドライホッピングに集中投入する。煮沸中のホップ添加は最小限にとどめ、ホップアロマの揮発を防ぐことでジューシーで香り豊かなプロファイルを実現している。発酵後のドライホッピングは2段階で行い、1回目（7℃・72時間）でフルーティーな香りを定着させ、2回目（20℃・24時間）でより複雑なアロマを引き出す独自プロセスを採用している。</p><p>酵母はロンドンエール酵母系統を使用し、発酵温度は20〜22℃で管理。オーツ麦由来のタンパク質と酵母が相互作用することで生まれる白濁した外観は、スタイルの重要な要素であると同社は説明している。OG（初期比重）は1.068、FG（最終比重）は1.016で、アルコール度数は6.8%に仕上がる。</p><p>ブリュードッグのオープンソース哲学はクラフトビール業界に大きな影響を与えてきた。公開されたレシピは世界中のホームブルワーや小規模醸造所が参考にできるよう、バッチサイズ別の穀物量・ホップ量・水量の計算式も含まれており、醸造コミュニティからの反響は公開24時間で10万件を超えるアクセスを記録したという。</p>
+            <div class="highlight">💡 年産1万トン未満・原料の50%超を半径500マイル以内で調達する製麦所の麦芽が対象、BA会員は1エントリー240ドル割引</div>
+            <div class="summary-body">
+                <p class="summary">米ブリュワーズ・アソシエーション（BA）は、同協会が主催する2026年のグレート・アメリカン・ビア・フェスティバル（GABF）コンペティションに、小規模なクラフトモルトハウスとその麦芽を使うブルワーを対象にした一回限りの新カテゴリー「クラフトモルト」を新設した。出品登録は2026年6月23日に開始され、予選を通過した金・銀・銅賞受賞ビールは10月のGABF表彰式のステージに進む。</p>
+                <p class="summary">出品条件は、原料となる穀物の50%以上をクラフトモルトハウスの麦芽で占めることだ。クラフト・モルトスターズ・ギルドの定義では、クラフトモルトハウスとは年間製麦量1万トン未満で、使用する穀物の50%以上を製麦所から半径500マイル以内で調達する事業者を指す。出品にあたってはベースとなるビアスタイルを名乗ることができるが、クラフトモルトの個性を引き出すために色・清澄度・香り・風味・ボディがそのスタイルの典型から大きく外れていても構わないとされる。ブルワーはモルトハウスと密接に連携し、受賞時にモルトハウス側も評価を共有できるよう情報開示が求められる。BA会員は1エントリーあたり240ドルの出品料割引を受けられる。</p>
+                <p class="summary">クラフト・モルトスターズ・ギルド会長で、コロラド州フォートコリンズのトルバドール・モルティングス共同創業者であるスティーブ・クラーク氏は、新カテゴリーについて「クラフトモルトハウスとブルワーが、それぞれの品質と技術力を示す機会になる」とコメントしている。</p>
             </div>
-            
-            <div class="analysis">
-                <p class="analysis-label">編集部の考察</p>
-                <p>ブリュードッグのオープンソース戦略は、クラフトビール業界独特のコミュニティ文化を体現している。レシピ公開はビジネス的には一見リスクに見えるが、ブランド認知度と信頼性の向上というリターンが大きい。オーツ麦30%という高配合は日本のホームブルワーにとっても再現性が高く、国内クラフトブルワリーの参考事例になる可能性が高い。日本ではヘイジースタイルの人気が急上昇しており、このような詳細なレシピ公開は国内醸造技術の底上げにつながると期待される。オーツ麦は農家との直接契約で安定調達できる副原料であり、国産素材活用の観点からも注目に値する。</p>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">原料の調達先を明示し、麦芽の個性を前面に出すビールが公式のコンペティションで独立した評価軸を得たことは、クラフトモルトという市場セグメントそのものの認知度を上げる効果を持つ。日本では「地元産麦芽」を掲げるビールはまだ少数派だが、原料の調達距離や生産規模を明示することが差別化要因になるという発想は、国内の契約栽培や地域産麦芽を使うブルワリーにとっても参考になる評価軸だろう。</p>
             </div>
-            <div class="article-source">
-                <a href="https://brewdog.com/beer/velvet-thunder-recipe" target="_blank" rel="noopener">
-                    オリジナル記事を読む →
+            <div class="article-footer">
+                <a href="https://www.brewersassociation.org/association-news/gabf-debuts-a-craft-malt-category-in-2026/" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
                 </a>
             </div>
         </article>
-        
-        <article class="article" id="article-5">
-            <div class="article-kicker">
-                <span class="article-rank">05</span>
-                <span class="article-category" style="background:#8B6914;">🌾 麦芽</span>
-                <span class="article-popularity">⭐⭐⭐</span>
+
+        <article class="article-card" style="border-left: 4px solid #4A7C2F;">
+            <div class="article-header">
+                <span class="rank">#5</span>
+                <span class="category" style="background:#4A7C2F;">🌿 ホップ</span>
+                <span class="popularity">⭐⭐⭐</span>
             </div>
-            <h2 class="article-headline">キリンビールが北海道農家と次世代大麦「きたのほし2号」の長期栽培契約を締結</h2>
-            <p class="article-deck">💡 病害抵抗性強化・収量20%増の国産新品種</p>
-            <div class="article-byline">
-                <span>🏭 キリンビール株式会社</span>
-                <span>🌍 日本</span>
+            <h2 class="article-title">ホップ栽培面積国内No.1の岩手・遠野市で「遠野ホップ収穫祭2026」開催　市内3醸造所が遠野産ホップ100%ビールなど限定醸造</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 GOOD HOPS / 遠野醸造 / 遠野麦酒ZUMONA</span>
+                <span class="country">🌍 日本（岩手県遠野市）</span>
             </div>
-            <div class="article-body">
-                <p>キリンビールは2025年6月、北海道上川地方の大麦農家15戸と、新品種大麦「きたのほし2号」の長期栽培・供給契約（10年間）を締結したと発表した。この新品種は農研機構北海道農業研究センターとキリングループが共同で10年以上かけて育種した成果であり、国産麦芽の品質向上と安定供給体制の強化を目的としている。</p><p>きたのほし2号の主な特徴は三点ある。第一に、縞萎縮病やうどんこ病に対する高い抵抗性を持つことで、農薬使用量を従来品種比で約40%削減できる。これはコスト削減だけでなく、環境負荷低減という観点からも重要な意義を持つ。第二に、収量が従来の主力品種「はるしずく」と比べて約20%増加しており、同面積での生産効率が大幅に向上する。第三に、麦芽の品質指標であるコルバッハ値（タンパク質溶解度の指標）が最適範囲の38〜42%に安定しやすく、安定した醸造特性が得られる。</p><p>契約農家の代表である上川農業協同組合の田中誠一組合長は「新品種の導入により、農家の経営安定と品質向上が同時に実現できる。キリンとの長期契約があることで、安心して設備投資や農地拡大に取り組める」とコメントしている。</p><p>キリンビールは契約農家に対して、専用の播種機械のリースプログラムと技術指導（年4回の巡回指導）を提供するほか、収穫後の品質検査と精算まで一貫してサポートする体制を整える。2026年産から商業生産を本格開始し、2028年には同社の国産麦芽使用比率を現在の65%から75%へ引き上げる目標を掲げている。</p><p>日本のビールメーカーにとって国産麦芽の安定確保は重要な課題だ。輸入大麦の価格変動リスクや為替の影響を軽減するためにも、国産原料の比率を高める動きは今後さらに加速することが予想される。</p>
+            <div class="highlight">💡 遠野産カスケードやオリジナル品種「ノー・ウィンド」を使用、3社が同じ週末に別レシピの限定ビールを提供</div>
+            <div class="summary-body">
+                <p class="summary">観光マネジメントボード遠野などは、2026年8月21日（前夜祭）から23日まで、岩手県遠野市の「蔵の道ひろば」で「遠野ホップ収穫祭2026」を開催すると発表した。遠野市は「ホップの栽培面積国内No.1」で半世紀以上ホップ栽培を続けている産地とされ、入場無料。JR釜石線遠野駅から徒歩3分の会場で、前夜祭はドリンク・フード販売とステージ企画「HOP STAGE」、2日間の本祭ではホップ農家も参加するオープニングセレモニーや、収穫したホップに触れられる体感コーナー、ホップ畑を歩ける体験会（抽選制）などが行われる。</p>
+                <p class="summary">今年は市内のGOOD HOPS、遠野醸造、遠野麦酒ZUMONAの3醸造所が、遠野産ホップを使ったイベント限定ビールを提供する。GOOD HOPSの「FESTIVAL SAISON」（セゾン、ABV6.0%）は遠野産カスケード・ノー・ウィンド・アンカウンタブル・ザーツを使用、遠野醸造の「遠野セッションIPA」（ABV4.0%）は遠野産カスケード・ノー・ウィンドにコロンバス・アマリロ・シトラを組み合わせ、遠野麦酒ZUMONAの「HOP HARVEST IPL」（ABV5.0%）は遠野産IBUKI・ノー・ウィンド・カスケードのみを使った「遠野産ホップ100%」ビールとなっている。「ノー・ウィンド」はGOOD HOPSが遠野で栽培・加工するオリジナル品種で、ルプリンパウダーの形で3社に提供されているという。</p>
+                <p class="summary">会場では遠野産ビールのほか、キリンビール製品を含め20種類以上のビールが楽しめるとされ、遠野の旬の食材を使ったおつまみやライブステージも予定されている。</p>
             </div>
-            
-            <div class="analysis">
-                <p class="analysis-label">編集部の考察</p>
-                <p>キリンの長期栽培契約は、食料安全保障という観点から非常に戦略的な動きだ。円安や海外穀物価格の高騰が続く中、国産原料の安定調達は競争優位性の源泉となる。農薬使用量40%削減は環境価値だけでなく、消費者へのサステナビリティアピールにも直結する。一方で、単一品種への依存度が高まるリスクも考慮が必要で、病気や気候変動による不作が大きなダメージにつながりかねない。日本のビール業界全体として、国産麦芽の品質と供給量を高める取り組みは評価されるべきであり、この事例が他のメーカーの後押しになることが期待される。</p>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">同じ産地のホップを、同じ週末に3つの異なる醸造所がそれぞれ別のレシピで仕上げて飲み比べられる構成は、原料の個性と醸造者の解釈の違いを同時に体験できる、産地型フェスティバルとして完成度の高い企画だ。原料サプライヤーであるGOOD HOPS自身がブルワリーとして参加し、他の2社にオリジナル品種を供給している構造は、産地内で原料と醸造の関係が循環している好例といえる。地方の中小ブルワリーにとって、こうした「同一原料・複数レシピ」の企画は、仕込み量を大きく増やさずに話題性を作れる手法として参考になりそうだ。</p>
             </div>
-            <div class="article-source">
-                <a href="https://kirin.co.jp/news/barley-contract-2025" target="_blank" rel="noopener">
-                    オリジナル記事を読む →
+            <div class="article-footer">
+                <a href="https://prtimes.jp/main/html/rd/p/000000007.000144434.html" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
                 </a>
             </div>
         </article>
-        
-        <article class="article" id="article-6">
-            <div class="article-kicker">
-                <span class="article-rank">06</span>
-                <span class="article-category" style="background:#4A7C2F;">🌿 ホップ</span>
-                <span class="article-popularity">⭐⭐⭐⭐</span>
+
+        <article class="article-card" style="border-left: 4px solid #8B6914;">
+            <div class="article-header">
+                <span class="rank">#6</span>
+                <span class="category" style="background:#8B6914;">🌾 麦芽</span>
+                <span class="popularity">⭐⭐⭐</span>
             </div>
-            <h2 class="article-headline">ハイネケンがオランダに世界初の太陽光100%ホップ農場「Green Cone Farm」を開設</h2>
-            <p class="article-deck">💡 太陽光100%・水使用量40%削減の環境型農場</p>
-            <div class="article-byline">
-                <span>🏭 ハイネケン・ジャパン</span>
-                <span>🌍 オランダ</span>
+            <h2 class="article-title">仏スーフレ・モルト、インド南ラジャスタン州に1億ユーロ規模の新製麦所　年産11万トン、AIとゼロ排水システムを導入</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Soufflet Malt</span>
+                <span class="country">🌍 インド（ラジャスタン州）</span>
             </div>
-            <div class="article-body">
-                <p>ハイネケンは2025年5月、オランダ・ゼーラント州に世界初の太陽光発電100%駆動のホップ農場「Green Cone Farm」を正式開設した。5ヘクタールの農地に設置された1,200枚の太陽光パネルが農場のすべての電力需要を賄い、余剰電力は地域電力網に供給するという革新的なモデルだ。</p><p>Green Cone Farmで栽培するホップ品種は主に「Hallertau Blanc」と「Mandarina Bavaria」の2種類で、柑橘系アロマが豊富なホップとして知られる。農場では精密農業技術を全面的に採用しており、土壌センサー・気象ステーション・ドローンモニタリングシステムが24時間稼働している。これにより灌漑水の使用量を従来農法と比べて40%、化学肥料の使用量を35%それぞれ削減することに成功した。</p><p>CO2排出量の試算では、従来の農法と比較して年間約280トンの削減が見込まれており、ハイネケン全体の排出量削減目標（2030年までに2018年比で30%削減）に向けた重要な取り組みと位置づけられている。農場で収穫されたホップは全量ハイネケンの欧州工場へ供給され、環境負荷の低い「グリーンホップ」として特別なトレーサビリティラベルを付けて管理される。</p><p>ハイネケンのサステナビリティ担当副社長ルシア・フェルハーヘン氏は「ビール醸造において原料調達段階の環境負荷を下げることが最も重要な課題の一つだ。Green Cone Farmはその解答の一つであり、今後10年以内に同様の農場をヨーロッパ全土に拡大したい」と語った。</p><p>この農場モデルに対する業界の関心は高く、すでにカールスバーグ、アサヒ・ヨーロッパなどの競合他社から農場見学の申し込みが相次いでいるという。2026年にはオランダ政府の農業振興プログラムとの連携も予定されており、補助金活用によるコスト低減も見込まれている。</p>
+            <div class="highlight">💡 フル稼働時は年間最大25万トンの大麦を調達、5万人超のインド農家と連携</div>
+            <div class="summary-body">
+                <p class="summary">製麦世界最大手を自称する仏スーフレ・モルト（Soufflet Malt、20カ国40拠点・年間製麦能力370万トン）は2026年2月、インド南ラジャスタン州に新しい製麦所を建設すると発表した。投資額は約1億ユーロ（約1.18億ドル）。同社はラジャスタン州アルワールに既存の1.8万トン規模の製麦所を持ち、今回は州政府と連携してプロジェクトを進めるとしている。</p>
+                <p class="summary">新拠点は初期段階で年間11万トンの麦芽を生産し、第2期拡張を経てフル稼働すれば年間最大25万トンの大麦を調達する計画で、5万人超のインド国内農家との連携を見込む。設備には熱源としてのバイオ燃料などグリーンエネルギー、AI活用、ゼロ液体排出（ZLD）システム、穀物のデジタル管理・トレーサビリティシステムを導入する。初期施設の完成は2028年初頭を予定し、その後第2期拡張に進む。直接・間接で約400人、サプライチェーン全体では約700人分の雇用創出が見込まれるという。</p>
+                <p class="summary">スーフレ・モルトのホルヘ・ソリスCEOは、同社の成長戦略「MALTiply 2030」の一環だとし、「最先端の製麦所によって、インドにおける麦芽の可能性を存分に引き出す」とコメントしている。プロジェクトはビール・蒸留酒・食品飲料メーカー向けにインド国内の麦芽供給力を強化する狙いがあるという。</p>
             </div>
-            
-            <div class="analysis">
-                <p class="analysis-label">編集部の考察</p>
-                <p>ハイネケンのGreen Cone Farmは、ビール産業全体がサステナビリティを競争軸として位置づけ始めた時代の象徴だ。太陽光100%という取り組みはPR効果も高く、ESG投資家からの評価向上にも寄与する。日本でも「環境に配慮したビール」への消費者関心は高まっており、こうした取り組みが商品ブランディングに直結する時代が来ている。一方で、太陽光発電農場の設置コストや天候依存リスクなど課題もある。日本のホップ産地（岩手、秋田）での同様モデルの検討は、農家の収益安定と環境配慮の両立という点で意義深い。</p>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">インドのような人口規模の大きい新興ビール市場で、海外大手が現地政府と組んで大規模な製麦インフラに投資するのは、将来の需要増を見据えた供給網の先行整備という位置づけだろう。日本の麦芽調達は欧州・北米が中心だが、新興国での生産能力拡大は中長期的に世界全体の麦芽価格や供給の安定性に影響しうる変数であり、直接の取引関係がなくても動向として押さえておく価値がある。</p>
             </div>
-            <div class="article-source">
-                <a href="https://heineken.com/sustainability/green-cone-farm" target="_blank" rel="noopener">
-                    オリジナル記事を読む →
+            <div class="article-footer">
+                <a href="https://www.world-grain.com/articles/22436-soufflet-malt-to-build-tech-driven-malthouse-in-india" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
                 </a>
             </div>
         </article>
-        
-        <article class="article" id="article-7">
-            <div class="article-kicker">
-                <span class="article-rank">07</span>
-                <span class="article-category" style="background:#1E6B9E;">💧 水</span>
-                <span class="article-popularity">⭐⭐⭐</span>
+
+        <article class="article-card" style="border-left: 4px solid #4A7C2F;">
+            <div class="article-header">
+                <span class="rank">#7</span>
+                <span class="category" style="background:#4A7C2F;">🌿 ホップ</span>
+                <span class="popularity">⭐⭐</span>
             </div>
-            <h2 class="article-headline">サッポロビールが「超軟水リバイバル製法」を発表、硬度8の水で醸造する限定ラガー</h2>
-            <p class="article-deck">💡 硬度8の超軟水×90日熟成の限定ラガー</p>
-            <div class="article-byline">
-                <span>🏭 サッポロビール株式会社</span>
-                <span>🌍 日本</span>
+            <h2 class="article-title">米ブリュワーズ・アソシエーション、2026年ホップ収穫前レポートを公開　公開品種「Thora」の契約を呼びかけ、USDA育種拠点は体制変更</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Brewers Association / USDA ARS</span>
+                <span class="country">🌍 アメリカ（太平洋北西部）</span>
             </div>
-            <div class="article-body">
-                <p>サッポロビールは2025年6月、明治時代の創業当初から続く「北海道軟水醸造」の伝統を現代技術で復活させた「超軟水リバイバル製法」と、これを用いた限定醸造ラガー「SAPPORO GENESIS」の発売を発表した。</p><p>超軟水リバイバル製法の核心は、硬度8mg/L（ドイツ硬度0.45°dH）という極めて低い硬度の水を仕込み水として使用することにある。通常の商業醸造では硬度50〜150mg/Lの水を使用するが、サッポロは北海道大雪山系の伏流水をナノフィルトレーション処理することで、ほぼ純水に近い超軟水を製造している。</p><p>超軟水醸造の最大の特徴は、モルトの甘みとデンプン由来の旨味成分が水のミネラル干渉なく最大限に表現されることにある。硫酸塩やカルシウムが少ない環境では、ホップの苦味がよりなめらかに感じられ、後味のクリーンさが際立つ。一方で醸造上の課題もあり、カルシウムが少ない環境では酵母の凝集性が下がり、澱引きが難しくなる。この問題をサッポロは、特殊な低温長期熟成プロセス（0℃・90日間）と遠心分離機の組み合わせで解決した。</p><p>SAPPORO GENESISは道内限定1万本の限定醸造で、価格は350ml缶で税込450円（通常品の約2倍）に設定される。発売は2025年9月を予定しており、すでに予約受付が始まっている。同社マーケティング部の渡辺啓二部長は「この製品は私たちの創業の精神へのオマージュであり、水という最も基本的な原料がいかにビールの個性を決定するかを示す実験でもある」とコメントしている。</p><p>今後は超軟水醸造のノウハウを蓄積し、2027年を目標に超軟水醸造ラインを恵比寿工場に新設する計画も明らかにした。</p>
+            <div class="highlight">💡 2026年の米国収穫面積は41,642エーカーでほぼ前年並み、USDA公的育種拠点の長年の育種家が退任</div>
+            <div class="summary-body">
+                <p class="summary">米ブリュワーズ・アソシエーション（BA）は2026年7月14日、米国太平洋北西部を対象にした「2026年ホップ収穫前レポート」を公開した。2026年に紐掛けされた面積は41,642エーカーで、4年連続の減少を経てほぼ前年並みに落ち着いたという。気候は高温・乾燥で例年通りの水管理の課題を抱えつつ、病害発生は比較的少なく、品質・収量は平年並みと見込まれている。一方で季節後半の記録的な高温が続く予報があり、山火事と煙害のリスクが懸念材料として挙げられている。</p>
+                <p class="summary">品種別には減少幅が均一でなく、一部品種で供給不足の報告があるとして、BAはブルワーに対しニーズを栽培者・取扱業者に早めに明確に伝えるよう呼びかけている。特に、2025年に公開品種としてリリースされた「Thora」への契約参加を呼びかけており、Thoraは2027年のグレート・アメリカン・ビア・フェスティバル（GABF）で専用カテゴリーが設けられる予定だという。産地に出向けないブルワーには、取扱業者経由の遠隔ロット選定も案内されている。</p>
+                <p class="summary">体制面では、オレゴン州コーバリスのUSDA ARS公的ホップ育種拠点で長年育種を担ってきたジョン・ヘニング博士が退任し、プロッサー拠点からケイラ・アルテンドルフ博士がコーバリスに異動して両拠点を統括することになった。プロッサー拠点の後任科学者の採用面接は10月から始まる予定とされる。なお、9月22〜24日にはワシントン州ヤキマで「Hopsource 2026」が開催され、USDA ARSの公的ホップ育種プログラムから最大30種の実験品種を試飲評価できる機会が設けられた。</p>
             </div>
-            
-            <div class="analysis">
-                <p class="analysis-label">編集部の考察</p>
-                <p>サッポロの「超軟水リバイバル製法」は、歴史とテクノロジーを融合させたブランドストーリーの好事例だ。硬度8という極限の軟水は技術的な挑戦であると同時に、北海道というテロワールを最大限に活かす哲学でもある。限定1万本・450円という高価格設定は、プレミアム化戦略の一環として理にかなっている。ビールの「水の個性」を前面に打ち出すこのアプローチは、ウイスキーのシングルモルト文化に近い発想であり、ビールの高付加価値化に向けた重要なヒントを与えている。日本の水道水文化を背景に、水質へのこだわりは国内消費者に刺さりやすいメッセージだ。</p>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">公開品種「Thora」への契約呼びかけは、特定の商標品種に依存しない苦味・香り設計の選択肢を増やす動きとして注目に値する。USDA公的育種プログラムの担当者交代という一見地味なニュースも、新品種開発のスピードや方向性に影響する実務的な話であり、数年単位で新しい公開品種が供給網に入ってくるかどうかに関わってくる。中小ブルワリーにとっては、商標品種のブランド力に頼らない公開品種を早期に試す機会として、こうした育種プログラムの動向は継続的に追う価値がある。</p>
             </div>
-            <div class="article-source">
-                <a href="https://sapporobeer.jp/news/ultra-soft-revival-2025" target="_blank" rel="noopener">
-                    オリジナル記事を読む →
+            <div class="article-footer">
+                <a href="https://www.brewersassociation.org/brewing-industry-updates/2026-pre-harvest-hop-roundup/" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
                 </a>
             </div>
         </article>
-        
-        <article class="article" id="article-8">
-            <div class="article-kicker">
-                <span class="article-rank">08</span>
-                <span class="article-category" style="background:#9B4E9E;">🌽 副原料</span>
-                <span class="article-popularity">⭐⭐⭐</span>
+
+        <article class="article-card" style="border-left: 4px solid #1E6B9E;">
+            <div class="article-header">
+                <span class="rank">#8</span>
+                <span class="category" style="background:#1E6B9E;">💧 水</span>
+                <span class="popularity">⭐⭐</span>
             </div>
-            <h2 class="article-headline">ニューベルギーがコロラド産リンゴとワイルド酵母を使用したサワーエール「Orchard Funk」を発売</h2>
-            <p class="article-deck">💡 18ヶ月熟成・コロラド産リンゴ25%配合の自然発酵</p>
-            <div class="article-byline">
-                <span>🏭 ニューベルギー・ブルーイング</span>
-                <span>🌍 アメリカ</span>
+            <h2 class="article-title">サントリー、「ネイチャーポジティブ フォーラム2026」を9月8日開催　「天然水の森」16都府県27カ所・1.2万ha超で水源涵養活動</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 サントリーホールディングス</span>
+                <span class="country">🌍 日本</span>
             </div>
-            <div class="article-body">
-                <p>コロラド州フォートコリンズのニューベルギー・ブルーイングは、地元コロラド産リンゴを副原料とした自然発酵サワーエール「Orchard Funk」を2025年夏季限定で発売する。同社の野生酵母発酵プログラム「Foeder Experiment Series」の第7弾として位置づけられており、コロラド農業界との連携強化を体現した製品だ。</p><p>Orchard Funkの醸造プロセスは複雑で、約18ヶ月の歳月をかけて醸造される。まずベースモルト70%・小麦モルト30%の醸造液を仕込み、これをオーク製のフーダー（foeder、大型木桶）に移してブレタノマイセス酵母と乳酸菌による自然発酵を行う。フーダー発酵期間は6ヶ月で、この過程でほのかなバーンヤード臭（馬小屋様の香り）と複雑な酸味が形成される。</p><p>次に、コロラド州グランドジャンクション近郊の契約農園で収穫されたゴールデンデリシャスとフジのブレンドリンゴジュース（糖度12 Brix）を全体量の25%加えてブレンド発酵を行う。リンゴ由来のマリン酸がビール中の乳酸と相互作用することで、柔らかく果実味豊かな酸味が生まれる。最終的な酸度はpH3.4、乳酸濃度は約1.2g/Lに調整される。</p><p>フレーバープロファイルは、グリーンアップル・スウィートチェリー・レモングラスの香りに、わずかなバニラと木の風味が重なる複雑な構成。アルコール度数は6.2%で、残糖は少なくドライな後味が特徴。フードペアリングとしては、ブルーチーズやシェーブルなどのチーズ、グリルした豚肉料理、アップルパイなどのデザートとの相性が特に良いとされている。</p><p>価格は375ml瓶で9.99ドルと、同社の通常製品の約2倍の価格設定。限定5,000本での発売で、公式ウェブサイトでの予約注文が主な販売チャネルとなる。</p>
+            <div class="highlight">💡 前回2025年開催時には官民2,300人超が参加、ビール4工場の地下水涵養エリアにも森を設定</div>
+            <div class="summary-body">
+                <p class="summary">サントリーホールディングスは、環境省・林野庁の後援を得て、2026年9月8日に「ネイチャーポジティブ フォーラム2026〜サントリー 天然水の森〜」を開催すると発表した。2回目となる今回は、産官学による現場に根差した実践事例を取り上げ、参加者同士の交流や連携を広げる「コレクティブアクション」の拡大を目指すとしている。前回2025年の初開催では、官公庁・自治体・企業・アカデミアなどから会場・オンライン合わせて2,300人超が参加したという。</p>
+                <p class="summary">「サントリー 天然水の森」は2003年に始まった活動で、現在16都府県27カ所・1万2,000ヘクタール超の森林で、水源涵養機能の向上と生物多様性の保全・再生に取り組んでいる。一部地域では森林単体ではなく流域全体を対象に、水資源涵養と生物多様性保全の両立を目指すアプローチも進めているという。同社のビール類は、天然水の森がある山々の地下深くで育まれた地下水を使って仕込む「天然水醸造」を特徴とし、主力ブランド「ザ・プレミアム・モルツ」をつくる4つのビール工場の地下水涵養エリアに、天然水の森を設定している。</p>
+                <p class="summary">今回のフォーラムでは、天然水の森の活動から湿地再生、さらに農場へと活動範囲を広げる新たな挑戦についても紹介される予定だという。</p>
             </div>
-            
-            <div class="analysis">
-                <p class="analysis-label">編集部の考察</p>
-                <p>ニューベルギーのOrchard Funkは、「地産地消」とワイルド発酵というクラフトビール界の二大トレンドを掛け合わせた意欲的な製品だ。18ヶ月の熟成期間はコスト面での大きな投資であり、それを価格に反映させる強さがブランドにある。日本でもサワービールの人気が上昇しており、地元農産物を副原料とした酸味系ビールへの需要は確実に増加している。ブレタノマイセス発酵は日本では法的制限もあり難しい面があるが、乳酸菌による発酵やフルーツ副原料の活用は国内でも実現可能だ。地方のブルワリーが地域農家と連携するビジネスモデルとして参考になる。</p>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">原料の麦芽・ホップだけでなく、仕込み水そのものの持続可能性を森林保全という上流工程から支えるアプローチは、長期的な視点でのリスク管理として他の酒類メーカーにも参考になりうる。中小のクラフトブルワリーが同規模の森林保全活動を単独で行うのは難しいが、地元の水源や地下水の状況を定期的に把握し、自治体や地域の森林組合との関係を持っておくことは、規模を問わず仕込み水の長期的な安定確保につながる基本的な備えだろう。</p>
             </div>
-            <div class="article-source">
-                <a href="https://newbelgium.com/beer/orchard-funk" target="_blank" rel="noopener">
-                    オリジナル記事を読む →
+            <div class="article-footer">
+                <a href="https://prtimes.jp/main/html/rd/p/000001580.000042435.html" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
                 </a>
             </div>
         </article>
-        
-        <article class="article" id="article-9">
-            <div class="article-kicker">
-                <span class="article-rank">09</span>
-                <span class="article-category" style="background:#8B6914;">🌾 麦芽</span>
-                <span class="article-popularity">⭐⭐⭐</span>
+
+        <article class="article-card" style="border-left: 4px solid #9B4E9E;">
+            <div class="article-header">
+                <span class="rank">#9</span>
+                <span class="category" style="background:#9B4E9E;">🌽 副原料</span>
+                <span class="popularity">⭐⭐</span>
             </div>
-            <h2 class="article-headline">ドッグフィッシュ・ヘッドが古代エジプトの二条大麦を復元、3000年前のビールを限定醸造</h2>
-            <p class="article-deck">💡 古代DNA解析で復元した3000年前のエジプトビール</p>
-            <div class="article-byline">
-                <span>🏭 ドッグフィッシュ・ヘッド・クラフト・ブルワリー</span>
-                <span>🌍 アメリカ</span>
+            <h2 class="article-title">ファミリーマート×ヤッホーブルーイング、創立45周年企画でコンビニ限定クラフトビール「フルーツデタジャン」を発売</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 ヤッホーブルーイング / ファミリーマート</span>
+                <span class="country">🌍 日本</span>
             </div>
-            <div class="article-body">
-                <p>デラウェア州のドッグフィッシュ・ヘッド・クラフト・ブルワリーが、ペンシルベニア大学考古学博物館との6年間にわたる共同研究の成果として、古代エジプトのビール醸造に使用されていた二条大麦（Hordeum vulgare subsp. distichon）の古代品種を現代で復元し、限定醸造ビール「Kha-Ankh（カアンク）」を発売すると発表した。</p><p>研究チームはエジプトのルクソール近郊にある紀元前1350年頃の遺跡から発掘された大麦の種子からDNAを抽出・解析し、現存する在来品種の中から最も近い遺伝子プロファイルを持つエチオピア産古代大麦を特定した。この品種はモダン品種と比べてタンパク質含量が高く（14〜16%）、デンプン構造も異なるため、通常の現代的マッシング手法では糖化効率が低い。</p><p>醸造プロセスの再現においては、エジプト考古学者チームの考証に基づき、現代の醸造設備と古代製法を組み合わせたハイブリッドアプローチを採用した。麦芽はナイル川流域に近い環境を模倣した砂質土壌で栽培し、手作業による脱穀・選別を経てフロアモルティング（床麦芽製法）で製麦した。ホップは使用せず、代わりにコリアンダー・シダーウッド・没薬（ミルラ）・デーツを香味付けに使用している。これらの素材はエジプトのヒエログリフに記されたビールレシピの解読に基づいて選定された。</p><p>発酵にはエジプト在来の野生酵母株をベースに、現代の醸造用サッカロミセス・セレビシエと組み合わせたハイブリッド酵母を使用。発酵温度は30〜32℃と高めに設定し、古代エジプトの気候環境を再現した。仕上がりのアルコール度数は約4.5%で、やや甘く・スパイシーで・わずかにスモーキーな風味が特徴とされている。</p><p>限定500本（750ml瓶）で価格は1本89ドルという超プレミアム設定で、ウェブサイト限定販売。考古学研究への寄付（1本あたり10ドル）も含まれている。</p>
+            <div class="highlight">💡 オレンジピール・コリアンダーシード・柑橘果汁を使用したフルーツベルジャンホワイト、全国約1.58万店で数量限定</div>
+            <div class="summary-body">
+                <p class="summary">ファミリーマートは創立45周年企画の一環として、ヤッホーブルーイングと共同開発したクラフトビール「フルーツデタジャン」を2026年7月28日に発売した。缶製品はファミリーマート限定・数量限定で、全国の酒類取扱店約1万5,800店で取り扱われる。両社の共同企画としては初めてのファミリーマート限定クラフトビールだという。価格は307円（税込337円）。</p>
+                <p class="summary">ビアスタイルはフルーツベルジャンホワイトで、副原料にオレンジピール・コリアンダーシードを使い、果汁はオレンジとピンクグレープフルーツの2種類を使用している。柑橘の香りとスパイシーさ、果汁由来のジューシーさが特長で、一般的なビールより苦味を穏やかに抑えているため、ビールをあまり飲まない人にも飲みやすい設計だとしている。さっぱりしたサラダや白身魚、ドライフルーツとの相性が推奨されている。パッケージは、グレープフルーツの浮島とビールの海でバカンス気分を表現したデザインだという。</p>
             </div>
-            
-            <div class="analysis">
-                <p class="analysis-label">編集部の考察</p>
-                <p>ドッグフィッシュ・ヘッドの古代ビール復元プロジェクトは、クラフトビールが単なる飲料を超えて文化的・学術的価値を持つ存在になりつつあることを示している。1本89ドルという価格でも500本が即売されることは、ビールのコレクターズアイテム化という新たな市場セグメントの存在を証明している。日本でも地域の歴史・文化と結びついたビール（古代米や縄文時代の素材を使用など）への関心が高まっており、こうした「ストーリービール」は付加価値創出の重要な戦略となりうる。大学や研究機関との連携は信頼性向上にも寄与するため、日本の地方醸造所が地域大学と組む可能性も示唆している。</p>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">コンビニチェーンとクラフトブルワリーが共同で副原料主体のビールを数量限定・独占流通で出す手法は、両者にとって低リスクで新規層を試せる取り組みだ。全国約1.58万店という配荷規模はクラフトビール単体では到達しにくい接点であり、中小ブルワリーが単独でこの規模の流通網を得ることは難しいが、地域コンビニや小売チェーンとの限定コラボという発想自体は、規模に関わらず販路拡大の一つの型として参考になる。</p>
             </div>
-            <div class="article-source">
-                <a href="https://dogfish.com/news/ancient-egyptian-malt-2025" target="_blank" rel="noopener">
-                    オリジナル記事を読む →
+            <div class="article-footer">
+                <a href="https://www.family.co.jp/company/news_releases/2026/20260727_01.html" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
                 </a>
             </div>
         </article>
-        
-        <article class="article" id="article-10">
-            <div class="article-kicker">
-                <span class="article-rank">10</span>
-                <span class="article-category" style="background:#4A7C2F;">🌿 ホップ</span>
-                <span class="article-popularity">⭐⭐⭐</span>
+
+        <article class="article-card" style="border-left: 4px solid #9B4E9E;">
+            <div class="article-header">
+                <span class="rank">#10</span>
+                <span class="category" style="background:#9B4E9E;">🌽 副原料</span>
+                <span class="popularity">⭐⭐</span>
             </div>
-            <h2 class="article-headline">カールスバーグが超臨界CO₂ホップ抽出技術でノンアル向け香り成分保持に成功</h2>
-            <p class="article-deck">💡 ノンアルビールのホップ香り成分を95%保持する新技術</p>
-            <div class="article-byline">
-                <span>🏭 カールスバーグ・グループ</span>
-                <span>🌍 デンマーク</span>
+            <h2 class="article-title">宮崎のノボルブルーイング、バニラビーンズ使用のインペリアルスタウト「Nova 2026」を数量限定発売</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 ノボルブルーイング</span>
+                <span class="country">🌍 日本（宮崎県宮崎市）</span>
             </div>
-            <div class="article-body">
-                <p>デンマークのカールスバーグ・グループは、同社のCarlsberg Research Laboratory（CRL）が開発した超臨界二酸化炭素（SC-CO₂）抽出技術を用いたホップアロマ成分保持システムの特許取得と、これを活用したノンアルコールビール新製品の開発を発表した。</p><p>SC-CO₂抽出は、31.1℃・73.8気圧という臨界点を超えた状態の二酸化炭素が液体と気体の中間的な性質を持つことを利用した技術だ。通常の溶剤抽出と異なり、アロマ成分を高温・酸素暴露から守りながら選択的に抽出できるため、デリケートなモノテルペン（リナロール・ゲラニオール・ネロール）やセスキテルペン（β-ファルネセン・ハムレン）といった揮発性アロマ成分をほぼ完全な状態で保持できる。</p><p>従来のノンアルコールビール醸造における最大の課題の一つが、アルコール除去プロセスによるアロマ成分の消失だった。蒸留法・逆浸透膜法いずれの脱アルコール手法においても、ホップアロマの40〜70%が失われるとされてきた。カールスバーグのシステムでは、醸造後のビールからアルコール除去を行う前にSC-CO₂でアロマ成分を分離・保存し、脱アルコール後に再添加するという「アロマレストア」プロセスを確立した。</p><p>同社の試験では、開発したノンアルコールビール（アルコール度数0.5%未満）は訓練された官能評価パネルによるブラインドテストで、通常のラガービールと比較してホップアロマの印象が95%保持されていると評価された。特にシトラスやフローラルのアロマノートが顕著に改善されたとされている。</p><p>この技術はカールスバーグのノンアルコールブランド「Carlsberg 0.0」に2026年から順次採用される予定で、欧州市場から導入が始まり、2027年にはアジア市場（日本・韓国を含む）への展開も計画されている。ノンアルコールビール市場は世界的に年率15〜20%の成長を続けており、アロマ品質の向上は同市場での競争力強化に直結する。</p>
+            <div class="highlight">💡 通常の2.5倍以上のモルトを使うダブルマッシュ製法、ABV11.5%、冬に一度だけ仕込む年1回限定ビール</div>
+            <div class="summary-body">
+                <p class="summary">宮崎市のクラフトビール醸造所ノボルブルーイングは2026年3月、バニラビーンズを使ったインペリアルスタウト「Nova 2026」を数量限定で発売すると発表した。公式オンラインショップでの販売で、「Nova 2026」の2本セットは7,800円。冬に一度だけ仕込む年1回限定のビールだという。</p>
+                <p class="summary">通常の2.5倍以上のモルトとロースト麦芽を使い、ダブルマッシュ製法で仕込むことで、濃厚なボディとエスプレッソを思わせる細かく濃いきめの泡を実現しているとする。ABVは11.5%。バニラの香りが特徴で、できたばかりのフレッシュな状態と、熟成させて変化した状態の両方で楽しめるビールとして案内されている。</p>
             </div>
-            
-            <div class="analysis">
-                <p class="analysis-label">編集部の考察</p>
-                <p>カールスバーグのSC-CO₂技術はノンアルビール市場の課題解決に向けた重要な技術革新だ。「アロマが弱い」というノンアルビール最大の弱点を克服できれば、健康志向層・妊婦・運転者など拡大を続けるノンアル消費者層への訴求力が劇的に向上する。日本のノンアル市場はアサヒ・キリン・サッポロが競争を激化させており、本技術の導入競争は不可避だ。一方、SC-CO₂設備の初期投資は億単位に上るとされており、中小醸造所には高いハードルとなる。日本のノンアルビール需要が年10%以上の成長を続けている現状を考えると、大手メーカーへの技術ライセンス交渉が加速することが予想される。</p>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">副原料としてのバニラビーンズを、香りの主役ではなく高モルト・高アルコールのボディを支える要素として位置づけている点が特徴的だ。年1回・数量限定という希少性を軸にした販売戦略は、小規模ブルワリーが大量生産品と直接競合せずに単価を上げられる手法として、国内の多くの中小ブルワリーにとって引き続き有効なモデルであり続けている。</p>
             </div>
-            <div class="article-source">
-                <a href="https://carlsberg.com/research/sc-co2-hop-extraction" target="_blank" rel="noopener">
-                    オリジナル記事を読む →
+            <div class="article-footer">
+                <a href="https://netshop.impress.co.jp/index.php/r/prtimes/items/000000002.000174313" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
                 </a>
             </div>
         </article>
-        
     </main>
 
-    <footer class="site-footer">
-        <p><strong>BREW DAILY</strong> は世界中の醸造所公式情報を自動収集し、AI が日本語に翻訳・解説した独自マガジンです。</p>
-        <p>Generated by Claude AI &nbsp;|&nbsp; Powered by Anthropic &nbsp;|&nbsp; 2026年10月13日（Tue）</p>
+    <footer>
+        <p><strong>BREW DAILY</strong> は世界中の醸造所公式情報を自動収集し、AI が日本語に翻訳・要約した独自マガジンです。</p>
+        <p style="margin-top:0.5rem;">Generated by Claude AI | Powered by Anthropic | 2026年10月13日（Tue）</p>
     </footer>
-
 </body>
 </html>
