@@ -26,9 +26,12 @@ jobs:
       - name: ライブラリインストール
         run: pip install anthropic
 
-      - name: 🍺 マガジン生成
+      - name: 🍺 マガジン生成・メール配信
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          MAIL_RECIPIENTS: ${{ secrets.MAIL_RECIPIENTS }}
         run: |
           mkdir -p docs
           python brew_magazine.py

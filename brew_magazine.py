@@ -899,10 +899,51 @@ def main():
     print(f"📰 記事数: {len(articles)}件")
     print("=" * 60)
 
+    # Step 6: メール配信
+    send_email(html, date_str)
+
     # Windows の場合、ブラウザで開く
     if sys.platform == "win32":
         import subprocess
         subprocess.Popen(["start", "", str(latest_file)], shell=True)
+
+
+def send_email(html: str, date_str: str):
+    """生成したマガジンをメールで配信する"""
+    import smtplib
+    from email.mime.multipart import MIMEMultipart
+    from email.mime.text import MIMEText
+
+    gmail_address  = os.environ.get("GMAIL_ADDRESS")
+    gmail_password = os.environ.get("GMAIL_APP_PASSWORD")
+
+    if not gmail_address or not gmail_password:
+        print("\n📧 メール設定なし（スキップ）")
+        return
+
+    # 配信先アドレス（カンマ区切りで複数指定可能）
+    recipients_env = os.environ.get("MAIL_RECIPIENTS", gmail_address)
+    recipients = [r.strip() for r in recipients_env.split(",") if r.strip()]
+
+    print(f"\n📧 メール配信中 → {', '.join(recipients)}")
+
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = f"🍺 BREW DAILY {date_str} — 世界のブルワリー最新情報"
+    msg["From"]    = f"BREW DAILY <{gmail_address}>"
+    msg["To"]      = ", ".join(recipients)
+
+    # テキスト版（HTMLが読めない環境向け）
+    text_body = f"BREW DAILY {date_str}\n\n最新号はこちら:\nhttps://tsukasabbb.github.io/brew_daily/"
+    msg.attach(MIMEText(text_body, "plain", "utf-8"))
+    msg.attach(MIMEText(html,      "html",  "utf-8"))
+
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(gmail_address, gmail_password)
+            server.sendmail(gmail_address, recipients, msg.as_string())
+        print(f"  ✅ メール送信完了 ({len(recipients)}件)")
+    except Exception as e:
+        print(f"  ❌ メール送信エラー: {e}")
 
 
 if __name__ == "__main__":
