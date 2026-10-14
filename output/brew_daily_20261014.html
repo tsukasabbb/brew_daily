@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍺 BREW DAILY - 2026年10月14日（Wed）</title>
+    <style>
+        :root {
+            --beer-amber: #F5A623;
+            --beer-dark: #3D2B1F;
+            --beer-cream: #FFF8E7;
+            --beer-foam: #FEFAE0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Hiragino Sans', 'Meiryo', 'Yu Gothic', sans-serif;
+            background: var(--beer-cream);
+            color: var(--beer-dark);
+            line-height: 1.8;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--beer-dark) 0%, #6B3A2A 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .magazine-title {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .magazine-subtitle {
+            font-size: 1.1rem;
+            color: var(--beer-amber);
+            margin-top: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .magazine-date {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-top: 0.3rem;
+        }
+
+        .categories-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            background: var(--beer-foam);
+            flex-wrap: wrap;
+            border-bottom: 2px solid var(--beer-amber);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--beer-dark);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--beer-amber);
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .article-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .article-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .rank {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--beer-amber);
+            min-width: 2.5rem;
+        }
+
+        .category {
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .popularity {
+            margin-left: auto;
+            font-size: 0.85rem;
+        }
+
+        .article-title {
+            font-size: 1.15rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--beer-dark);
+            line-height: 1.5;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.8rem;
+        }
+
+        .highlight {
+            background: #FFF3CD;
+            border: 1px solid #FFD700;
+            border-radius: 4px;
+            padding: 0.5rem 0.8rem;
+            font-size: 0.88rem;
+            font-weight: bold;
+            margin-bottom: 0.8rem;
+            color: #856404;
+        }
+
+        .summary {
+            font-size: 0.92rem;
+            line-height: 1.9;
+            color: #333;
+            text-align: justify;
+        }
+
+        .article-footer {
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid #eee;
+        }
+
+        .summary-body p + p {
+            margin-top: 1em;
+        }
+
+        .analysis-box {
+            background: #F0F7FF;
+            border: 1px solid #B8D4F0;
+            border-radius: 6px;
+            padding: 1rem 1.2rem;
+            margin-top: 1.2rem;
+        }
+
+        .analysis-title {
+            font-weight: bold;
+            color: #1E6B9E;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .analysis-text {
+            font-size: 0.92rem;
+            line-height: 1.9;
+            color: #2a2a3a;
+        }
+
+        .source-link {
+            color: #1E6B9E;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .source-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--beer-dark);
+            color: #aaa;
+            font-size: 0.85rem;
+            margin-top: 3rem;
+        }
+
+        footer strong {
+            color: var(--beer-amber);
+        }
+
+        @media (max-width: 600px) {
+            .magazine-title { font-size: 2rem; }
+            .article-meta { flex-direction: column; gap: 0.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="magazine-title">🍺 BREW DAILY</div>
+        <div class="magazine-subtitle">世界のブルワリー最新情報マガジン</div>
+        <div class="magazine-date">📅 2026年10月14日（Wed） 発行 | 麦芽・ホップ・水・副原料 注目トピック9選</div>
+    </header>
+
+    <div class="categories-legend">
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#8B6914;"></span>
+            🌾 麦芽（Malt）
+        </div>
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#4A7C2F;"></span>
+            🌿 ホップ（Hops）
+        </div>
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#1E6B9E;"></span>
+            💧 水（Water）
+        </div>
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#9B4E9E;"></span>
+            🌽 副原料（Adjunct）
+        </div>
+    </div>
+
+    <main>
+        <h2 class="section-title">📊 本日の注目トピック（世界の公式情報より）</h2>
+
+        <article class="article-card" style="border-left: 4px solid #8B6914;">
+            <div class="article-header">
+                <span class="rank">#1</span>
+                <span class="category" style="background:#8B6914;">🌾 麦芽</span>
+                <span class="popularity">⭐⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">米ブルワーズ・アソシエーション、2026年GABFに「クラフトモルト」カテゴリーを新設</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Brewers Association / Great American Beer Festival</span>
+                <span class="country">🌍 アメリカ</span>
+            </div>
+            <div class="highlight">💡 グレインビルの50%以上を小規模モルトハウス産麦芽が占めることが出品条件</div>
+            <div class="summary-body">
+                <p class="summary">米ブルワーズ・アソシエーション（BA）の技術部門担当ディレクター、チャック・スカイペック氏は2026年6月16日（17日更新）、同年の全米ビアフェスティバル（GABF）に「クラフトモルト」を使ったビールの一時的な特別カテゴリーを新設すると発表した。小規模・地域密着型のモルトハウスと、そのモルトを使う醸造家が、受賞を競える機会を作ることが狙いだという。</p>
+                <p class="summary">出品条件は、グレインビル（使用穀物全体）の50%以上をクラフトモルトハウス産の麦芽が占めること。クラフトモルティングギルドの定義によれば、クラフトモルトハウスとは年間生産量1万メトリックトン未満で、使用する穀物の50%超をモルトハウスから500マイル以内で栽培したものとするモルトハウスを指す。醸造家は元となるビアスタイルを明記できるが、色・透明度・香り・風味・ボディはそのスタイルから大きく外れてもよいとされ、クラフトモルトの個性を前面に出すことが推奨されている。醸造家はモルトハウス側と密に連携して開発することが奨励され、受賞した場合にモルトハウスも評価を共有できるよう、情報を明記することが求められる。</p>
+                <p class="summary">出品登録は2026年6月23日に開始し、BA会員は1点あたり240ドルの割引を受けられる。受賞ビールは10月の表彰式のステージに立つ機会を得る。クラフトモルティングギルド会長でコロラド州フォートコリンズのトルバドール・モルティングス共同創業者であるスティーブ・クラーク氏は、クラフトモルトハウスは「生産者と醸造家をつなぐ独自の立場にある」と述べ、新カテゴリーがクラフトモルトハウスと醸造家の双方に品質と技術を示す機会になるとコメントした。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">新カテゴリーは「原料の産地と醸造家の結びつき」を評価軸に明示的に据えた点が特徴で、同じ発想は国内の地域産麦芽・ホップにも応用できる。日本でも遠野や上富良野など地域産原料を使う醸造所が増えており、原料供応者の名前を前面に出す仕組みは、地元産原料を使う中小ブルワリーが商品の背景を伝える際のモデルケースになり得るだろう。カテゴリーが一時的な特別枠である点にも注目し、来年以降定着するかどうかを注視したい。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.brewersassociation.org/association-news/gabf-debuts-a-craft-malt-category-in-2026/" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #8B6914;">
+            <div class="article-header">
+                <span class="rank">#2</span>
+                <span class="category" style="background:#8B6914;">🌾 麦芽</span>
+                <span class="popularity">⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">米国産バレー（大麦）の作付面積、2025年産は史上最低の230万エーカーに</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Brewers Association（USDA NASSデータに基づく）</span>
+                <span class="country">🌍 アメリカ</span>
+            </div>
+            <div class="highlight">💡 モンタナ・アイダホ・ノースダコタの3州で全米生産量の8割超を占める</div>
+            <div class="summary-body">
+                <p class="summary">米ブルワーズ・アソシエーション（BA）のチャック・スカイペック氏は2026年1月27日、USDA全米農業統計局（NASS）が同月公表した年次作物生産報告をもとに、米国産バレー（大麦）の動向を解説する記事を公開した。2025年産の作付面積は全米で230万エーカーと、記録が残る中で過去最低を更新した。生産量は約1億4,100万ブッシェルで、2021年を除けば年間生産量として最も低い水準の一つとなった。なお2021年の低迷は主要産地での深刻な干ばつが原因とされる。一方、単収は全米で3%超上昇したという。</p>
+                <p class="summary">報告の対象は23州。モンタナ・アイダホ・ノースダコタの3州だけで全米生産量の8割超を占める。デラウェア・アイダホ・メリーランド・ノースダコタ・ワイオミングでは記録的な単収を記録した。長期的に見ると、生産量は1980年代半ばには約6億ブッシェルあったとされ、作付面積・生産量の縮小は数十年規模で続く構造的な傾向だとBAは位置付けている。</p>
+                <p class="summary">BAはビール消費量の落ち込みが多くのビール原料への需要を押し下げている面もあると指摘。生産者やモルトメーカーはNASSの報告を作付け・契約の判断材料に使っており、BAは会員醸造家に対し、契約栽培などを通じて将来の必要量を早めにサプライヤーへ伝えるよう呼びかけている。副原料として小麦やオーツを使う醸造家向けには、2025年産で米（ライス）の生産量・単収も前年から低下したことが報告されている。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">作付面積が過去最低を更新した一方で単収は上昇しているため、原料の「量」としては急激な不足にはつながりにくい。とはいえ、数十年規模で続く作付離れは、将来的に品種選択の幅を狭める可能性がある構造的な変化だ。日本の麦芽輸入は北米・欧州への依存度が高いため、主要産地の作付動向は仕入れ計画を立てるうえでの背景情報として押さえておく価値がある。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.brewersassociation.org/brewing-industry-updates/domestic-barley-production-continues-decades-of-decline/" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #4A7C2F;">
+            <div class="article-header">
+                <span class="rank">#3</span>
+                <span class="category" style="background:#4A7C2F;">🌿 ホップ</span>
+                <span class="popularity">⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">欧米ホップ栽培面積、2026年は世界で約3%減　スロベニアでは降雹被害も発生</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 BarthHaas（The Brewers Journal報道）</span>
+                <span class="country">🌍 ドイツ／チェコ／ポーランド／スロベニア／アメリカ</span>
+            </div>
+            <div class="highlight">💡 世界全体の栽培面積は約51,350ヘクタールで前年比約3%減、米シトラは+6%で拡大続く</div>
+            <div class="summary-body">
+                <p class="summary">英ブルワーズ・ジャーナルは2026年6月29日、ホップ商社BarthHaas社の作柄速報をもとに「Summer Report 2026」を公開した。ドイツの栽培面積は前年から1,101ヘクタール（-5.8%）減って17,861ヘクタールとなり、生産農家数も62軒減の904軒に。最大面積を持つハーキュリーズが202ヘクタール減少した一方、高アルファ品種のタイタンは158ヘクタール（+28%）増加した。アロマ品種の減少が目立ち、ペルレは337ヘクタール（-14%）、ハラタウ・トラディションは299ヘクタール（-15%）減少。アマリロ、ハラタウ・ブラン、マンダリーナ・バイエルンも二桁の減少となり、オパール、ハラタウ・タウルス、ヘルスブルッカー・シュペート、ノーザン・ブリュワー、ナゲットは栽培中止（抜根）に至った。天候面では、湿った秋・冬、非常に寒い1月、乾いた春、4月下旬の遅い誘引となり、生育はBBCH39〜41程度でほぼ平年並み。うどんこ病が初めて確認され、ハダニも多くの圃場で見られたという。</p>
+                <p class="summary">チェコの栽培面積は26ヘクタール（-0.5%）減の4,786ヘクタール。主力品種ザーツは、昨年のアルファ酸収量は良好だったものの、生産コストの上昇と天候への不安から10ヘクタール（-0.3%）減少。スラデクは12ヘクタール増加した。ポーランドは小規模な家族経営農家が中心で栽培面積はほぼ安定、わずかに増加。マグナム・マグナトは減少したが、ルブリンスキは過去2年の新規植え付けにより拡大した。スロベニアは262ヘクタールの減少と110ヘクタールの再植栽を合わせ、ネットで152ヘクタールの減少。アウローラは、事前契約レートの低さから契約が成立しなかった分を中心に154ヘクタール減少、セレイアは4年連続の新規植栽で48ヘクタール増加した。暖かく乾燥した冬・春（4月の降水量は平年の約25%、5月には気温32℃に達する日も）に続き、6月初旬にサビニャ谷・プトゥイ・オルモシュ地域を雹害が直撃。約900ヘクタールが被害を受け、収穫見送りとなる圃場もあり、全品種で供給不足が見込まれている。</p>
+                <p class="summary">米太平洋北西部（ワシントン、アイダホ、オレゴン）は前年の16,857ヘクタールからほぼ横ばいの16,853ヘクタール。シトラは182ヘクタール（+6%）増え、2026年には太平洋北西部の栽培面積の約19%を占める見通し。クラッシュやドルシータも大きく伸びた一方、アマリロ、アザッカ、シムコー、マウント・レイニアは減少。CTZは384ヘクタール（-19%）減少したが、苦味系品種としては依然2番目の大きさ（面積の約9%）を保つ。アポロは296ヘクタール全てが廃作となった。ヘリオスは458ヘクタール増加した。世界全体の2026年産栽培面積は約51,350ヘクタールと見積もられ、前年比で約3%（約1,300ヘクタール）の減少という。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">国・品種別の明細を見ると、単純な「供給過剰で面積縮小」という大枠だけでなく、シトラのような人気アロマ品種は面積を伸ばし、CTZやアポロのような苦味系品種は大きく減少するという、品種間の二極化が進んでいることが分かる。スロベニアの降雹被害のように、気象リスクが特定品種の供給を一時的に細らせる事例も見られる。日本の醸造所が輸入ホップの調達計画を立てる際には、国・品種単位での動向まで踏み込んで把握しておくと、特定品種の調達リスクに早めに気づけるはずだ。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.brewersjournal.info/?p=28288" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #4A7C2F;">
+            <div class="article-header">
+                <span class="rank">#4</span>
+                <span class="category" style="background:#4A7C2F;">🌿 ホップ</span>
+                <span class="popularity">⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">サッポロビール、うどんこ病に強い新品種ホップ「フラノ2004B号」を開発　2027年から契約栽培へ</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 サッポロビール</span>
+                <span class="country">🌍 日本（北海道上富良野町）</span>
+            </div>
+            <div class="highlight">💡 2026年6月に品種登録を出願、2027年から契約農家での商業栽培を目指す</div>
+            <div class="summary-body">
+                <p class="summary">北海道新聞デジタルは2026年7月22日（7月23日更新）、サッポロビール（東京）が上川管内上富良野町にある同社の原料開発研究所で開発した新品種ホップ「フラノ2004B号」について報じた。温暖化の影響で被害の増加が予想される「うどんこ病」にかかりにくい特性を持つ品種だという。</p>
+                <p class="summary">同社は2026年6月、この品種について農林水産省へ品種登録を出願した。商業栽培は2027年から、上富良野町などの契約農家に委託して始める方針。記事に添えられた写真では、同研究所の久慈正義主幹研究員がホップの出来を確かめる様子が写されている。品種の詳しい育種経緯や収量・香気成分などの特性については、記事時点で詳細は明らかにされていない。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">うどんこ病への耐性を持つ新品種の開発は、気候変動に伴う栽培リスクの高まりに対し、品種改良という形で対応する試みだ。北海道は国産ホップの主要産地であり、契約栽培を通じて地域の農家と連携する体制は、原料の安定確保だけでなく産地との関係維持にも直結する。品種登録や商業栽培の具体的な進展は今後の発表を待つ必要があるが、国産原料を扱う醸造所にとっては継続して注視したい話題だ。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.hokkaido-np.co.jp/article/1340648/" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #4A7C2F;">
+            <div class="article-header">
+                <span class="rank">#5</span>
+                <span class="category" style="background:#4A7C2F;">🌿 ホップ</span>
+                <span class="popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">「ホップ栽培面積国内No.1」岩手県遠野市で「遠野ホップ収穫祭2026」開催　市内3醸造所が遠野産ホップの限定ビールを提供</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 GOOD HOPS／遠野醸造／遠野麦酒ZUMONA</span>
+                <span class="country">🌍 日本（岩手県遠野市）</span>
+            </div>
+            <div class="highlight">💡 遠野産ホップを100%使用した限定ビールなど、3醸造所がそれぞれ個性の異なる1本を披露</div>
+            <div class="summary-body">
+                <p class="summary">観光マネジメントボード遠野（主催：遠野ホップ収穫祭実行委員会）は2026年8月14日、半世紀以上ホップ栽培を続け「栽培面積国内No.1」とされる岩手県遠野市で「遠野ホップ収穫祭2026」を開催すると発表した。会期は8月21日（前夜祭）〜23日で、会場は蔵の道ひろば（JR釜石線遠野駅から徒歩3分）。入場無料で、食・音楽・ホップを楽しむ3日間のイベントとして企画された。</p>
+                <p class="summary">今年は市内3醸造所がそれぞれ遠野産ホップを使ったイベント限定ビールを提供する。GOOD HOPSは遠野産カスケード・自社オリジナル品種ノー・ウィンド・アンカウンタブル・ザーツを使ったセゾン「FESTIVAL SAISON」（ABV6.0%、柑橘中心で南国果実のような香り）を、遠野醸造はカスケード・ノー・ウィンド・コロンバス・アマリロ・シトラを使ったセッションIPA「遠野セッションIPA」（ABV4.0%、青々しい香りと熟したフルーツ風味）を、遠野麦酒ZUMONAはIBUKI・ノー・ウィンド・カスケードを使い遠野産ホップを100%使用したIPL「HOP HARVEST IPL」（ABV5.0%、穏やかな苦みと甘いかんきつの香り）を、それぞれ提供する。なおGOOD HOPSは、遠野市内で栽培・加工したルプリンパウダー（ホップの黄色い粒を無加熱で取り出した成分）も手がけているという。</p>
+                <p class="summary">初日のオープニングセレモニーにはホップ農家が参加し、収穫を祝って乾杯する企画も予定されている。前夜祭では「HOP STAGE」に8組が出演し、「孤独のグルメ」原作者・久住昌之さんが率いる「The Screen Tones 3」が初登場するなど、音楽イベントも充実している。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">遠野市の事例は、一つの産地に複数の醸造所が集まり、それぞれ異なるレシピで同じ地域産ホップの個性を引き出すという、地域ブランディングのわかりやすいモデルだ。同一品種でもセゾン・セッションIPA・IPLとスタイルを変えることで、飲み手に産地ホップの多面的な魅力を伝えられる。東北の産地という点では岩手県内の醸造所にとっても地理的に近い話題であり、収穫祭のような場を通じて産地と醸造所の関係を可視化する取り組みは、他地域の国産ホップ産地でも参考になりそうだ。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://prtimes.jp/main/html/rd/p/000000007.000144434.html" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #1E6B9E;">
+            <div class="article-header">
+                <span class="rank">#6</span>
+                <span class="category" style="background:#1E6B9E;">💧 水</span>
+                <span class="popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">英ヘップワース醸造所、英国初の排水発電システムを本格稼働　年362MWhを自家消費</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Hepworth Brewery（Hepworth & Company Brewers）</span>
+                <span class="country">🌍 イギリス（イングランド南部ウェストサセックス州）</span>
+            </div>
+            <div class="highlight">💡 1日17立方メートルの排水を処理、CO2排出量を年100トン超削減</div>
+            <div class="summary-body">
+                <p class="summary">英国の環境技術企業WASE（ブリストル）は2025年11月10日、ウェストサセックス州のヘップワース醸造所に英国初となる本格稼働の「排水発電」システムを導入したと発表した。6か月間のオンサイト実証を経て導入された本設備は、電気メタン生成（エレクトロメタノジェネシス）という技術を用いて、醸造所自らの排水からバイオガス・清浄水・養分豊富な消化液を生成する。</p>
+                <p class="summary">処理能力は1日あたり排水17立方メートルで、年間約362メガワット時の再生可能エネルギーを生み出し、CO2排出量を年100トン超削減するという。排水の場外搬出（ホーリング）が不要になり、処理水は地域に還元される。WASE共同創業者兼CEOのトーマス・ファッジ氏は「これはビールづくり以上の意味を持つ」と述べた。ヘップワース醸造所のアンディ・ヘップワース代表は、処理水を地域に戻すことが、絶滅危惧種の淡水産巻貝を含む地域の生態系の回復力につながると説明している。</p>
+                <p class="summary">同醸造所は太陽光発電や「世界初のビール熱源ヒートポンプ」とされる設備も導入しており、本設備は2025年末までに「85%カーボンニュートラル」を達成する目標の一環。導入を記念し、地元ボディアム産ホップとグッドウッド産オーガニック大麦を使ったビールシリーズ「Nexus」（ラガー「Liquid Asset」、IPA「Electric Hop」、ABV0.5%のペールエール「Botanic State」）も発表された。生成された消化液は地元農家の土壌改善にも活用される見込みという。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">排水を単に処理するのでなく、自家消費できるエネルギーに転換するという発想は、水対策と脱炭素対策を同時に進める好例だ。中小規模のブルワリーが同等の設備を独自に導入するのは難しいとしても、排水処理の目的を「規制対応」から「資源回収」へ広げる視点は、将来的な設備更新を検討する際の着眼点になり得る。処理水を地域の生態系に還元するという説明の仕方も、地域社会への説明責任を果たすうえで参考になりそうだ。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.newfoodmagazine.com/news/258132/uk-brewery-advances-circular-brewing-with-beers-powered-by-wastewater-to-energy-system/" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #1E6B9E;">
+            <div class="article-header">
+                <span class="rank">#7</span>
+                <span class="category" style="background:#1E6B9E;">💧 水</span>
+                <span class="popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">米ハンナズ・ブルーイング、「BetterBev」グリーン飲料生産者認定を取得　電動仕込み設備と使い切り型の水使用が評価</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Hannah's Brewing</span>
+                <span class="country">🌍 アメリカ（マサチューセッツ州メルローズ）</span>
+            </div>
+            <div class="highlight">💡 提供するビールの約80%が店内・サービングタンクからの直接提供で、ケグ輸送によるロスや配送排出を抑制</div>
+            <div class="summary-body">
+                <p class="summary">米マサチューセッツ州メルローズのハンナズ・ブルーイングは2026年10月13日付で、環境配慮型の飲料生産者を認定する「BetterBev」プログラムから「グリーン飲料生産者」の認定を受けたと発表した。同ブルワリーは2024年3月開業で、メルローズ初のブルワリー兼タップルーム。コロナ禍のなか地元メルローズ出身の2人が創業し、いずれも家族にちなんで「ハンナ」という名を持つ2人の名前からブルワリー名を付けたという。</p>
+                <p class="summary">BetterBevはマサチューセッツ大学アマースト校のEnergy Transition Institute（米環境保護局の汚染防止プログラムの助成による）が一部運営し、地域の担当者が水・エネルギー使用量、廃棄物、環境配慮の取り組みなどを基準に各生産者の実践を評価する。ハンナズは、提供するビールの約80%を店内またはサービングタンクから直接提供することでケグ輸送によるビールロスや配送車両からの排出を抑えている点、2021年のブルワーズ・アソシエーションのデータに基づく購入CO2とビールの比率が非常に低い点、電動仕込み設備を採用している点、一度使った工程水を再利用しない設計である点、リサイクルしにくいプラスチック製缶キャリアの引き取り・再利用プログラムを設けている点などが「優秀」の評価を受けた。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">BetterBevのような評価制度は、水使用量そのものの数値だけでなく、容器・配送・廃棄物まで含めた運用全体を評価軸に据えている点が特徴的だ。小規模ブルワリーにとって、タップルームでの直接提供比率を高めることが輸送時のロスや排出削減に直結するという視点は、大きな設備投資をせずに取り組める改善点として参考になる。日本国内でも同様の第三者評価の仕組みが広がれば、中小ブルワリーが自社の取り組みを客観的な指標として発信しやすくなるだろう。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.brewbound.com/pr/2026/10/13/hannahs-brewing-earns-green-brewery-recognition-from-betterbev" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #9B4E9E;">
+            <div class="article-header">
+                <span class="rank">#8</span>
+                <span class="category" style="background:#9B4E9E;">🌽 副原料</span>
+                <span class="popularity">⭐⭐</span>
+            </div>
+            <h2 class="article-title">エチゴビール、新ブランド「フルーツビア研究所」を始動　新潟県産ル・レクチェや栃木県産イチゴを使った発泡酒2種を発売</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 エチゴビール</span>
+                <span class="country">🌍 日本（新潟県新潟市）</span>
+            </div>
+            <div class="highlight">💡 香料不使用、西洋なし「ル・レクチェ」果汁を使った小麦エールを10月16日発売</div>
+            <div class="summary-body">
+                <p class="summary">新潟市のエチゴビール（2000年設立）は2026年10月1日、既存の「エチゴビール」ブランドとは別の新ブランド「フルーツビア研究所」を立ち上げ、新定番シリーズとして展開すると発表した。ビールイベントで提供した限定フルーツビールが好評で、商品化を望む声が多かったことを受けた開発だという。</p>
+                <p class="summary">第1弾は2026年10月16日発売の「ル・レクチェ×小麦のエール」で、新潟県産の西洋なし「ル・レクチェ」の果汁・濃縮果汁と小麦を使用し、甘さを抑えた仕上げで食事やスイーツとの相性を想定。第2弾は2026年11月20日発売の「ダブルベリー×レッドエール」で、栃木県産イチゴ果汁とラズベリー濃縮果汁を使い、鮮やかなルビーレッドの見た目と熟したベリーの香りを表現する。両商品ともABV5%・350ml缶・参考価格356円（税込）で、香料は使用せず果物由来の風味を活かす方針。麦芽比率は50%以上だが、果物由来の副原料が基準（5%以内）を超えるため、酒税法上は「ビール」ではなく「発泡酒」に分類される。</p>
+                <p class="summary">缶デザインには四コマ漫画を採用し、アロマ・ホップ・ドクターヤギの3キャラクターを展開する。X・Instagram（@fruitbeerken）では8月末から「謎のアカウント」として投稿を始め、徐々に情報を公開してきたという。両商品を定番化し、1年後を目安に第三弾を発売する計画としている。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">麦芽比率が50%を超えてもビールでなく発泡酒に区分されるという酒税法上の線引きは、副原料を使った商品開発における日本特有の制約だ。既存ブランドとは別の新ブランドを立ち上げてフルーツビール専用の世界観を作るという手法は、既存の定番ラインとの食い合いを避けつつ新規ファンを獲得したい中小ブルワリーにとって、ブランド設計の参考例になる。SNSで「謎のアカウント」として発信を始めてから商品化する手法も、限られた予算でも話題を作れる販促の工夫として注目しておきたい。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://prtimes.jp/main/html/rd/p/000000004.000176258.html" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #9B4E9E;">
+            <div class="article-header">
+                <span class="rank">#9</span>
+                <span class="category" style="background:#9B4E9E;">🌽 副原料</span>
+                <span class="popularity">⭐⭐</span>
+            </div>
+            <h2 class="article-title">米穀物団体USA Rice、クラフトブルワーズ・カンファレンスで「ライス・ルネッサンス」セミナーを開催　副原料としての米の価値を訴求</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 USA Rice／Brewers Association（主催イベント）</span>
+                <span class="country">🌍 アメリカ（フィラデルフィア）</span>
+            </div>
+            <div class="highlight">💡 参加者75名超、アンハイザー・ブッシュ「ミケロブ・ウルトラ」や韓国マッコリ「MAKKU」も試飲対象に</div>
+            <div class="summary-body">
+                <p class="summary">米穀物業界団体USA Riceは2026年4月24日付の「USA Rice Daily」で、同月にフィラデルフィアで開催されたブルワーズ・アソシエーション主催の2026年クラフトブルワーズ・カンファレンス（毎年7,000〜1万人規模が参加）で、USA Rice協賛の60分間セミナー「The Rice Renaissance: Flavor, Function, and Innovation for Modern Brewers」を開催したと報告した。世界各地のクラフトブルワリーから75名超が参加したという。</p>
+                <p class="summary">講師はUSA Riceのキャメロン・ジェイコブス氏と、アーカンソー大学で食品化学を専門とするスコット・ラフォンテイン教授。セッションでは試飲も行われ、全米で売り上げ・成長率ともに首位とされるアンハイザー・ブッシュの「ミケロブ・ウルトラ」と、韓国の伝統的な無濾過米酒「マッコリ」をベースにしたSool社の「MAKKU」が取り上げられた。ラフォンテイン教授は、米を使うことで飲みやすさの向上、抽出効率の改善、軽く明るい風味プロファイル、新しいビアスタイルへの発想のきっかけが得られると説明し、「米はしばしば中立的で面白みのない副原料として片付けられてしまう」と述べた。</p>
+                <p class="summary">ジェイコブス氏は「ブルワーには自社製品をめぐる独自でオリジナルなストーリーを作る力がある」と述べ、ラフォンテイン教授は、参加者が米農家とのニーズのすり合わせ方をより良く理解して帰っていったとコメントした。記事には具体的な米の品種や使用量に関するデータは示されていない。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">米を「中立的な副原料」から「個性を演出できる原料」として再定義しようとする動きは、副原料の使い方次第でビールの個性づけができるという発想を示している。国内でも米を使った発泡酒・雑穀ビールは一定数存在するが、原料の背景やストーリーを積極的に発信する余地はまだ大きい。米の産地や品種にまで踏み込んで物語を作るという視点は、国産原料を使う中小ブルワリーが商品の説明力を高める際の参考になりそうだ。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.usarice.com/news-and-events/publications/usa-rice-daily/article/usa-rice-daily/2026/04/24/the-rice-renaissance-on-display-at-the-craft-brewers-conference" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p><strong>BREW DAILY</strong> は世界中の醸造所公式情報を自動収集し、AI が日本語に翻訳・要約した独自マガジンです。</p>
+        <p style="margin-top:0.5rem;">Generated by Claude AI | Powered by Anthropic | 2026年10月14日（Wed）</p>
+    </footer>
+</body>
+</html>
