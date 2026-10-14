@@ -921,9 +921,29 @@ def send_email(html: str, date_str: str):
         print("\n📧 メール設定なし（スキップ）")
         return
 
-    # 配信先アドレス（カンマ区切りで複数指定可能）
-    recipients_env = os.environ.get("MAIL_RECIPIENTS", gmail_address)
-    recipients = [r.strip() for r in recipients_env.split(",") if r.strip()]
+    # Cloudflare Worker から購読者リストを取得
+    recipients = []
+    worker_url = os.environ.get("WORKER_URL")
+    admin_token = os.environ.get("ADMIN_TOKEN")
+    if worker_url and admin_token:
+        try:
+            import urllib.request
+            req = urllib.request.Request(
+                f"{worker_url}/admin/export",
+                headers={"Authorization": f"Bearer {admin_token}"}
+            )
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                data = resp.read().decode("utf-8").strip()
+                if data:
+                    recipients = [r.strip() for r in data.split(",") if r.strip()]
+            print(f"  📋 Cloudflare購読者: {len(recipients)}件")
+        except Exception as e:
+            print(f"  ⚠️ Cloudflare取得失敗: {e}")
+
+    # フォールバック: MAIL_RECIPIENTS環境変数
+    if not recipients:
+        recipients_env = os.environ.get("MAIL_RECIPIENTS", gmail_address)
+        recipients = [r.strip() for r in recipients_env.split(",") if r.strip()]
 
     print(f"\n📧 メール配信中 → {', '.join(recipients)}")
 
