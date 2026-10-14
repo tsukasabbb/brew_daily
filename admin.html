@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍺 BREW DAILY — 管理画面</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#1A1208; --amber:#C07A00; --paper:#FAF7F2; --blue:#1A4E8C; --red:#C62828; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Noto Sans JP',sans-serif; background:var(--paper); color:var(--ink); padding:2rem 1rem; }
+
+  /* ── ログイン画面 ── */
+  #login-screen {
+    max-width: 380px;
+    margin: 6rem auto;
+    background: #fff;
+    border: 1px solid #D4C4A8;
+    border-radius: 4px;
+    padding: 2rem;
+    text-align: center;
+  }
+  #login-screen h1 { font-size: 1.3rem; margin-bottom: 1.5rem; }
+  #login-screen input {
+    width: 100%; padding: 0.75rem; border: 2px solid #D4C4A8;
+    border-radius: 3px; font-size: 1rem; margin-bottom: 0.8rem;
+  }
+  #login-screen input:focus { outline: none; border-color: var(--amber); }
+  #login-error { color: var(--red); font-size:0.85rem; margin-top:0.5rem; }
+
+  /* ── 管理画面 ── */
+  #admin-screen { display: none; max-width: 860px; margin: 0 auto; }
+
+  header { border-bottom: 2px solid var(--ink); padding-bottom: 1rem; margin-bottom: 2rem; display:flex; justify-content:space-between; align-items:center; }
+  header h1 { font-size: 1.5rem; }
+  .logout-btn { font-size: 0.8rem; color: #999; cursor: pointer; background: none; border: 1px solid #ccc; padding: 0.3rem 0.8rem; border-radius: 3px; }
+
+  .stats { display: flex; gap: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+  .stat-card { background: #fff; border: 1px solid #D4C4A8; border-radius: 4px; padding: 1.2rem 1.5rem; min-width: 140px; }
+  .stat-num { font-size: 2rem; font-weight: 700; color: var(--amber); }
+  .stat-label { font-size: 0.78rem; color: #888; margin-top: 0.2rem; }
+
+  .section-title { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; background: var(--ink); color: #fff; display: inline-block; padding: 0.2rem 0.7rem; margin-bottom: 1rem; }
+
+  table { width: 100%; border-collapse: collapse; background: #fff; }
+  th { background: #f5f0e8; font-size: 0.78rem; font-weight: 700; padding: 0.6rem 1rem; text-align: left; border-bottom: 2px solid #D4C4A8; }
+  td { padding: 0.6rem 1rem; border-bottom: 1px solid #eee; font-size: 0.88rem; }
+  tr:hover td { background: #fdfaf5; }
+  .del-btn { background: none; border: 1px solid #ffcdd2; color: var(--red); font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 3px; cursor: pointer; }
+  .del-btn:hover { background: var(--red); color: #fff; }
+
+  .btn { padding: 0.7rem 1.5rem; background: var(--ink); color: #fff; border: none; border-radius: 3px; font-family: inherit; font-size: 0.88rem; cursor: pointer; }
+  .btn:hover { background: var(--amber); }
+  .btn-outline { background: #fff; color: var(--ink); border: 1px solid var(--ink); }
+  .actions { display: flex; gap: 0.8rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+
+  #toast { position: fixed; bottom: 2rem; right: 2rem; background: #333; color: #fff; padding: 0.8rem 1.5rem; border-radius: 4px; font-size: 0.88rem; display: none; z-index: 999; }
+</style>
+</head>
+<body>
+
+<!-- ログイン画面 -->
+<div id="login-screen">
+  <h1>🍺 BREW DAILY 管理画面</h1>
+  <input type="password" id="password" placeholder="管理者パスワード" onkeydown="if(event.key==='Enter')login()">
+  <button class="btn" onclick="login()" style="width:100%">ログイン</button>
+  <p id="login-error"></p>
+</div>
+
+<!-- 管理画面 -->
+<div id="admin-screen">
+  <header>
+    <h1>🍺 BREW DAILY — 購読者管理</h1>
+    <button class="logout-btn" onclick="logout()">ログアウト</button>
+  </header>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-num" id="total-count">—</div>
+      <div class="stat-label">購読者数</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="today-count">—</div>
+      <div class="stat-label">今日の登録</div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn" onclick="loadSubscribers()">🔄 更新</button>
+    <button class="btn btn-outline" onclick="exportCSV()">📥 CSVダウンロード</button>
+  </div>
+
+  <p class="section-title">購読者一覧</p>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>メールアドレス</th>
+        <th>登録日時</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody id="subscriber-list">
+      <tr><td colspan="4" style="text-align:center;padding:2rem;color:#999;">読み込み中...</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="toast"></div>
+
+<script>
+  const WORKER_URL = "https://brew-daily-api.tsukasabbb.workers.dev";
+  let adminToken = "";
+  let subscribers = [];
+
+  // ── ログイン ──────────────────────────────────────
+  async function login() {
+    const pw = document.getElementById("password").value;
+    if (!pw) return;
+
+    // パスワードをSHA-256でハッシュ化してトークンとして使用
+    const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(pw));
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    adminToken = hashArray.map(b => b.toString(16).padStart(2,"0")).join("");
+
+    // 認証テスト
+    const res = await fetch(`${WORKER_URL}/admin/subscribers`, {
+      headers: { "Authorization": `Bearer ${adminToken}` }
+    });
+
+    if (res.ok) {
+      document.getElementById("login-screen").style.display = "none";
+      document.getElementById("admin-screen").style.display = "block";
+      sessionStorage.setItem("brew_admin_token", adminToken);
+      loadSubscribers();
+    } else {
+      document.getElementById("login-error").textContent = "パスワードが違います";
+      adminToken = "";
+    }
+  }
+
+  function logout() {
+    sessionStorage.removeItem("brew_admin_token");
+    adminToken = "";
+    document.getElementById("login-screen").style.display = "block";
+    document.getElementById("admin-screen").style.display = "none";
+    document.getElementById("password").value = "";
+  }
+
+  // ── 購読者一覧取得 ────────────────────────────────
+  async function loadSubscribers() {
+    const res = await fetch(`${WORKER_URL}/admin/subscribers`, {
+      headers: { "Authorization": `Bearer ${adminToken}` }
+    });
+    const data = await res.json();
+    subscribers = data.subscribers || [];
+
+    document.getElementById("total-count").textContent = data.count || 0;
+
+    // 今日の登録数
+    const today = new Date().toDateString();
+    const todayCount = subscribers.filter(s =>
+      new Date(s.subscribedAt).toDateString() === today
+    ).length;
+    document.getElementById("today-count").textContent = todayCount;
+
+    // テーブル描画
+    const tbody = document.getElementById("subscriber-list");
+    if (subscribers.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:2rem;color:#999;">購読者がいません</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = subscribers.map((s, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${escapeHtml(s.email)}</td>
+        <td>${new Date(s.subscribedAt).toLocaleString("ja-JP")}</td>
+        <td><button class="del-btn" onclick="deleteSubscriber('${escapeHtml(s.email)}')">削除</button></td>
+      </tr>
+    `).join("");
+  }
+
+  // ── 削除 ─────────────────────────────────────────
+  async function deleteSubscriber(email) {
+    if (!confirm(`${email} を削除しますか？`)) return;
+
+    await fetch(`${WORKER_URL}/admin/subscriber`, {
+      method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${adminToken}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email })
+    });
+
+    showToast(`${email} を削除しました`);
+    loadSubscribers();
+  }
+
+  // ── CSVダウンロード ──────────────────────────────
+  function exportCSV() {
+    const rows = [["email", "subscribedAt"]];
+    subscribers.forEach(s => rows.push([s.email, s.subscribedAt]));
+    const csv = rows.map(r => r.join(",")).join("\n");
+    const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `brew_daily_subscribers_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+    showToast("CSVをダウンロードしました");
+  }
+
+  // ── ユーティリティ ────────────────────────────────
+  function showToast(msg) {
+    const t = document.getElementById("toast");
+    t.textContent = msg;
+    t.style.display = "block";
+    setTimeout(() => t.style.display = "none", 3000);
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/[&<>"']/g, c =>
+      ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])
+    );
+  }
+
+  // セッション復元
+  const saved = sessionStorage.getItem("brew_admin_token");
+  if (saved) {
+    adminToken = saved;
+    document.getElementById("login-screen").style.display = "none";
+    document.getElementById("admin-screen").style.display = "block";
+    loadSubscribers();
+  }
+</script>
+</body>
+</html>
