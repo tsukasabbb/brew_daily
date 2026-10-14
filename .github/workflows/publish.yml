@@ -37,6 +37,11 @@ jobs:
           python brew_magazine.py
           cp output/latest.html docs/index.html
 
+      - name: 静的ページをコピー
+        run: |
+          cp subscribe.html docs/subscribe.html
+          cp admin.html docs/admin.html
+
       - name: 過去の号をアーカイブ
         run: |
           mkdir -p docs/archive
