@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍺 BREW DAILY — メルマガ登録</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1A1208;
+    --amber: #C07A00;
+    --paper: #FAF7F2;
+    --blue: #1A4E8C;
+    --rule: #D4C4A8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+  }
+  .masthead {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  .masthead-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(2rem, 8vw, 3.5rem);
+    font-weight: 900;
+    letter-spacing: 0.06em;
+  }
+  .masthead-sub {
+    font-size: 0.85rem;
+    color: #7A6A5A;
+    margin-top: 0.5rem;
+    letter-spacing: 0.1em;
+  }
+  hr { border: none; border-top: 2px solid var(--ink); margin: 1rem 0; }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 2.5rem 2rem;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .card h2 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+  .card p {
+    font-size: 0.88rem;
+    color: #666;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+  .features {
+    list-style: none;
+    margin-bottom: 1.8rem;
+  }
+  .features li {
+    font-size: 0.85rem;
+    padding: 0.3rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #444;
+  }
+  input[type="email"] {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--rule);
+    border-radius: 3px;
+    font-size: 1rem;
+    font-family: inherit;
+    margin-bottom: 0.8rem;
+    transition: border-color 0.2s;
+    background: var(--paper);
+  }
+  input[type="email"]:focus {
+    outline: none;
+    border-color: var(--amber);
+  }
+  .btn {
+    width: 100%;
+    padding: 0.9rem;
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 1rem;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: background 0.2s;
+  }
+  .btn:hover { background: var(--amber); }
+  .btn:disabled { background: #aaa; cursor: not-allowed; }
+
+  .msg {
+    display: none;
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 3px;
+    font-size: 0.88rem;
+    text-align: center;
+  }
+  .msg.success { background: #E8F5E9; color: #2E7D32; border: 1px solid #A5D6A7; }
+  .msg.error   { background: #FFEBEE; color: #C62828; border: 1px solid #FFCDD2; }
+
+  .unsub-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.78rem;
+    color: #999;
+  }
+  .unsub-link a { color: #999; }
+
+  .back-link {
+    margin-top: 2rem;
+    font-size: 0.8rem;
+  }
+  .back-link a { color: var(--blue); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-title">🍺 BREW DAILY</div>
+  <div class="masthead-sub">世界のブルワリー最新情報マガジン</div>
+  <hr>
+</div>
+
+<div class="card">
+  <h2>無料メルマガ登録</h2>
+  <p>毎朝7時、世界中の醸造所最新情報をAIが翻訳・解説してお届けします。</p>
+
+  <ul class="features">
+    <li>🌾 麦芽・ホップ・水・副原料の最新トピック</li>
+    <li>🌍 世界10カ国以上の醸造所情報</li>
+    <li>🤖 AIによる日本語翻訳＋専門家考察</li>
+    <li>📰 毎朝7時に自動配信</li>
+    <li>🔒 いつでも配信停止可能</li>
+  </ul>
+
+  <input type="email" id="email" placeholder="your@email.com" autocomplete="email">
+  <button class="btn" id="btn" onclick="subscribe()">🍺 無料で登録する</button>
+
+  <div class="msg" id="msg"></div>
+
+  <div class="unsub-link">
+    <a href="#" onclick="showUnsub(); return false;">配信停止はこちら</a>
+  </div>
+</div>
+
+<!-- 配信停止フォーム（隠れている） -->
+<div class="card" id="unsub-card" style="display:none; margin-top:1rem;">
+  <h2>配信停止</h2>
+  <input type="email" id="unsub-email" placeholder="登録したメールアドレス" autocomplete="email">
+  <button class="btn" onclick="unsubscribe()" style="background:#888;">配信を停止する</button>
+  <div class="msg" id="unsub-msg"></div>
+</div>
+
+<p class="back-link"><a href="index.html">← 最新号を読む</a></p>
+
+<script>
+  // ここにWorkerのURLを設定（デプロイ後に更新）
+  const WORKER_URL = "https://brew-daily-api.tsukasabbb.workers.dev";
+
+  async function subscribe() {
+    const email = document.getElementById("email").value.trim();
+    const btn = document.getElementById("btn");
+    const msg = document.getElementById("msg");
+
+    if (!email) { showMsg(msg, "メールアドレスを入力してください", "error"); return; }
+
+    btn.disabled = true;
+    btn.textContent = "送信中...";
+
+    try {
+      const res = await fetch(`${WORKER_URL}/subscribe`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      showMsg(msg, data.message || "登録完了！", res.ok ? "success" : "error");
+      if (res.ok) {
+        document.getElementById("email").value = "";
+        btn.textContent = "✅ 登録完了";
+      } else {
+        btn.disabled = false;
+        btn.textContent = "🍺 無料で登録する";
+      }
+    } catch {
+      showMsg(msg, "エラーが発生しました。時間をおいて再試行してください", "error");
+      btn.disabled = false;
+      btn.textContent = "🍺 無料で登録する";
+    }
+  }
+
+  async function unsubscribe() {
+    const email = document.getElementById("unsub-email").value.trim();
+    const msg = document.getElementById("unsub-msg");
+    if (!email) { showMsg(msg, "メールアドレスを入力してください", "error"); return; }
+
+    const res = await fetch(`${WORKER_URL}/unsubscribe`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    const data = await res.json();
+    showMsg(msg, data.message, res.ok ? "success" : "error");
+  }
+
+  function showUnsub() {
+    document.getElementById("unsub-card").style.display = "block";
+  }
+
+  function showMsg(el, text, type) {
+    el.textContent = text;
+    el.className = `msg ${type}`;
+    el.style.display = "block";
+  }
+
+  // Enterキー対応
+  document.getElementById("email")?.addEventListener("keydown", e => {
+    if (e.key === "Enter") subscribe();
+  });
+</script>
+</body>
+</html>
