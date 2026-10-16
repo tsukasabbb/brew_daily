@@ -114,14 +114,11 @@
   let subscribers = [];
 
   // ── ログイン ──────────────────────────────────────
-  async function login() {
+  function login() {
     const pw = document.getElementById("password").value;
     if (!pw) return;
 
-    // パスワードをSHA-256でハッシュ化してトークンとして使用
-    const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(pw));
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    adminToken = hashArray.map(b => b.toString(16).padStart(2,"0")).join("");
+    adminToken = pw;
 
     // 認証テスト
     const res = await fetch(`${WORKER_URL}/admin/subscribers`, {
