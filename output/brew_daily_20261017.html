@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍺 BREW DAILY - 2026年10月17日（Sat）</title>
+    <style>
+        :root {
+            --beer-amber: #F5A623;
+            --beer-dark: #3D2B1F;
+            --beer-cream: #FFF8E7;
+            --beer-foam: #FEFAE0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Hiragino Sans', 'Meiryo', 'Yu Gothic', sans-serif;
+            background: var(--beer-cream);
+            color: var(--beer-dark);
+            line-height: 1.8;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--beer-dark) 0%, #6B3A2A 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .magazine-title {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .magazine-subtitle {
+            font-size: 1.1rem;
+            color: var(--beer-amber);
+            margin-top: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .magazine-date {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-top: 0.3rem;
+        }
+
+        .categories-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            background: var(--beer-foam);
+            flex-wrap: wrap;
+            border-bottom: 2px solid var(--beer-amber);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--beer-dark);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--beer-amber);
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .article-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .article-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .rank {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--beer-amber);
+            min-width: 2.5rem;
+        }
+
+        .category {
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .popularity {
+            margin-left: auto;
+            font-size: 0.85rem;
+        }
+
+        .article-title {
+            font-size: 1.15rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--beer-dark);
+            line-height: 1.5;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.8rem;
+        }
+
+        .highlight {
+            background: #FFF3CD;
+            border: 1px solid #FFD700;
+            border-radius: 4px;
+            padding: 0.5rem 0.8rem;
+            font-size: 0.88rem;
+            font-weight: bold;
+            margin-bottom: 0.8rem;
+            color: #856404;
+        }
+
+        .summary {
+            font-size: 0.92rem;
+            line-height: 1.9;
+            color: #333;
+            text-align: justify;
+        }
+
+        .article-footer {
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid #eee;
+        }
+
+        .summary-body p + p {
+            margin-top: 1em;
+        }
+
+        .analysis-box {
+            background: #F0F7FF;
+            border: 1px solid #B8D4F0;
+            border-radius: 6px;
+            padding: 1rem 1.2rem;
+            margin-top: 1.2rem;
+        }
+
+        .analysis-title {
+            font-weight: bold;
+            color: #1E6B9E;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .analysis-text {
+            font-size: 0.92rem;
+            line-height: 1.9;
+            color: #2a2a3a;
+        }
+
+        .source-link {
+            color: #1E6B9E;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .source-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--beer-dark);
+            color: #aaa;
+            font-size: 0.85rem;
+            margin-top: 3rem;
+        }
+
+        footer strong {
+            color: var(--beer-amber);
+        }
+
+        @media (max-width: 600px) {
+            .magazine-title { font-size: 2rem; }
+            .article-meta { flex-direction: column; gap: 0.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="magazine-title">🍺 BREW DAILY</div>
+        <div class="magazine-subtitle">世界のブルワリー最新情報マガジン</div>
+        <div class="magazine-date">📅 2026年10月17日（Sat） 発行 | 麦芽・ホップ・水・副原料 注目トピック9選</div>
+    </header>
+
+    <div class="categories-legend">
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#8B6914;"></span>
+            🌾 麦芽（Malt）
+        </div>
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#4A7C2F;"></span>
+            🌿 ホップ（Hops）
+        </div>
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#1E6B9E;"></span>
+            💧 水（Water）
+        </div>
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#9B4E9E;"></span>
+            🌽 副原料（Adjunct）
+        </div>
+    </div>
+
+    <main>
+        <h2 class="section-title">📊 本日の注目トピック（世界の公式情報より）</h2>
+
+        <article class="article-card" style="border-left: 4px solid #1E6B9E;">
+            <div class="article-header">
+                <span class="rank">#1</span>
+                <span class="category" style="background:#1E6B9E;">💧 水</span>
+                <span class="popularity">⭐⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">独・墺で記録的な熱波と干ばつ、ホップ・大麦の生産に打撃　オクトーバーフェストのビール供給に懸念の声</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Mühlviertelホップ生産者協同組合／バイエルン州（Hallertau・Spalt）</span>
+                <span class="country">🌍 ドイツ／オーストリア</span>
+            </div>
+            <div class="highlight">💡 オーストリアの収穫量はほぼ半減、独ハラタウでは461農場・約1.2万haの灌漑組合に950万ユーロの支援を計画</div>
+            <div class="summary-body">
+                <p class="summary">欧州メディアEuronewsは2026年9月17日、ドイツとオーストリアで続く記録的な熱波と干ばつが、ビールの主要原料であるホップと大麦の生産に深刻な影響を及ぼしていると報じた。オーストリア・ミュールフィアテル地方のホップ生産者協同組合によると、同地域の収穫量は例年のほぼ半分に落ち込み、一部の株は完全に枯死した。組合長のStefan Hofer氏は「熱波と干ばつが我々に重い打撃を与えた」と述べている。同地域で灌漑設備が導入されているホップ畑は全体の約20%に過ぎず、専務理事のManuel Starlinger氏は「単に蛇口を開けるだけでは不十分だ」と、水源そのものの確保が課題であることを指摘した。</p>
+                <p class="summary">世界のホップ生産の約40%を担うドイツの主要産地でも対応が進む。バイエルン州のシュパルト・ヒューゲルラント地区では約400ヘクタールのホップ畑を対象に最大2000万ユーロ規模の灌漑整備計画が進み、州がおよそ半分を負担する見通し。ハラタウ地方でも461の農場・約1万2000ヘクタールが参加する灌漑組合に対し、州が950万ユーロの支援を予定している。一方、大麦についても、ビール500ミリリットルあたり春大麦が約60〜75グラム必要とされる中、ブランデンブルク州ウッカーマルクでは干ばつに強い冬大麦の試験栽培（2ヘクタール）が始まっている。醸造責任者のJörg Kirchhoff氏は「春大麦はストレス下でしか熟さず、きちんと育たない」と品質面の課題を語った。</p>
+                <p class="summary">記事は、今年のオクトーバーフェストについてビール不足の警告はまだ出ていないとしつつも、気候変動対応プロジェクト「Terrathesis」の責任者André Nebe氏の「気候変動の影響は、やがて一つひとつの地域の醸造所の問題になる」という言葉を紹介し、原料産地の異常気象が醸造業界全体のリスクになりつつある現状を伝えている。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">日本の中小ブルワリーが使うホップ・麦芽の多くは海外からの輸入に依存しており、ドイツ・オーストリアのような主要産地で灌漑設備への大規模投資が相次いでいる事実は、原料価格や品質の不安定化が一時的な現象ではなく構造的な課題になりつつあることを示している。遠野や上富良野など国内産地の取り組みが相対的に重みを持つ一方、輸入原料のサプライチェーンが天候リスクにどこまで耐えられるかを、仕入れ契約や品種選定の段階から意識しておく必要がありそうだ。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.euronews.com/2026/09/17/heat-and-drought-why-beer-at-oktoberfest-could-soon-be-in-short-supply" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #8B6914;">
+            <div class="article-header">
+                <span class="rank">#2</span>
+                <span class="category" style="background:#8B6914;">🌾 麦芽</span>
+                <span class="popularity">⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">アイルランドのBoortmalt、2026年産モルト用大麦の価格上乗せを見送り　生産者から「金がない」発言に猛反発</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Boortmalt（Athy工場）</span>
+                <span class="country">🌍 アイルランド</span>
+            </div>
+            <div class="highlight">💡 モルト用大麦の生産者価格が飼料用大麦を下回る事態に、多くの生産者が「2027年はもう栽培しない」と表明</div>
+            <div class="summary-body">
+                <p class="summary">アイルランドの農業専門メディアAgrilandは2026年10月13日、大手製麦会社Boortmaltが2026年産アイルランド産モルト用大麦について、生産者への追加の価格上乗せを行わないと通告したと報じた。同社代表のStuart Sands氏は追加支払いの可否を問われ、「金がないというのが実情だ」（"the money just isn't there"）と回答。これを受け、10月12日夜にはアイルランド農業者協会（IFA）主催の緊急集会がカーロウで開かれ、南レンスターやコークの生産者が多数参加した。</p>
+                <p class="summary">発端は2022年に導入された10トンあたり10ユーロの控除で、生産者側は「乾燥料金」だと反発しているが、Boortmalt側は品質調整のための「パリティ料金」だと説明している。Sands氏は、ビールの販売低迷と蒸留酒の過剰在庫を背景に世界の製麦業界が厳しい経済状況にあると述べ、一方でAthy工場への投資継続も強調した。集会に参加した生産者の多くは、モルト用大麦の生産者価格が飼料用大麦の価格を下回っている点を「極めて不適切」だとし、栽培コストの増加や品種固有の収量面の課題も重なり、2027年はBoortmalt向けに大麦を栽培しないと強く表明する声が相次いだ。</p>
+                <p class="summary">IFA会長のFrancie Gorman氏は、アイルランドのモルト用大麦生産が「転換点」にあると指摘し、生産者レベルで持続可能な価格が実現しなければ業界自体が消滅しかねないと述べた。Sands氏はIFAとの間で、2027年の価格体系について生産者のコストを反映する方向で協議することに合意し、2027年以降は先物価格をシーズン早期に公表する方針でも一致した。集会では、Boortmaltの最大顧客であるギネス（親会社Diageo）が議論に直接関与すべきだという声も上がっている。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">原料を供給する農家の採算が崩れれば、最終的には麦芽の供給量や価格の安定性に跳ね返ってくる。日本の中小ブルワリーの多くは輸入麦芽に依存しており、海外の一次生産者が「来年はもう作らない」と言い出すような事態は、直接取引をしていなくても数年先の価格や入手性に影響しうる。目先のコストだけでなく、原料の生産現場がどのような経済状況にあるかを定期的に把握しておくことは、長期的な仕入れ戦略を考える上で意味を持つだろう。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.agriland.ie/farming-news/growers-frustrated-as-boortmalt-rules-out-2026-price-increase/" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #1E6B9E;">
+            <div class="article-header">
+                <span class="rank">#3</span>
+                <span class="category" style="background:#1E6B9E;">💧 水</span>
+                <span class="popularity">⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">米コロラド州の記録的干ばつ、ビール醸造に水質面・コスト面の両方で影響</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Wynkoop Brewing Company</span>
+                <span class="country">🌍 アメリカ（コロラド州）</span>
+            </div>
+            <div class="highlight">💡 貯水池の水位低下でカルシウム濃度・pHが変動、脱スケール作業の増加や原料コスト上昇への懸念も</div>
+            <div class="summary-body">
+                <p class="summary">米ローカルニュースKKTVは2026年9月8日、コロラド州を襲う記録的な干ばつがビール産業に及ぼす影響を報じた。デンバーのWynkoop Brewing Companyでヘッドブルワーを務めるKat Hess氏によると、複数の貯水池の水が混ざり合うようになり、どの貯水池から水が来ているかを追跡しづらくなっているという。その結果、仕込み水のカルシウム濃度が上昇し、pHにも変化が生じている。</p>
+                <p class="summary">Hess氏は、温水タンクへのカルシウム蓄積が進むため、スケール除去（脱スケール）やデライミング（石灰除去）の作業が増えていると説明し、「確かにいくつか課題がある」と語った。味の指標を一定に保つため、添加剤などによる調整作業も増えているという。コロラド州立大学のCharlie Hoxmeier助教授は、干ばつによって大麦のタンパク質濃度が上がることがあると指摘し、水の量・質の問題が最も大きく現れるのは原料の栽培段階であるとして、醸造者はサプライヤーとの対話を通じてこの点を把握する必要があると述べた。</p>
+                <p class="summary">Hoxmeier氏は、原料費の上昇がビールの価格に反映される可能性があるとし、醸造者には使用する原料の見直しや、大麦の品質問題を回避する柔軟で創造的な対応が求められると述べている。また、顧客に対してサプライチェーンの実情を伝え、関心を持ってもらうことも勧めている。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">仕込み水の水質変化は、レシピや工程を変えずに同じ品質のビールを再現しようとするブルワリーにとって地味だが厄介な問題だ。日本国内でも近年の高温・少雨傾向が水源や大麦の生育に影響する可能性が指摘されており、海外の一事例として読み流すのではなく、自社の仕込み水の成分がどの水源に依存しているか、将来的に変動した場合にどう対応するかを一度整理しておく価値がある話だろう。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.kktv.com/2026/09/08/i-dont-think-that-anybody-expected-it-get-this-bad-drought-is-impacting-colorados-beer-industry/" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #4A7C2F;">
+            <div class="article-header">
+                <span class="rank">#4</span>
+                <span class="category" style="background:#4A7C2F;">🌿 ホップ</span>
+                <span class="popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">Hop Products Australia、2026年収穫レポートを公開　新品種「Luna」は初年度から契約が集中</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Hop Products Australia（HPA）</span>
+                <span class="country">🌍 オーストラリア（ビクトリア州／タスマニア州）</span>
+            </div>
+            <div class="highlight">💡 収穫面積519ヘクタール・収量1,296トン、自社品種とCascadeの合計では面積8.3%減・収量11.7%減</div>
+            <div class="summary-body">
+                <p class="summary">オーストラリアのビール情報サイトCrafty Pintは2026年5月5日、Hop Products Australia（HPA）が発表した2026年ホップ収穫レポートの内容を伝えた。ビクトリア州とタスマニア州で合計519ヘクタールを収穫し、収量は1,296トン。HPAの自社品種（Eclipse、Ella、Enigma、Galaxy、Luna、Topaz、Vic Secret）とCascadeを合わせると、面積は前年から47ヘクタール（8.3%）、収量は171トン（11.7%）減少した。HPAのCEO、Owen Johnston氏は、生産規模の適正化を進めてきた結果であり、市場のバランスが整いつつあると説明している。</p>
+                <p class="summary">中でも注目されるのは、本格発売2年目を迎えた新品種「Luna」だ。初年度から想定を超える需要があり、2026年産の大半が既に契約済みとなったという。マンゴーやダークベリー、スパイシーなシトラスの風味と滑らかな口当たりが特徴とされ、HPAは2027年産から供給量を大幅に増やす計画を明らかにしている。栽培面では、涼しく雨の多い春で初期の生育が遅れたものの、その後の高温乾燥の夏が花芽形成と香り成分の蓄積を促した。ビクトリア州の産地は干ばつと2度の熱波に見舞われながらも、収量・品質は良好だったという。</p>
+                <p class="summary">品質管理では、Haasの官能評価システム「Sensory Plus」を4年間運用し、研究・育種責任者のSimon Whittock博士の下、規格外ロットの除外やペレットのブレンドによる一貫性確保を進めている。新設の処理施設「Hop Central」は今年の収穫物を記録的な45日で処理し、稼働初年度にFSSC22000認証も取得した。さらに、HPA-031など5つの試験品種を限定的にペレット化し、レモンやライム、ジンジャーを思わせる風味が報告されている。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">需要が集中する新品種は供給が追いつかず「初年度から契約済み」という状況になりやすく、気になる品種があれば早期に生産者・商社と接点を持つことが入手の鍵になる。オーストラリアは南半球で収穫期が北半球と半年ずれるため、北半球産ホップの供給が不安定な時期の代替・補完として捉える視点もあり得るだろう。品種そのものの個性だけでなく、収穫地域の分散がもたらす安定供給という側面も、原料調達を考える上で参考になる。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.craftypint.com/news/4059/hpa-release-2026-hop-harvest-update" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #4A7C2F;">
+            <div class="article-header">
+                <span class="rank">#5</span>
+                <span class="category" style="background:#4A7C2F;">🌿 ホップ</span>
+                <span class="popularity">⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">NZ・エガーズホップス、「新月収穫」のネルソン・ソーヴィンで16カ国90醸造所との国際コラボを実施</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Eggers Hops（ニュージーランド）</span>
+                <span class="country">🌍 ニュージーランド／日本など16カ国</span>
+            </div>
+            <div class="highlight">💡 3月の新月の下で収穫したネルソン・ソーヴィンを使用、米国内だけで42醸造所が参加</div>
+            <div class="summary-body">
+                <p class="summary">業界ニュースサイトBrewboundは2026年10月15日、ニュージーランド・モウテレ・バレーのホップ生産者Eggers Hopsが発表したプレスリリースを掲載した。同社の「Terranean Project」2年目の取り組みとして、3月の新月の下で収穫したホップ品種ネルソン・ソーヴィンを使い、16カ国90醸造所（うち米国内42醸造所）が参加する国際コラボレーション「New Moon Harvest」を実施する。記事で名前が挙がっている参加国は、ニュージーランド、日本、ブラジル、フランス、英国、アメリカ。</p>
+                <p class="summary">米国の醸造所は10月から11月にかけて順次ビールを発売する予定で、最も早くリリースされたのはNew Jersey Beer Co.の「DRENCHED™ New Moon」（ダブルIPA、ABV8.8%）。プロジェクトの目的は、土壌や天候、収穫時期に加え、月の満ち欠けのような天体の影響がホップの熟度や香りにどう関わるのかを探ることにある。共同創業者でチーフ・ホーティカルチャリストのKem Eggers氏は、理想的な熟度と香りを備えたホップが大量に必要だったと説明し、ホップの熟度や香りに影響する要因への長年の関心を語っている。</p>
+                <p class="summary">参加ブルワリーの一つ、The Seed: A Living Beer Projectのオーナー、Amanda Cardinali氏は、新月や満月の下で収穫されたホップが持つイメージや目に見えない雰囲気に魅力を感じているとコメント。ビールを通じて世界中の人々をつなぐ取り組みだと位置づけている。記事では米国以外の参加醸造所や発売日の全容は明らかにされておらず、最新情報は同社のInstagramで案内されるとしている。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">収穫のタイミングを月齢という珍しい切り口で物語化するこの企画は、原料そのものの科学的な効果より、ブルワーや消費者に「原料の背景を語る」ための共通テーマを提供する仕掛けとして機能している。日本の醸造所も参加国の一つとされており、同じ原料・同じコンセプトで世界中の醸造所が同時に発売するという形式は、単独では難しい話題作りや海外ブルワリーとのつながりを、ホップ商社経由で得られる機会として参考になる。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.brewbound.com/pr/2026/10/15/eggers-hops-launches-new-moon-harvest-international-collaboration-with-90-breweries" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #9B4E9E;">
+            <div class="article-header">
+                <span class="rank">#6</span>
+                <span class="category" style="background:#9B4E9E;">🌽 副原料</span>
+                <span class="popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">Far Yeast Brewing、ワイン畑の摘房ブドウを使った限定ビール「Grapevine 2026」とアップサイクルジンを発売</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Far Yeast Brewing</span>
+                <span class="country">🌍 日本（山梨県甲州市）</span>
+            </div>
+            <div class="highlight">💡 シャトー・メルシャン勝沼ワイナリーの畑で廃棄されていた摘房ブドウ約500kgを使用</div>
+            <div class="summary-body">
+                <p class="summary">業界メディアのGourmet Watchは2026年10月10日、Far Yeast Brewingが数量限定ビール「Far Yeast Grapevine 2026」を同月13日に発売すると報じた。原料には、ワインづくりの過程で間引かれる「摘房」ブドウを使用。シャトー・メルシャン勝沼ワイナリーのブドウ畑を管理するメルシャンヴィティコール勝沼から、約500キログラムの提供を受けたという。摘房されたブドウは本来、畑にそのまま戻されていたといい、記事はこれを有効活用した取り組みと紹介している。</p>
+                <p class="summary">「Grapevine 2026」はアルコール度数6%の発泡酒で、350ミリリットル缶と15リットル樽で展開し、価格はオープン価格。同時に、このビールの製造過程で生じたロスビールを蒸留した、アルコール度数45%のジン「Azeotrope Grapevine GIN」（150ミリリットル・500ミリリットル瓶）も発売される。いずれもFar Yeast Brewingの公式ウェブストアやFar Yeast Tokyo、全国のビアバーや飲食店、酒販店で取り扱われる。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">ワイナリーの副産物であるブドウを醸造の副原料として取り込み、さらにそのビール自体の製造ロスをジンへ転用するという二重のアップサイクル構造は、単発の話題作りを超えて「廃棄物を出さない醸造所」という一貫した姿勢を示す事例になっている。ワイン産地を抱える地域のブルワリーにとっては、近隣の農業・ワイナリーとの連携から副原料を得るという発想自体が、新しい商品開発の入口として参考になるだろう。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://gourmet.watch.impress.co.jp/docs/news/2147168.html" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #9B4E9E;">
+            <div class="article-header">
+                <span class="rank">#7</span>
+                <span class="category" style="background:#9B4E9E;">🌽 副原料</span>
+                <span class="popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">象印、炊飯テストで余った米をアップサイクルしたクラフトビール「ゾウのマイ」を発売</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 象印マホービン／エチゴビール</span>
+                <span class="country">🌍 日本（新潟県新潟市）</span>
+            </div>
+            <div class="highlight">💡 炊飯器の開発・検証で生じ、従来は堆肥化されていた試験用の米を原料に活用</div>
+            <div class="summary-body">
+                <p class="summary">象印マホービングループは2026年1月15日、炊飯器の開発・検証工程で生じる試験用の米をアップサイクルしたクラフトビール「ゾウのマイ」を発表し、同年3月10日から販売子会社の象印フレスコを通じて全国で販売を開始した。醸造を手がけるのは、日本初のクラフトビール醸造所とされる新潟市のエチゴビール（2000年5月設立、資本金1億円、代表・阿部真社長）。那須工場で製造されている。</p>
+                <p class="summary">象印は炊飯器の開発過程で繰り返し米を炊いて試食しており、使われなかった試験用の米はこれまで堆肥化されていた。2021年に始まった同社の「ごはんアップサイクル」の取り組みの一環で、過去には抗菌ウェットティッシュやクラフトビール「晴れとほ」、米麹甘味料「オリゼスイートナー」なども手がけてきた。「ゾウのマイ」はゴールデンエール、アルコール度数4.5%、350ミリリットル、賞味期限8カ月。柑橘系のホップの香りとすっきりとした苦みの少ない味わいで、和食との相性を意識した設計だという。</p>
+                <p class="summary">商品名は「美味しくて象が舞うほど」という意味と、米を表す「マイ」を掛けたもの。価格はオープン価格。象印はこの取り組みを、循環型経済と持続可能な社会づくりの一環と位置づけている。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">家電メーカーの製品開発過程で生じる副産物を飲料の原料に転用するという発想は、ブルワリー単独では着手しづらい原料調達のルートを示している。地域に製造業や食品加工業が集積する土地のブルワリーであれば、近隣企業の製造工程で発生する未活用の農産物や副産物に目を向けることが、新しいコラボレーションの糸口になり得るだろう。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://haveagood-holiday.com/en/articles/zojirushi-craft-beer-zou-no-mai-upcycled-rice" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #8B6914;">
+            <div class="article-header">
+                <span class="rank">#8</span>
+                <span class="category" style="background:#8B6914;">🌾 麦芽</span>
+                <span class="popularity">⭐⭐</span>
+            </div>
+            <h2 class="article-title">サントリー、伝統製法「ダイヤモンド麦芽」を使った季節限定ビール「梅子黄」を発売</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 サントリー</span>
+                <span class="country">🌍 日本</span>
+            </div>
+            <div class="highlight">💡 フロアモルティング（床式製麦）による伝統製法の麦芽を豊富に使用、72候にちなんだ季節限定シリーズ</div>
+            <div class="summary-body">
+                <p class="summary">情報サイトhaveagood-holiday.comは2026年3月10日、サントリーが季節限定ビール「ザ・プレミアム・モルツ　マスターズドリーム　梅子黄（うめのみきなり）」を6月16日から全国で数量限定発売すると伝えた。350ミリリットル、税別265円、アルコール度数4.5%のビールで、同社が展開する七十二候にちなんだ限定シリーズの一つ。</p>
+                <p class="summary">特徴として挙げられているのは、伝統的な床式製麦（フロアモルティング）で作られる「ダイヤモンド麦芽」を豊富に使用している点だ。記事によれば、穏やかな苦みとボディ、甘みが段階的に移り変わる味わいを目指しているという。商品名の「梅子黄」は七十二候の第27候で、梅の実が熟して黄色みを帯びる時期を指し、パッケージも黄緑色を基調にその季節感を表現している。</p>
+                <p class="summary">記事は、過去の七十二候シリーズの限定商品が麦芽の風味やパッケージデザインで好評だったことも紹介している。なお、商品名に「梅」の字が含まれるものの、記事の内容からは梅そのものを副原料として使用しているとは確認できず、季節を表す名称として採用されたとみられる。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">大手メーカーが季節限定商品の訴求ポイントとして「麦芽の製法」そのものを前面に出すのは、原料の個性を伝えることが商品差別化に直結するという判断の表れだろう。中小ブルワリーにとっても、使用する麦芽の製法や産地を丁寧に説明することは、同じレシピの中にあるわずかな違いを顧客に伝える手段として応用できる視点だ。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://haveagood-holiday.com/en/articles/suntory-premium-malts-masters-dream-umenomikinari" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #9B4E9E;">
+            <div class="article-header">
+                <span class="rank">#9</span>
+                <span class="category" style="background:#9B4E9E;">🌽 副原料</span>
+                <span class="popularity">⭐⭐</span>
+            </div>
+            <h2 class="article-title">米ブルワーズ・アソシエーション、ワールドビアカップ受賞者によるライスラガー醸造のコツを公開</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Brewers Association／Cloudburst Brewing／pFriem Family Brewers</span>
+                <span class="country">🌍 アメリカ</span>
+            </div>
+            <div class="highlight">💡 2026年ワールドビアカップで新設のライスラガー部門に91件が出品、金賞・銅賞醸造所の具体的な手法を紹介</div>
+            <div class="summary-body">
+                <p class="summary">米ブルワーズ・アソシエーション（BA）は2026年5月5日、公式サイトの「Insights」で、2026年ワールドビアカップで新設されたライスラガー部門の受賞醸造所から得た知見を紹介する記事を公開した。同部門には91件の出品があり、記事は米国におけるライスの使用が、日本の醸造文化やBudweiser、1990年代中西部のワイルドライス使用など、古くからの歴史を持つことにも触れている。</p>
+                <p class="summary">金賞を受けたシアトルのCloudburst Brewingは、できるだけ色の淡いピルスナーモルトをベースに、既存の工程を変えないために煮沸釜へ1バレルあたり5〜10ポンドのライスシロップ固形分を添加する手法を採用。低アルファ酸で香りの良いホップを煮沸全体で使い、約20IBUに仕上げ、酵母栄養剤も加えている。仕込みから包装までは最低6週間、できれば7週間以上のラガー熟成期間を確保しており、醸造責任者は「ラガービールには十分な時間を与えることをいくら強調してもし過ぎることはない」と述べている。</p>
+                <p class="summary">銅賞のpFriem Family Brewers（オレゴン州フッドリバー）は、「Japanese Lager」と名付けた出品ビールで、以前使用していたライスシロップ固形分に代えて、新しい仕込み設備で生米を使用。生米を完全に糊化（セレアルクック）してからメインのマッシュと合わせるダブルマッシュ法を採用し、ライスの配合率は15〜17%とした。モルトは淡色ピルスナー（約1.5°SRM）とやや濃い麦芽（2.0〜2.1°SRM）を50対50で配合し、複雑さと軽快な飲み口の両立を狙っているという。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">日本では古くから米を副原料とした醸造が行われてきたが、米国の受賞醸造所が採用する「生米の完全糊化によるダブルマッシュ」や「ライスシロップ固形分の少量添加」といった具体的な手法は、分量や工程のレベルまで言語化されており、技術情報としてそのまま参考にできる。副原料としての米の使い方を再検討する際、味の設計意図（すっきり感と複雑さのどちらを重視するか）に応じて手法を選ぶという発想は、レシピ開発の指針として取り入れやすいだろう。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.brewersassociation.org/insights/rice-lagers-tips-from-word-beer-cup-award-winners/" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p><strong>BREW DAILY</strong> は世界中の醸造所公式情報を自動収集し、AI が日本語に翻訳・要約した独自マガジンです。</p>
+        <p style="margin-top:0.5rem;">Generated by Claude AI | Powered by Anthropic | 2026年10月17日（Sat）</p>
+    </footer>
+</body>
+</html>
