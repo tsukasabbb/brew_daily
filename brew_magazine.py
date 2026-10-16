@@ -264,7 +264,7 @@ def generate_html_magazine(articles: list[dict], date_str: str) -> str:
             </div>""" if analysis else ""
 
         articles_html += f"""
-        <article class="article" id="article-{i}">
+        <article class="article" id="article-{i}" data-category="{cat}">
             <div class="article-kicker">
                 <span class="article-rank">{i:02d}</span>
                 <span class="article-category" style="background:{color};">{icon} {cat}</span>
@@ -407,6 +407,7 @@ def generate_html_magazine(articles: list[dict], date_str: str) -> str:
         }}
         .category-nav a:first-child {{ border-left: 1px solid #444; }}
         .category-nav a:hover {{ color: var(--amber); }}
+        .category-nav a.active {{ color: var(--amber); }}
         .category-nav .dot {{
             display: inline-block;
             width: 7px; height: 7px;
@@ -606,10 +607,11 @@ def generate_html_magazine(articles: list[dict], date_str: str) -> str:
 
     <!-- カテゴリナビ -->
     <nav class="category-nav" aria-label="カテゴリ">
-        <a href="#"><span class="dot" style="background:var(--malt)"></span>麦芽</a>
-        <a href="#"><span class="dot" style="background:var(--hop)"></span>ホップ</a>
-        <a href="#"><span class="dot" style="background:var(--water)"></span>水</a>
-        <a href="#"><span class="dot" style="background:var(--adjunct)"></span>副原料</a>
+        <a href="#" onclick="filterCategory(event,'all')" class="active"><span class="dot" style="background:#aaa"></span>すべて</a>
+        <a href="#" onclick="filterCategory(event,'麦芽')"><span class="dot" style="background:var(--malt)"></span>麦芽</a>
+        <a href="#" onclick="filterCategory(event,'ホップ')"><span class="dot" style="background:var(--hop)"></span>ホップ</a>
+        <a href="#" onclick="filterCategory(event,'水')"><span class="dot" style="background:var(--water)"></span>水</a>
+        <a href="#" onclick="filterCategory(event,'副原料')"><span class="dot" style="background:var(--adjunct)"></span>副原料</a>
         <a href="archive.html">バックナンバー</a>
     </nav>
 
@@ -617,6 +619,21 @@ def generate_html_magazine(articles: list[dict], date_str: str) -> str:
         <p class="section-heading">Today's Ranking — Top 10</p>
         {articles_html if articles_html else '<p style="text-align:center;padding:3rem;color:#666;">本日の記事取得中にエラーが発生しました。</p>'}
     </main>
+
+    <script>
+    function filterCategory(e, cat) {{
+        e.preventDefault();
+        document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+        document.querySelectorAll('article.article').forEach(article => {{
+            if (cat === 'all' || article.dataset.category === cat) {{
+                article.style.display = '';
+            }} else {{
+                article.style.display = 'none';
+            }}
+        }});
+    }}
+    </script>
 
     <footer class="site-footer">
         <p><strong>BREW DAILY</strong> は世界中の醸造所公式情報を自動収集し、AI が日本語に翻訳・解説した独自マガジンです。</p>
