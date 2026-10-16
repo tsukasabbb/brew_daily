@@ -930,7 +930,10 @@ def send_email(html: str, date_str: str):
             import urllib.request
             req = urllib.request.Request(
                 f"{worker_url}/admin/export",
-                headers={"Authorization": f"Bearer {admin_token}"}
+                headers={
+                    "Authorization": f"Bearer {admin_token}",
+                    "User-Agent": "brew-daily-mailer/1.0",
+                }
             )
             with urllib.request.urlopen(req, timeout=10) as resp:
                 data = resp.read().decode("utf-8").strip()
