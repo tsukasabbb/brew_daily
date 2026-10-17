@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BREW DAILY — 2026年10月16日（Fri）</title>
+    <title>BREW DAILY — 2026年10月17日（Sat）</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -117,6 +117,7 @@
         }
         .category-nav a:first-child { border-left: 1px solid #444; }
         .category-nav a:hover { color: var(--amber); }
+        .category-nav a.active { color: var(--amber); }
         .category-nav .dot {
             display: inline-block;
             width: 7px; height: 7px;
@@ -307,7 +308,7 @@
         <h1 class="masthead-title">🍺 BREW DAILY</h1>
         <hr class="masthead-rule">
         <div class="masthead-meta">
-            <span>📅 2026年10月16日（Fri） 発行</span>
+            <span>📅 2026年10月17日（Sat） 発行</span>
             <span>麦芽・ホップ・水・副原料 Top 10</span>
             <span>Powered by Claude AI</span>
         </div>
@@ -316,17 +317,18 @@
 
     <!-- カテゴリナビ -->
     <nav class="category-nav" aria-label="カテゴリ">
-        <a href="#"><span class="dot" style="background:var(--malt)"></span>麦芽</a>
-        <a href="#"><span class="dot" style="background:var(--hop)"></span>ホップ</a>
-        <a href="#"><span class="dot" style="background:var(--water)"></span>水</a>
-        <a href="#"><span class="dot" style="background:var(--adjunct)"></span>副原料</a>
+        <a href="#" onclick="filterCategory(event,'all')" class="active"><span class="dot" style="background:#aaa"></span>すべて</a>
+        <a href="#" onclick="filterCategory(event,'麦芽')"><span class="dot" style="background:var(--malt)"></span>麦芽</a>
+        <a href="#" onclick="filterCategory(event,'ホップ')"><span class="dot" style="background:var(--hop)"></span>ホップ</a>
+        <a href="#" onclick="filterCategory(event,'水')"><span class="dot" style="background:var(--water)"></span>水</a>
+        <a href="#" onclick="filterCategory(event,'副原料')"><span class="dot" style="background:var(--adjunct)"></span>副原料</a>
         <a href="archive.html">バックナンバー</a>
     </nav>
 
     <main>
         <p class="section-heading">Today's Ranking — Top 10</p>
         
-        <article class="article" id="article-1">
+        <article class="article" id="article-1" data-category="麦芽">
             <div class="article-kicker">
                 <span class="article-rank">01</span>
                 <span class="article-category" style="background:#8B6914;">🌾 麦芽</span>
@@ -353,7 +355,7 @@
             </div>
         </article>
         
-        <article class="article" id="article-2">
+        <article class="article" id="article-2" data-category="ホップ">
             <div class="article-kicker">
                 <span class="article-rank">02</span>
                 <span class="article-category" style="background:#4A7C2F;">🌿 ホップ</span>
@@ -380,7 +382,7 @@
             </div>
         </article>
         
-        <article class="article" id="article-3">
+        <article class="article" id="article-3" data-category="水">
             <div class="article-kicker">
                 <span class="article-rank">03</span>
                 <span class="article-category" style="background:#1E6B9E;">💧 水</span>
@@ -407,7 +409,7 @@
             </div>
         </article>
         
-        <article class="article" id="article-4">
+        <article class="article" id="article-4" data-category="副原料">
             <div class="article-kicker">
                 <span class="article-rank">04</span>
                 <span class="article-category" style="background:#9B4E9E;">🌽 副原料</span>
@@ -434,7 +436,7 @@
             </div>
         </article>
         
-        <article class="article" id="article-5">
+        <article class="article" id="article-5" data-category="麦芽">
             <div class="article-kicker">
                 <span class="article-rank">05</span>
                 <span class="article-category" style="background:#8B6914;">🌾 麦芽</span>
@@ -461,7 +463,7 @@
             </div>
         </article>
         
-        <article class="article" id="article-6">
+        <article class="article" id="article-6" data-category="ホップ">
             <div class="article-kicker">
                 <span class="article-rank">06</span>
                 <span class="article-category" style="background:#4A7C2F;">🌿 ホップ</span>
@@ -488,7 +490,7 @@
             </div>
         </article>
         
-        <article class="article" id="article-7">
+        <article class="article" id="article-7" data-category="水">
             <div class="article-kicker">
                 <span class="article-rank">07</span>
                 <span class="article-category" style="background:#1E6B9E;">💧 水</span>
@@ -515,7 +517,7 @@
             </div>
         </article>
         
-        <article class="article" id="article-8">
+        <article class="article" id="article-8" data-category="副原料">
             <div class="article-kicker">
                 <span class="article-rank">08</span>
                 <span class="article-category" style="background:#9B4E9E;">🌽 副原料</span>
@@ -542,7 +544,7 @@
             </div>
         </article>
         
-        <article class="article" id="article-9">
+        <article class="article" id="article-9" data-category="麦芽">
             <div class="article-kicker">
                 <span class="article-rank">09</span>
                 <span class="article-category" style="background:#8B6914;">🌾 麦芽</span>
@@ -569,7 +571,7 @@
             </div>
         </article>
         
-        <article class="article" id="article-10">
+        <article class="article" id="article-10" data-category="ホップ">
             <div class="article-kicker">
                 <span class="article-rank">10</span>
                 <span class="article-category" style="background:#4A7C2F;">🌿 ホップ</span>
@@ -598,9 +600,24 @@
         
     </main>
 
+    <script>
+    function filterCategory(e, cat) {
+        e.preventDefault();
+        document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+        document.querySelectorAll('article.article').forEach(article => {
+            if (cat === 'all' || article.dataset.category === cat) {
+                article.style.display = '';
+            } else {
+                article.style.display = 'none';
+            }
+        });
+    }
+    </script>
+
     <footer class="site-footer">
         <p><strong>BREW DAILY</strong> は世界中の醸造所公式情報を自動収集し、AI が日本語に翻訳・解説した独自マガジンです。</p>
-        <p>Generated by Claude AI &nbsp;|&nbsp; Powered by Anthropic &nbsp;|&nbsp; 2026年10月16日（Fri）</p>
+        <p>Generated by Claude AI &nbsp;|&nbsp; Powered by Anthropic &nbsp;|&nbsp; 2026年10月17日（Sat）</p>
     </footer>
 
 </body>
