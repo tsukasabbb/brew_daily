@@ -992,25 +992,36 @@ def send_email(html: str, date_str: str):
         recipients_env = os.environ.get("MAIL_RECIPIENTS", gmail_address)
         recipients = [r.strip() for r in recipients_env.split(",") if r.strip()]
 
-    print(f"\n📧 メール配信中 → {', '.join(recipients)}")
+    # プライバシー対応: 全員のアドレスを1通のTo欄に並べて送ると、受信者同士に
+    # 互いのメールアドレスが見えてしまう。そのため、1件ずつ個別のメールとして
+    # 送信する（Toには受信者本人のアドレスのみが入る）。
+    print(f"\n📧 メール配信中 → {len(recipients)}件（1件ずつ個別送信）")
 
-    msg = MIMEMultipart("alternative")
-    msg["Subject"] = f"🍺 BREW DAILY {date_str} — 世界のブルワリー最新情報"
-    msg["From"]    = f"BREW DAILY <{gmail_address}>"
-    msg["To"]      = ", ".join(recipients)
-
-    # テキスト版（HTMLが読めない環境向け）
     text_body = f"BREW DAILY {date_str}\n\n最新号はこちら:\nhttps://tsukasabbb.github.io/brew_daily/"
-    msg.attach(MIMEText(text_body, "plain", "utf-8"))
-    msg.attach(MIMEText(html,      "html",  "utf-8"))
 
+    sent_count = 0
+    failed = []
     try:
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
             server.login(gmail_address, gmail_password)
-            server.sendmail(gmail_address, recipients, msg.as_string())
-        print(f"  ✅ メール送信完了 ({len(recipients)}件)")
+            for recipient in recipients:
+                msg = MIMEMultipart("alternative")
+                msg["Subject"] = f"🍺 BREW DAILY {date_str} — 世界のブルワリー最新情報"
+                msg["From"]    = f"BREW DAILY <{gmail_address}>"
+                msg["To"]      = recipient
+                msg.attach(MIMEText(text_body, "plain", "utf-8"))
+                msg.attach(MIMEText(html,      "html",  "utf-8"))
+                try:
+                    server.sendmail(gmail_address, [recipient], msg.as_string())
+                    sent_count += 1
+                except Exception as e:
+                    failed.append(recipient)
+                    print(f"  ⚠️ 送信失敗（1件）: {e}")
+        print(f"  ✅ メール送信完了 ({sent_count}/{len(recipients)}件、個別送信)")
+        if failed:
+            print(f"  ⚠️ 送信失敗: {len(failed)}件")
     except Exception as e:
-        print(f"  ❌ メール送信エラー: {e}")
+        print(f"  ❌ メール送信エラー（SMTP接続）: {e}")
 
 
 if __name__ == "__main__":
