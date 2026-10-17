@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '0 22 * * *'  # 日本時間 毎朝7時 (UTC 22:00)
   workflow_dispatch:       # 手動実行ボタンも有効化
+    inputs:
+      full_regen:
+        description: '記事をPythonで自動収集し直す（Claude確認済みの内容を使わない・非推奨）'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -26,7 +31,23 @@ jobs:
       - name: ライブラリインストール
         run: pip install anthropic
 
-      - name: 🍺 マガジン生成・メール配信
+      # 通常運用: Claudeが事前にWebSearch/WebFetchで一次情報を検証し、
+      # docs/index.html に用意しておいた号を、そのままメール配信するだけ。
+      # 記事の自動収集・自動生成は行わない（内容の正確性が保証できないため）。
+      - name: 📬 準備済みの号をメール配信（通常運用）
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.full_regen != true }}
+        env:
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          MAIL_RECIPIENTS: ${{ secrets.MAIL_RECIPIENTS }}
+          WORKER_URL: ${{ secrets.WORKER_URL }}
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+        run: python brew_magazine.py --mail-only
+
+      # 緊急フォールバック: Actionsタブから手動実行し、full_regen にチェックを入れた
+      # 場合のみ、従来どおりPythonが記事を自動収集・生成してメール配信する。
+      - name: 🍺 記事を自動収集して生成・メール配信（手動・非推奨）
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.full_regen == true }}
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}

@@ -5,6 +5,7 @@ BREW DAILY - 世界のブルワリー最新情報マガジン
 
 import anthropic
 import json
+import re
 import os
 import sys
 from datetime import datetime
@@ -838,10 +839,36 @@ Aurora 120Lの最大の特徴は、その複雑なフレーバープロファイ
     ]
 
 
+def send_today_mail_from_docs():
+    """docs/index.html を既に用意された最新号として読み込み、内容を変えずにメール配信する。
+    ANTHROPIC_API_KEY は不要。記事収集・HTML生成は一切行わない。"""
+    docs_index = Path(__file__).parent / "docs" / "index.html"
+    if not docs_index.exists():
+        print(f"❌ エラー: {docs_index} が見つかりません")
+        sys.exit(1)
+
+    html = docs_index.read_text(encoding="utf-8")
+
+    m = re.search(r"<title>.*?-\s*(.+?)</title>", html)
+    if m:
+        date_str = m.group(1).strip()
+    else:
+        date_str = datetime.now().strftime("%Y年%m月%d日（%a）")
+
+    print(f"\n📬 mail-onlyモード: docs/index.html（{date_str}号）をそのまま配信します")
+    send_email(html, date_str)
+
+
 def main():
     print("=" * 60)
     print("🍺 BREW DAILY マガジン生成開始")
     print("=" * 60)
+
+    # --mail-only: Claudeが既に docs/index.html に用意した内容をそのまま
+    # メール配信するだけのモード。記事の自動収集・生成は行わない。
+    if "--mail-only" in sys.argv:
+        send_today_mail_from_docs()
+        return
 
     use_demo = "--demo" in sys.argv
     now = datetime.now()
