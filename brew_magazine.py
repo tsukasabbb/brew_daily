@@ -404,6 +404,34 @@ def generate_html_magazine(articles: list[dict], date_str: str) -> str:
             letter-spacing:.08em;
         }}
 
+        /* ════ GREETING ════ */
+        .greeting-band {{
+            background:var(--paper);
+            border-bottom:1px solid var(--rule);
+            padding:1.2rem var(--side);
+            max-width:var(--max-w);
+            margin:0 auto;
+            width:100%;
+        }}
+        .greeting-text {{
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.88rem;
+            color:var(--ink2);
+            line-height:1.8;
+            margin-bottom:.3rem;
+        }}
+        .greeting-link {{
+            margin-top:.6rem;
+            font-size:.82rem;
+        }}
+        .greeting-link a {{
+            color:var(--amber);
+            text-decoration:none;
+            border-bottom:1px solid currentColor;
+            padding-bottom:1px;
+        }}
+        .greeting-link a:hover {{ color:var(--ink); }}
+
         /* ════ NAV ════ */
         .category-nav {{
             background:var(--ink);
@@ -666,6 +694,13 @@ def generate_html_magazine(articles: list[dict], date_str: str) -> str:
         </div>
         <p class="masthead-tagline">ビール業界関係者のための毎日の情報誌</p>
     </header>
+
+    <div class="greeting-band">
+        <p class="greeting-text">いつもご覧いただきありがとうございます。編集者の高橋司です。</p>
+        <p class="greeting-text">本日の最新号をお届けします。世界の醸造所・業界団体の公式情報を AI が収集・翻訳・解説しています。</p>
+        <p class="greeting-link"><a href="https://tsukasabbb.github.io/brew_daily/">▶ 最新号をブラウザで読む　https://tsukasabbb.github.io/brew_daily/</a></p>
+    </div>
+
 
     <nav class="category-nav" aria-label="カテゴリフィルター">
         <button class="nav-filter active" onclick="filter(this,'all')">
