@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍺 BREW DAILY - 2026年10月18日（Sun）</title>
+    <style>
+        :root {
+            --beer-amber: #F5A623;
+            --beer-dark: #3D2B1F;
+            --beer-cream: #FFF8E7;
+            --beer-foam: #FEFAE0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Hiragino Sans', 'Meiryo', 'Yu Gothic', sans-serif;
+            background: var(--beer-cream);
+            color: var(--beer-dark);
+            line-height: 1.8;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--beer-dark) 0%, #6B3A2A 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .magazine-title {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .magazine-subtitle {
+            font-size: 1.1rem;
+            color: var(--beer-amber);
+            margin-top: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .magazine-editor {
+            font-size: 0.88rem;
+            color: #e8d5b5;
+            margin-top: 0.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        .magazine-date {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-top: 0.3rem;
+        }
+
+        .categories-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            background: var(--beer-foam);
+            flex-wrap: wrap;
+            border-bottom: 2px solid var(--beer-amber);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--beer-dark);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--beer-amber);
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .article-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .article-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .rank {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--beer-amber);
+            min-width: 2.5rem;
+        }
+
+        .category {
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .popularity {
+            margin-left: auto;
+            font-size: 0.85rem;
+        }
+
+        .article-title {
+            font-size: 1.15rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--beer-dark);
+            line-height: 1.5;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.8rem;
+        }
+
+        .highlight {
+            background: #FFF3CD;
+            border: 1px solid #FFD700;
+            border-radius: 4px;
+            padding: 0.5rem 0.8rem;
+            font-size: 0.88rem;
+            font-weight: bold;
+            margin-bottom: 0.8rem;
+            color: #856404;
+        }
+
+        .summary {
+            font-size: 0.92rem;
+            line-height: 1.9;
+            color: #333;
+            text-align: justify;
+        }
+
+        .article-footer {
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid #eee;
+        }
+
+        .summary-body p + p {
+            margin-top: 1em;
+        }
+
+        .analysis-box {
+            background: #F0F7FF;
+            border: 1px solid #B8D4F0;
+            border-radius: 6px;
+            padding: 1rem 1.2rem;
+            margin-top: 1.2rem;
+        }
+
+        .analysis-title {
+            font-weight: bold;
+            color: #1E6B9E;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .analysis-text {
+            font-size: 0.92rem;
+            line-height: 1.9;
+            color: #2a2a3a;
+        }
+
+        .source-link {
+            color: #1E6B9E;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .source-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--beer-dark);
+            color: #aaa;
+            font-size: 0.85rem;
+            margin-top: 3rem;
+        }
+
+        footer strong {
+            color: var(--beer-amber);
+        }
+
+        @media (max-width: 600px) {
+            .magazine-title { font-size: 2rem; }
+            .article-meta { flex-direction: column; gap: 0.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="magazine-title">🍺 BREW DAILY</div>
+        <div class="magazine-subtitle">世界のブルワリー最新情報マガジン</div>
+        <div class="magazine-editor">🖋️ 編集長：高橋ツカサ（株式会社ベアレン醸造所 営業部長／岩手日独協会会長）― ビール業界関係者のための毎日の情報誌</div>
+        <div class="magazine-date">📅 2026年10月18日（Sun） 発行 | 麦芽・ホップ・水・副原料 注目トピック8選</div>
+    </header>
+
+    <div class="categories-legend">
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#8B6914;"></span>
+            🌾 麦芽（Malt）
+        </div>
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#4A7C2F;"></span>
+            🌿 ホップ（Hops）
+        </div>
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#1E6B9E;"></span>
+            💧 水（Water）
+        </div>
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#9B4E9E;"></span>
+            🌽 副原料（Adjunct）
+        </div>
+    </div>
+
+    <main>
+        <h2 class="section-title">📊 本日の注目トピック（世界の公式情報より）</h2>
+
+        <article class="article-card" style="border-left: 4px solid #8B6914;">
+            <div class="article-header">
+                <span class="rank">#1</span>
+                <span class="category" style="background:#8B6914;">🌾 麦芽</span>
+                <span class="popularity">⭐⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">米国の2026年産大麦生産量、前年比19%減の1億1600万ブッシェルに　USDAが確定値を発表</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 米農務省（USDA）国家農業統計局（NASS）</span>
+                <span class="country">🌍 アメリカ</span>
+            </div>
+            <div class="highlight">💡 収穫面積は10%減の160万エーカー、単収も72.1ブッシェル/エーカーへ7.8ブッシェル低下　小麦など他の主要穀物より落ち込みが大きい</div>
+            <div class="summary-body">
+                <p class="summary">米農務省の国家農業統計局（NASS）は2026年9月30日、年次報告書「Small Grains」の確定値を発表し、2026年産の米国産大麦生産量が1億1566万7000ブッシェル（前年比19%減）にとどまったと明らかにした。前年（2025年、確定値）の生産量は1億4250万8000ブッシェルで、収穫面積も160万4000エーカーと前年の178万3000エーカーから10%減少。単収は72.1ブッシェル/エーカーで、前年の79.9ブッシェル/エーカーから7.8ブッシェル落ち込んだ。レポートの作柄コメントは「生産量は約1億1600万ブッシェルと推定され、改訂後の2025年実績である約1億4300万ブッシェルから19%の減少」と説明している。</p>
+                <p class="summary">同時に発表された小麦（約15億3000万ブッシェルでほぼ前年並み）やオート麦（6910万ブッシェルで前年比1%減）と比べても、大麦の落ち込みは今季の主要小粒穀物の中で最も大きい。これを受け、欧州の農業情報メディアUkrAgroConsult（配信元Vinetur）は10月5日付の記事で、大麦のうち飼料用需要と製麦用需要の競合が強まる可能性を指摘。供給が細る中で飼料用に回る大麦が増えれば、製麦用大麦の確保がより難しくなり、2026/27年度の麦芽価格に上昇圧力がかかりうるとの見方を伝えている。実際にどの程度品質基準（製麦適性）を満たす大麦が確保できるかは、作柄の良し悪しや在庫、輸入動向によって変わるとしている。</p>
+                <p class="summary">同記事は、長期的な先物契約や在庫でリスクを分散しにくい中小規模のブルワリーほど、原料コスト上昇の影響を受けやすいとも指摘している。米国の大麦生産は1980年代半けの年間約6億ブッシェルから減少が続いており、ブルワーズ・アソシエーション（BA）も1月の技術レポートで、2025年産についても記録的な低水準の播種面積（230万エーカー）だったと報告していた。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">USDAの確定値という一次情報で「前年比19%減」という規模の落ち込みが裏付けられたことは重い。日本の中小ブルワリーの多くは輸入麦芽に依存しており、原料産地での飼料用・製麦用の需給バランスが崩れれば、数年先の調達コストや入手性に跳ね返ってくる可能性がある。長期契約によるリスクヘッジが取りにくい小規模事業者ほど影響を受けやすいという指摘は、まさに自社にも当てはまる構造であり、仕入れ先の麦芽メーカーに今後の供給見通しを早めに確認しておく価値がありそうだ。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://esmis.nal.usda.gov/sites/default/release-files/796086/smgr0926.txt" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む（USDA NASS「Small Grains」2026年9月30日発表）
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #8B6914;">
+            <div class="article-header">
+                <span class="rank">#2</span>
+                <span class="category" style="background:#8B6914;">🌾 麦芽</span>
+                <span class="popularity">⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">カリフォルニア初のクラフトモルトハウス「アドミラル・モルティングス」が操業終了　「採算が取れなかった」</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Admiral Maltings／The Rake（タップルーム）</span>
+                <span class="country">🌍 アメリカ（カリフォルニア州アラメダ）</span>
+            </div>
+            <div class="highlight">💡 2017年開業、禁酒法以降では同州初のフロアモルティング施設　有機認証を持つ唯一の製麦事業者だった</div>
+            <div class="summary-body">
+                <p class="summary">米国のビジネス系メディアWhatNowは2026年9月30日、カリフォルニア州アラメダのクラフトモルトハウス「Admiral Maltings（アドミラル・モルティングス）」が製麦事業を終了すると報じた。モルトハウスは同年10月2日、最後のバッチをキルン（乾燥炉）から取り出した後に閉鎖。併設するタップルーム「The Rake」も10月18日に営業を終える。同社はSNSでの声明で「最善を尽くしたが、採算の取れる形で麦芽を製造・販売することができなかった」と説明し、買い手や業界関係者への相談も行ったが、事業継続の道を見いだせなかったとしている。</p>
+                <p class="summary">Admiral Maltingsは2017年、サンフランシスコのビール業界で知られるRon Silberstein氏（ThirstyBear Brewing Company）とDave McLean氏（Magnolia Brewing Company）が、第二次世界大戦時代の海軍の資材倉庫だった約1,860平方メートルの建物を使って開業。カリフォルニア州の農家と提携して穀物を調達し、床式製麦（フロアモルティング）で手作りの麦芽を生産する、禁酒法以降では同州初のこうした施設と位置づけられていた。同社は自らを「カリフォルニア州で唯一の有機認証を受けた製麦事業者」とも説明していた。</p>
+                <p class="summary">同社は声明で、取引のあったカリフォルニアの農家やブルワリー、蒸留所との「つながりとコミュニティ」に感謝を示し、閉鎖前に最後にモルトハウスを訪れるよう地域に呼びかけた。タップルーム「The Rake」はモルトハウスの最上階にあり、20種類以上のタップを回転させるラインナップやバーベキューなどの食事提供で知られていた。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">地場の穀物を使い、フロアモルティングという手間のかかる製法で麦芽の個性を打ち出してきた先駆的なクラフトモルトハウスでも「採算が取れない」という理由で撤退を迫られた事実は、原料の多様化を目指す動きの難しさを物語っている。国産麦芽や個性的な麦芽を模索する日本の中小ブルワリーにとっても、地域の穀物と小規模製麦という組み合わせがどの規模で経済的に成立するのか、海外の事例から学べる点は多いだろう。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://whatnow.com/?p=440073" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #8B6914;">
+            <div class="article-header">
+                <span class="rank">#3</span>
+                <span class="category" style="background:#8B6914;">🌾 麦芽</span>
+                <span class="popularity">⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">英国、記録的熱波で2026年の大麦収穫が「史上最悪クラス」に　収量は平年比19%減</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 AHDB（農業・園芸開発委員会）調査／英国生産者</span>
+                <span class="country">🌍 英国</span>
+            </div>
+            <div class="highlight">💡 英国の8月は38.1℃を記録、6月は1884年の観測開始以来最も暑い月に　2年連続の乾燥がさらに打撃</div>
+            <div class="summary-body">
+                <p class="summary">英ガーディアン紙は2026年9月11日、英国の大麦収穫が記録的な熱波と乾燥の影響で、過去最悪クラスになりかねないと報じた。農業・園芸開発委員会（AHDB）の調査によると、前月の大麦収量は過去5年平均を約19%下回った。記事が引用する英気象庁（Met Office）の暫定データでは、2026年の夏は英国の観測史上最も暑い夏となり、8月には38.1℃を記録。6月は1884年の観測開始以来、最も暑い月として確定している。</p>
+                <p class="summary">記事は、乾燥した天候が2年連続で続いていることに加え、灌漑設備の不足が収穫量の低下に拍車をかけたと説明。生産者の声として「2年連続の乾燥した天候により、大麦生産がより難しくなっている」と伝え、天候は収量だけでなく穀粒の品質にも影響したとしている。ビール産業は大麦に依存しているため、供給量の縮小はコスト上昇につながりかねず、作柄がさらに悪化したり他国でも供給問題が生じた場合には、不足分を輸入で補うことがより難しく、より高コストになる可能性があると市場関係者の見方を紹介している。</p>
+                <p class="summary">なお同記事は、英国産スパークリングワインの生産者が今年は例年より早い収穫を見込んでいることにも触れている。例えばNyetimber社は9月14日からの収穫開始を予定し、1988年以来最も早いスタートになるとした。春の遅霜と乾燥でブドウの収穫量はやや小さくなる見通しだが、糖度は高くなる可能性があるという。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">米国の生産量減少と同じタイミングで、主要な製麦用大麦の産地である英国でも「記録的熱波による平年比19%減」という酷似した数字が報告されたことは、単発の天候不順ではなく複数の主要産地で同時進行する構造的なリスクであることを示している。欧州産麦芽を扱う輸入業者や商社にとっても価格・品質の交渉材料になりそうであり、特定の産地に依存しない仕入れルートの確保や、品質のばらつきを前提にしたレシピ設計の柔軟性が、今後ますます重要になってくるだろう。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://ukragroconsult.com/en/news/drought-could-lead-to-one-of-englands-worst-barley-harvests/" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む（原典：The Guardian、2026年9月11日）
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #9B4E9E;">
+            <div class="article-header">
+                <span class="rank">#4</span>
+                <span class="category" style="background:#9B4E9E;">🌽 副原料</span>
+                <span class="popularity">⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">ニチレイフーズ、業務用カレーの「規格外」をビールにアップサイクル　シリーズ第4弾を山形の醸造所から発売</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 ニチレイフーズ（山形工場）／Brewlab.108（山形県天童市）</span>
+                <span class="country">🌍 日本（山形県）</span>
+            </div>
+            <div class="highlight">💡 業務用「レストランユース ビーフカレー」の仕込み工程で鍋肌に付着し使えなくなったカレーを、発酵後のビールにペースト状で添加</div>
+            <div class="summary-body">
+                <p class="summary">日本食糧新聞は2026年10月5日、ニチレイフーズがアップサイクル商品の第4弾として、規格外のカレーを原料にしたクラフトビールを発売すると報じた。商品名は「#2101 Part2 Beef Curry～Beyond upcycle！ Never before !!～」。山形県天童市の醸造所Brewlab.108（代表・加藤克明氏）で醸造され、10月11日からBrewlab.108のオンラインショップで販売される。発泡酒（ペールエール）で、330ミリリットル、アルコール度数5度、原材料は麦芽（外国製造）、ホップ、カレーソース（天童市製造）、デーツ、スパイス。10度以下での冷蔵保存が推奨されている。</p>
+                <p class="summary">原料となるのは、業務用「レストランユース ビーフカレー」の仕込み工程で鍋肌に付着し、品質に問題はないものの製品としては出荷できない「規格外カレー」。ペースト状にしたこのカレーを発酵後のビールに加えることで、スパイスの香りを活かす狙いがあるという。ニチレイフーズのアップサイクル商品としては今回が4作目、ビールとしては2025年10月発売の「#2101 Men」（規格外麺を使用）に続く2作目にあたる。</p>
+                <p class="summary">発売に合わせ、10月11日にはJリーグ「モンテディオ山形」のホームゲーム会場内の「SDGsコーナー」でも提供される。ニチレイフーズ山形工場は同クラブのSDGsパートナーであり、地域の資源循環の取り組みを試合会場でもアピールする形となった。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">食品メーカーの製造工程で生じる「規格外」原料をビールの副原料に転用し、しかもシリーズ化・定期化している点が興味深い。単発のコラボではなく「第4弾」という積み重ねによって、企業のアップサイクル姿勢そのものがブランドになっている。地域に食品工場を抱えるブルワリーであれば、近隣企業の製造ロスに目を向け、継続的な商品シリーズとして関係を育てていくという発想は、単発のイベント商品よりも長期的な取引・話題づくりの両面で参考になりそうだ。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://dime.jp/genre/2160318/" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #4A7C2F;">
+            <div class="article-header">
+                <span class="rank">#5</span>
+                <span class="category" style="background:#4A7C2F;">🌿 ホップ</span>
+                <span class="popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">米ワイン&ビアサプライ、東部で手薄だったホップ商社「ホップ・ハボック」を買収　ワイン・ビール資材の一括提供を強化</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Wine &amp; Beer Supply／Havoc Brew Supply（Hop Havoc）</span>
+                <span class="country">🌍 アメリカ（バージニア州／メリーランド州）</span>
+            </div>
+            <div class="highlight">💡 創業者Dylan Krzywonski氏のみを継続雇用、メリーランドからリッチモンド近郊へ拠点を移転　「米国東部は供給業者が西部に比べ手薄」</div>
+            <div class="summary-body">
+                <p class="summary">米地域経済メディアRichmond BizSenseは2026年9月9日、バージニア州アシュランドのWine &amp; Beer Supplyが、メリーランド州のホップ商社Havoc Brew Supply（通称「Hop Havoc」）を買収したと報じた。買収は9月1日に成立。Wine &amp; Beer Supplyは2015年創業、創業者兼CEOのDave Robertson氏のもとワイナリーやブルワリー向けにガラス瓶、缶、発酵タンク、ケグなどを供給する企業で、従業員約50人。一方のHop Havocは2016年にDylan Krzywonski氏が創業し、米国東部のブルワリーにホップを供給してきた、従業員3〜4人規模の事業者だった。</p>
+                <p class="summary">Wine &amp; Beer Supplyは、Havocの顧客基盤・資産・ブランドを取得し、Havocの拠点はメリーランドからリッチモンド近郊へ移転する。継続雇用されるのはKrzywonski氏のみで、買収条件は非公表。両社は成約の約1年半前から接点があったという。Robertson氏は、同社がもともとワイン事業に傾いていた中でビール原料事業へ参入したいと考えていたが社内に専門知識がなかったと説明し、「米国東部は西部に比べて（原料）供給業者の面で非常に手薄だ」と述べている。</p>
+                <p class="summary">Robertson氏はまた、クラフトビールやワインの販売量低迷が顧客にも響いていると指摘し、「コロナ後の落ち込みは本物だ」と語った。加えて、カナダ産ボトルへの50%関税が、カナダ国内にボトルが積まれたままになる事態を招いているとも述べている。同社は大西洋沿岸部・北東部・ラストベルト地域に自社配送網を持ち、ニューヨーク、ニュージャージー、ピッツバーグ（最近開設）に倉庫を構えている。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">ビール消費の低迷が続く中で、資材商社がワイン・ビールの原料をまとめて扱う「一括窓口」化によって事業の安定を図る動きは、需要が縮小する市場で商社側が生き残りを図る典型的な手法といえる。日本の中小ブルワリーも、原料ごとに別々の商社と取引するより、信頼できる一括窓口を持つ商社と関係を深めることで、急な需給変動や調達リスクへの対応力を高められる可能性がある。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://richmondbizsense.com/2026/09/09/ashland-based-wine-beer-supply-hops-into-acquisition-of-maryland-firm/" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #4A7C2F;">
+            <div class="article-header">
+                <span class="rank">#6</span>
+                <span class="category" style="background:#4A7C2F;">🌿 ホップ</span>
+                <span class="popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">米ニューレルム・ブルーイング、創業初のフレッシュホップビールを醸造　24時間以内にNY州から生ホップを輸送</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 New Realm Brewing Co.</span>
+                <span class="country">🌍 アメリカ（バージニア州バージニアビーチ）</span>
+            </div>
+            <div class="highlight">💡 乾燥させない生ホップは重量が4〜5倍必要、収穫から仕込みまでをわずか24時間で実施</div>
+            <div class="summary-body">
+                <p class="summary">米業界ニュースサイトBrewbound（プレスリリース掲載）は2026年9月17日、バージニア州バージニアビーチのNew Realm Brewing Co.が、創業以来初となるフレッシュホップビールの醸造に乗り出したと伝えた。9月10日、同社チームはニューヨーク州北部のホップ農場まで車で向かい、収穫したての生ホップを積んで約24時間以内にバージニアビーチへ戻るという行程を実施。この企画は、かつてチャールストン店のヘッドブルワーを務めたGeoff Blecher氏を通じて知り合った「The Hop Guild」との協業として行われた。</p>
+                <p class="summary">フレッシュホップビールは、乾燥・ペレット化された通常のホップではなく、収穫から数時間以内の生の状態のホップを使う製法で、水分を多く含むため通常のホップの4〜5倍の重量が必要になる。収穫のタイミングや冷蔵輸送、タンクへの投入スピードまで厳密に調整する必要があり、仕込みは9月28日の週に完了する予定。完成したビールは数量限定でバージニアビーチのタップルームで提供・一部パッケージ販売される。</p>
+                <p class="summary">同社の醸造運営ディレクターKane Wille氏は「フレッシュホップの個性はとても繊細で捉えがたく、最大限の情熱と献身が求められる」とコメント。さらに「特定の場所、特定の瞬間、そして特定の生育シーズンを記録したスナップショットのようなものだ」とこの一杯の位置づけを語っている。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">自社で産地を持たないブルワリーが「収穫から24時間以内」という制約の中でフレッシュホップビールを実現するには、輸送ルートと信頼できる農場パートナーの確保が欠かせない。国産ホップの産地である遠野や上富良野を抱える日本の醸造所にとっても、産地との距離の近さを生かした独自のフレッシュホップ企画は、海外では容易に再現できない強みとして差別化要素になり得るだろう。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.brewbound.com/pr/2026/09/17/fresh-from-the-hop-harvest-new-realm-brings-a-limited-freshhop-beer-to-virginia-beach" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #1E6B9E;">
+            <div class="article-header">
+                <span class="rank">#7</span>
+                <span class="category" style="background:#1E6B9E;">💧 水</span>
+                <span class="popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-title">米ハンナズ・ブルーイング、「BetterBev」のグリーン・ブルワリー認定を取得　電動仕込み設備とワンススルー回避の水管理が評価</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Hannah's Brewing</span>
+                <span class="country">🌍 アメリカ（マサチューセッツ州メルローズ）</span>
+            </div>
+            <div class="highlight">💡 ビールの約80%を店内提供・サービングタンクから直接提供し、ケグ輸送によるロスや配送車両の排出を削減</div>
+            <div class="summary-body">
+                <p class="summary">米業界ニュースサイトBrewbound（プレスリリース掲載）は2026年10月13日、マサチューセッツ州メルローズの同市初のブルワリー兼タップルームであるHannah's Brewingが、環境認証プログラム「BetterBev」から「グリーン・ブルワリー」の認定を受けたと報じた。BetterBevはマサチューセッツ大学アマースト校のエネルギー移行研究所が、米環境保護局（EPA）の汚染防止プログラムの助成を一部受けて運営するもので、地域のBetterBev担当者が水・エネルギー使用、廃棄物、環境文化などの観点から事業者の取り組みを評価する。</p>
+                <p class="summary">Hannah's Brewingは、パッケージングの分野で「模範的（exemplary）」評価を獲得した。ビールの約80%を店内提供またはサービングタンクからの直接提供で販売しており、これによりケグ輸送に伴うビールのロスや配送車両からの排出を抑えているという。仕込み工程では、使用後に排水してしまう「ワンススルー方式」の冷却水を使わない設計を採用し、電動式の仕込み設備も導入している。廃棄物対策では、リサイクルが難しいプラスチック製の缶キャリアを回収する消費者向け引き取りプログラムも実施している。</p>
+                <p class="summary">Hannah's Brewingは2024年3月に開業した、メルローズ市で初めてのブルワリー兼タップルーム。メルローズ出身の2人の創業者がコロナ禍に設立し、ともに「Hannah」という名の家族にちなんで店名を付けたという。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">小規模ブルワリーでも、タップルームでの直接提供比率を上げることや、ワンススルー方式の冷却水を避けるといった設計レベルの工夫によって、大規模な投資をせずに水・エネルギー効率を改善できる好例といえる。認定取得自体が目的ではなく、「どの工程で何を評価されたか」が具体的に開示されている点が実務的に参考になる。自社の仕込み・冷却工程のうち、どこで無駄に水を使っているかを一度棚卸ししてみる価値がありそうだ。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.brewbound.com/pr/2026/10/13/hannahs-brewing-earns-green-brewery-recognition-from-betterbev" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+
+        <article class="article-card" style="border-left: 4px solid #9B4E9E;">
+            <div class="article-header">
+                <span class="rank">#8</span>
+                <span class="category" style="background:#9B4E9E;">🌽 副原料</span>
+                <span class="popularity">⭐⭐</span>
+            </div>
+            <h2 class="article-title">米ハイランド・ブルーイング、人気のコーヒーポーター「Thunderstruck」を初の缶入りで復刻発売</h2>
+            <div class="article-meta">
+                <span class="brewery">🏭 Highland Brewing Company／Dynamite Roasting Co.</span>
+                <span class="country">🌍 アメリカ（ノースカロライナ州アシュビル）</span>
+            </div>
+            <div class="highlight">💡 1バレルあたり地元ロースターのコーヒーを1.5ポンド使用　2011年初登場のシーズナルが初めて缶で登場</div>
+            <div class="summary-body">
+                <p class="summary">米業界ニュースサイトBrewbound（プレスリリース掲載）は2026年10月15日、ノースカロライナ州アシュビルのHighland Brewing Companyが、看板シーズナルビール「Thunderstruck Coffee Porter」を10月下旬に復刻発売すると報じた。アルコール度数5.8%のコーヒーポーターで、2011年にウィンター限定ビールとして初登場し、これまで瓶で販売されてきたが、今回初めて350ミリリットル（12オンス）缶の6本パックでも展開され、生ビールでも提供される。販売地域はノースカロライナ、サウスカロライナ、テネシー、ジョージアの4州。</p>
+                <p class="summary">コーヒーは、アシュビル地域の地元ロースターDynamite Roasting Co.のものを使用し、1バレルあたり1.5ポンドのコーヒーを投入しているという。香り高いコーヒーの風味に、ほのかなスパイスとフルーツのニュアンスを加えた味わいが特徴とされる。同社のコマーシャル・ディレクター、Jared Turbyfill氏は「今季の限定ラインナップは、Thunderstruck Coffee Porterのような昔から愛されてきた商品を復活させることを軸にしている」と述べ、長年のファンとのつながりを重視した懐かしさを打ち出す戦略であることをうかがわせている。</p>
+            </div>
+            <div class="analysis-box">
+                <div class="analysis-title">🔍 編集部の考察</div>
+                <p class="analysis-text">新商品開発に力を入れる一方で、長年のファンがいる定番シーズナルを「初めての缶入り」という形でパッケージだけ更新して復刻するのは、大きな開発コストをかけずに既存顧客の支持を呼び戻せる手法だ。地元ロースターとの協業を長期的に継続している点も、単発のコラボよりも地域内の関係を資産として蓄積する発想として、国内の中小ブルワリーにも応用しやすいだろう。</p>
+            </div>
+            <div class="article-footer">
+                <a href="https://www.brewbound.com/pr/2026/10/15/thunderstruck-coffee-porter-returns-to-highland-brewing-in-cans-for-the-first-time" target="_blank" rel="noopener" class="source-link">
+                    📰 オリジナル記事を読む
+                </a>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p><strong>BREW DAILY</strong> は世界中の醸造所公式情報を自動収集し、AI が日本語に翻訳・要約した独自マガジンです。</p>
+        <p style="margin-top:0.5rem;">Generated by Claude AI | Powered by Anthropic | 2026年10月18日（Sun）</p>
+    </footer>
+</body>
+</html>

@@ -243,6 +243,12 @@ def generate_html_magazine(articles: list[dict], date_str: str) -> str:
         "副原料": "🌽",
     }
 
+    # カテゴリ別記事数を集計
+    cat_counts = {}
+    for article in articles:
+        c = article.get("category_ja", article.get("category", ""))
+        cat_counts[c] = cat_counts.get(c, 0) + 1
+
     articles_html = ""
     for i, article in enumerate(articles, 1):
         cat = article.get("category_ja", article.get("category", ""))
@@ -251,7 +257,6 @@ def generate_html_magazine(articles: list[dict], date_str: str) -> str:
         pop = article.get("estimated_popularity", 5)
         stars = "⭐" * min(int(pop / 2), 5)
 
-        # 本文を段落に分割
         summary_paragraphs = article.get('summary_ja', '').replace('\\n', '\n').split('\n\n')
         body_html = ''.join(f'<p>{p.strip()}</p>' for p in summary_paragraphs if p.strip())
         if not body_html:
@@ -260,22 +265,22 @@ def generate_html_magazine(articles: list[dict], date_str: str) -> str:
         analysis = article.get('analysis_ja', '')
         analysis_block = f"""
             <div class="analysis">
-                <p class="analysis-label">編集部の考察</p>
+                <span class="analysis-label">編集部の考察</span>
                 <p>{analysis}</p>
             </div>""" if analysis else ""
 
         articles_html += f"""
-        <article class="article" id="article-{i}" data-category="{cat}">
+        <article class="article" id="article-{i}" data-category="{cat}" style="--cat-color:{color}">
             <div class="article-kicker">
                 <span class="article-rank">{i:02d}</span>
-                <span class="article-category" style="background:{color};">{icon} {cat}</span>
+                <span class="article-category">{icon} {cat}</span>
                 <span class="article-popularity">{stars}</span>
             </div>
             <h2 class="article-headline">{article.get('title_ja', article.get('title_en', ''))}</h2>
-            <p class="article-deck">💡 {article.get('highlight', '')}</p>
+            <p class="article-deck">{article.get('highlight', '')}</p>
             <div class="article-byline">
-                <span>🏭 {article.get('brewery_ja', article.get('brewery', ''))}</span>
-                <span>🌍 {article.get('country_ja', article.get('country', ''))}</span>
+                <span>{article.get('brewery_ja', article.get('brewery', ''))}</span>
+                <span>{article.get('country_ja', article.get('country', ''))}</span>
             </div>
             <div class="article-body">
                 {body_html}
@@ -289,6 +294,12 @@ def generate_html_magazine(articles: list[dict], date_str: str) -> str:
         </article>
         """
 
+    malt_n  = cat_counts.get("麦芽", 0)
+    hop_n   = cat_counts.get("ホップ", 0)
+    water_n = cat_counts.get("水", 0)
+    adj_n   = cat_counts.get("副原料", 0)
+    total_n = len(articles)
+
     html = f"""<!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -296,349 +307,411 @@ def generate_html_magazine(articles: list[dict], date_str: str) -> str:
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BREW DAILY — {date_str}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* ── デザイントークン ── */
         :root {{
-            --amber:      #C07A00;
-            --amber-light:#FFF3CC;
-            --ink:        #1A1208;
-            --ink-soft:   #4A3728;
-            --ink-muted:  #7A6A5A;
-            --paper:      #FAF7F2;
-            --paper-warm: #F5F0E8;
-            --rule:       #D4C4A8;
-            --white:      #FFFFFF;
-            --blue:       #1A4E8C;
-            --blue-light: #EBF2FB;
-            /* カテゴリ */
+            --amber:   #C8860A;
+            --amber2:  #F5A623;
+            --ink:     #0F0C08;
+            --ink2:    #3D2B1F;
+            --muted:   #7A6A5A;
+            --paper:   #F9F6F0;
+            --card:    #FFFFFF;
+            --rule:    #D4C4A8;
+            --blue:    #1A4E8C;
+            --blue-bg: #EBF2FB;
             --malt:    #8B5E00;
-            --hop:     #3A6B20;
+            --hop:     #2E6B1A;
             --water:   #1A4E8C;
             --adjunct: #7A3A8C;
+            --nav-h:   52px;
         }}
-
-        /* ── リセット & ベース ── */
-        *, *::before, *::after {{ margin: 0; padding: 0; box-sizing: border-box; }}
-
-        html {{ font-size: 18px; scroll-behavior: smooth; }}
-
+        *, *::before, *::after {{ margin:0; padding:0; box-sizing:border-box; }}
+        html {{ font-size:17px; scroll-behavior:smooth; scroll-padding-top:calc(var(--nav-h) + 8px); }}
         body {{
-            font-family: 'Noto Serif JP', 'Yu Mincho', Georgia, serif;
-            background: var(--paper);
-            color: var(--ink);
-            line-height: 1.9;
-            -webkit-font-smoothing: antialiased;
+            font-family:'Noto Serif JP',Georgia,serif;
+            background:var(--paper);
+            color:var(--ink);
+            line-height:1.9;
+            -webkit-font-smoothing:antialiased;
         }}
 
-        /* ── マストヘッド（新聞風上部） ── */
+        /* ════ MASTHEAD ════ */
         .masthead {{
-            background: var(--white);
-            border-bottom: 3px double var(--ink);
-            padding: 1.5rem 1rem 1rem;
-            text-align: center;
+            background:var(--ink);
+            color:#fff;
+            padding:2.2rem 1.5rem 1.6rem;
+            text-align:center;
+            position:relative;
+            overflow:hidden;
         }}
-
+        .masthead::before {{
+            content:'';
+            position:absolute; inset:0;
+            background:repeating-linear-gradient(
+                90deg,
+                rgba(200,134,10,.07) 0px, rgba(200,134,10,.07) 1px,
+                transparent 1px, transparent 60px
+            );
+            pointer-events:none;
+        }}
         .masthead-eyebrow {{
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.72rem;
-            letter-spacing: 0.25em;
-            color: var(--ink-muted);
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.65rem;
+            letter-spacing:.35em;
+            color:var(--amber2);
+            text-transform:uppercase;
+            margin-bottom:.8rem;
         }}
-
         .masthead-title {{
-            font-family: 'Noto Serif JP', serif;
-            font-size: clamp(2.4rem, 6vw, 4rem);
-            font-weight: 900;
-            letter-spacing: 0.08em;
-            color: var(--ink);
-            line-height: 1.1;
+            font-family:'Playfair Display','Noto Serif JP',serif;
+            font-size:clamp(2.8rem,8vw,5.5rem);
+            font-weight:900;
+            letter-spacing:.06em;
+            color:#fff;
+            line-height:1;
+            text-shadow:0 2px 24px rgba(200,134,10,.3);
         }}
-
         .masthead-rule {{
-            border: none;
-            border-top: 1px solid var(--ink);
-            margin: 0.6rem auto;
-            width: 100%;
+            border:none;
+            height:1px;
+            background:linear-gradient(90deg,transparent,var(--amber),transparent);
+            margin:.9rem auto;
+            width:min(480px,80%);
         }}
-
         .masthead-meta {{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.72rem;
-            color: var(--ink-muted);
-            flex-wrap: wrap;
-            gap: 0.3rem;
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.68rem;
+            color:rgba(255,255,255,.55);
+            display:flex;
+            justify-content:center;
+            gap:1.5rem;
+            flex-wrap:wrap;
         }}
-
+        .masthead-meta span {{ display:flex; align-items:center; gap:.35rem; }}
         .masthead-tagline {{
-            font-size: 0.78rem;
-            color: var(--ink-soft);
-            margin-top: 0.4rem;
-            font-style: italic;
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.72rem;
+            color:rgba(255,255,255,.4);
+            margin-top:.7rem;
+            letter-spacing:.08em;
         }}
 
-        /* ── カテゴリナビ ── */
+        /* ════ NAV ════ */
         .category-nav {{
-            background: var(--ink);
-            padding: 0.55rem 1rem;
-            display: flex;
-            justify-content: center;
-            gap: 0;
-            flex-wrap: wrap;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            background:var(--ink);
+            border-top:1px solid #2a2218;
+            height:var(--nav-h);
+            display:flex;
+            align-items:stretch;
+            justify-content:center;
+            position:sticky;
+            top:0;
+            z-index:200;
+            box-shadow:0 2px 12px rgba(0,0,0,.4);
         }}
+        .nav-filter, .nav-archive {{
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.72rem;
+            font-weight:700;
+            letter-spacing:.1em;
+            color:rgba(255,255,255,.5);
+            text-decoration:none;
+            padding:0 1.1rem;
+            display:flex;
+            align-items:center;
+            gap:.45rem;
+            border:none;
+            background:none;
+            cursor:pointer;
+            position:relative;
+            transition:color .2s;
+            white-space:nowrap;
+        }}
+        .nav-filter::after {{
+            content:'';
+            position:absolute;
+            bottom:0; left:50%; right:50%;
+            height:2px;
+            background:var(--amber2);
+            transition:left .2s, right .2s;
+        }}
+        .nav-filter:hover, .nav-archive:hover {{ color:rgba(255,255,255,.9); }}
+        .nav-filter.active {{ color:#fff; }}
+        .nav-filter.active::after {{ left:0; right:0; }}
+        .nav-dot {{
+            width:7px; height:7px;
+            border-radius:50%;
+            flex-shrink:0;
+        }}
+        .nav-badge {{
+            font-size:.6rem;
+            background:rgba(255,255,255,.12);
+            color:rgba(255,255,255,.5);
+            border-radius:9px;
+            padding:.05rem .42rem;
+            font-weight:500;
+        }}
+        .nav-filter.active .nav-badge {{
+            background:var(--amber);
+            color:#fff;
+        }}
+        .nav-sep {{
+            width:1px;
+            background:rgba(255,255,255,.1);
+            align-self:center;
+            height:60%;
+            flex-shrink:0;
+        }}
+        .nav-archive {{
+            border-left:1px solid rgba(255,255,255,.1);
+            margin-left:.5rem;
+            padding-left:1.2rem;
+            color:var(--amber2);
+            opacity:.8;
+        }}
+        .nav-archive:hover {{ opacity:1; }}
 
-        .category-nav a {{
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #CCC;
-            text-decoration: none;
-            padding: 0.25rem 1rem;
-            letter-spacing: 0.1em;
-            border-right: 1px solid #444;
-            transition: color 0.15s;
-        }}
-        .category-nav a:first-child {{ border-left: 1px solid #444; }}
-        .category-nav a:hover {{ color: var(--amber); }}
-        .category-nav a.active {{ color: var(--amber); }}
-        .category-nav .dot {{
-            display: inline-block;
-            width: 7px; height: 7px;
-            border-radius: 50%;
-            margin-right: 5px;
-            vertical-align: middle;
-        }}
-
-        /* ── メインコンテンツ ── */
+        /* ════ MAIN ════ */
         main {{
-            max-width: 740px;   /* 65〜70文字幅に相当。読みやすい行長 */
-            margin: 0 auto;
-            padding: 2.5rem 1.5rem 4rem;
+            max-width:760px;
+            margin:0 auto;
+            padding:2.8rem 1.5rem 5rem;
         }}
-
-        /* ── セクション見出し ── */
         .section-heading {{
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--white);
-            background: var(--ink);
-            display: inline-block;
-            padding: 0.25rem 0.8rem;
-            margin-bottom: 1.8rem;
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.65rem;
+            font-weight:700;
+            letter-spacing:.28em;
+            text-transform:uppercase;
+            color:var(--amber);
+            border-bottom:1px solid var(--rule);
+            padding-bottom:.6rem;
+            margin-bottom:2.2rem;
+            display:flex;
+            align-items:center;
+            gap:.6rem;
+        }}
+        .section-heading::before {{
+            content:''; display:block;
+            width:18px; height:2px; background:var(--amber);
         }}
 
-        /* ── 記事カード ── */
+        /* ════ ARTICLE ════ */
         .article {{
-            border-top: 2px solid var(--ink);
-            padding-top: 2rem;
-            margin-bottom: 3.5rem;
+            background:var(--card);
+            border-left:4px solid var(--cat-color, var(--muted));
+            border-radius:0 4px 4px 0;
+            padding:1.8rem 2rem 1.6rem;
+            margin-bottom:1.6rem;
+            box-shadow:0 1px 4px rgba(0,0,0,.06);
+            transition:opacity .25s, transform .25s;
         }}
-
-        /* ランク + カテゴリ行 */
+        .article.hidden {{
+            display:none;
+        }}
         .article-kicker {{
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            margin-bottom: 0.6rem;
+            display:flex;
+            align-items:center;
+            gap:.6rem;
+            margin-bottom:.7rem;
         }}
-
         .article-rank {{
-            font-family: 'Noto Serif JP', serif;
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--rule);
-            line-height: 1;
-            min-width: 2.2rem;
+            font-family:'Playfair Display',serif;
+            font-size:1.7rem;
+            font-weight:900;
+            color:var(--rule);
+            line-height:1;
+            min-width:2rem;
         }}
-
         .article-category {{
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--white);
-            padding: 0.2rem 0.65rem;
-            border-radius: 2px;
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.62rem;
+            font-weight:700;
+            letter-spacing:.15em;
+            color:#fff;
+            background:var(--cat-color, var(--muted));
+            padding:.18rem .65rem;
+            border-radius:2px;
         }}
-
-        .article-popularity {{
-            margin-left: auto;
-            font-size: 0.8rem;
-            color: var(--amber);
-        }}
-
-        /* 見出し：大きめ・読みやすい行間 */
+        .article-popularity {{ margin-left:auto; font-size:.75rem; color:var(--amber2); }}
         .article-headline {{
-            font-family: 'Noto Serif JP', serif;
-            font-size: 1.45rem;
-            font-weight: 700;
-            line-height: 1.5;
-            color: var(--ink);
-            margin-bottom: 0.7rem;
+            font-family:'Noto Serif JP',serif;
+            font-size:1.3rem;
+            font-weight:700;
+            line-height:1.55;
+            color:var(--ink);
+            margin-bottom:.6rem;
         }}
-
-        /* デック（副見出し = ハイライト） */
         .article-deck {{
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--ink-soft);
-            border-left: 3px solid var(--amber);
-            padding-left: 0.75rem;
-            margin-bottom: 0.9rem;
-            line-height: 1.6;
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.85rem;
+            font-weight:500;
+            color:var(--ink2);
+            border-left:3px solid var(--amber);
+            padding-left:.75rem;
+            margin-bottom:.85rem;
+            line-height:1.65;
         }}
-
-        /* バイライン（醸造所・国） */
         .article-byline {{
-            display: flex;
-            gap: 1.2rem;
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.72rem;
-            color: var(--ink-muted);
-            letter-spacing: 0.03em;
-            margin-bottom: 1.2rem;
-            padding-bottom: 0.7rem;
-            border-bottom: 1px solid var(--rule);
+            display:flex;
+            gap:1rem;
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.68rem;
+            color:var(--muted);
+            padding-bottom:.75rem;
+            border-bottom:1px solid var(--rule);
+            margin-bottom:1.1rem;
+            flex-wrap:wrap;
         }}
-
-        /* 本文：読みやすいフォントサイズ・行間・段落間隔 */
         .article-body p {{
-            font-size: 1rem;       /* 18px相当 */
-            line-height: 1.95;
-            color: var(--ink-soft);
-            margin-bottom: 1.25em;
-            text-align: justify;
-            text-justify: inter-ideograph;
+            font-size:.95rem;
+            line-height:1.95;
+            color:#3D2B1F;
+            margin-bottom:1.1em;
+            text-align:justify;
         }}
-
-        .article-body p:last-child {{ margin-bottom: 0; }}
-
-        /* 考察ボックス */
+        .article-body p:last-child {{ margin-bottom:0; }}
         .analysis {{
-            background: var(--blue-light);
-            border-left: 4px solid var(--blue);
-            padding: 1rem 1.25rem;
-            margin-top: 1.5rem;
+            background:var(--blue-bg);
+            border-left:3px solid var(--blue);
+            padding:.9rem 1.1rem;
+            margin-top:1.3rem;
+            border-radius:0 3px 3px 0;
         }}
-
         .analysis-label {{
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--blue);
-            margin-bottom: 0.5rem;
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.62rem;
+            font-weight:700;
+            letter-spacing:.18em;
+            text-transform:uppercase;
+            color:var(--blue);
+            display:block;
+            margin-bottom:.4rem;
         }}
-
         .analysis p {{
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.88rem;
-            line-height: 1.85;
-            color: #1a2a3a;
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.82rem;
+            line-height:1.85;
+            color:#1a2a3a;
         }}
-
-        /* ソースリンク */
         .article-source {{
-            margin-top: 1.2rem;
-            font-family: 'Noto Sans JP', sans-serif;
+            margin-top:1.1rem;
+            font-family:'Noto Sans JP',sans-serif;
         }}
-
         .article-source a {{
-            font-size: 0.75rem;
-            color: var(--blue);
-            text-decoration: none;
-            border-bottom: 1px solid var(--blue);
-            padding-bottom: 1px;
+            font-size:.72rem;
+            color:var(--blue);
+            text-decoration:none;
+            border-bottom:1px solid currentColor;
+            padding-bottom:1px;
+            opacity:.8;
+        }}
+        .article-source a:hover {{ opacity:1; color:var(--amber); }}
+
+        /* ── no-results ── */
+        .no-results {{
+            text-align:center;
+            padding:3rem;
+            color:var(--muted);
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.85rem;
+            display:none;
         }}
 
-        .article-source a:hover {{ color: var(--amber); border-color: var(--amber); }}
-
-        /* ── フッター ── */
+        /* ════ FOOTER ════ */
         .site-footer {{
-            background: var(--ink);
-            color: #999;
-            text-align: center;
-            padding: 2rem 1rem;
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.75rem;
-            line-height: 1.8;
+            background:var(--ink);
+            color:rgba(255,255,255,.35);
+            text-align:center;
+            padding:2.5rem 1rem;
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.7rem;
+            line-height:2;
         }}
+        .site-footer strong {{ color:var(--amber2); }}
+        .footer-links {{ margin-top:.6rem; display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; }}
+        .footer-links a {{ color:rgba(255,255,255,.45); text-decoration:none; }}
+        .footer-links a:hover {{ color:var(--amber2); }}
 
-        .site-footer strong {{ color: var(--amber); }}
-
-        /* ── レスポンシブ ── */
-        @media (max-width: 600px) {{
-            html {{ font-size: 16px; }}
-            main {{ padding: 1.5rem 1rem 3rem; }}
-            .masthead-title {{ letter-spacing: 0.04em; }}
-            .article-headline {{ font-size: 1.25rem; }}
-            .category-nav a {{ padding: 0.25rem 0.7rem; font-size: 0.68rem; }}
-            .masthead-meta {{ justify-content: center; }}
+        /* ════ RESPONSIVE ════ */
+        @media(max-width:600px) {{
+            html {{ font-size:15px; }}
+            main {{ padding:1.8rem 1rem 3.5rem; }}
+            .article {{ padding:1.3rem 1.2rem 1.2rem; }}
+            .article-headline {{ font-size:1.15rem; }}
+            .nav-filter, .nav-archive {{ padding:0 .7rem; font-size:.65rem; }}
+            .nav-badge {{ display:none; }}
         }}
     </style>
 </head>
 <body>
 
-    <!-- マストヘッド -->
     <header class="masthead">
         <p class="masthead-eyebrow">世界のブルワリー最新情報マガジン</p>
-        <h1 class="masthead-title">🍺 BREW DAILY</h1>
-        <hr class="masthead-rule">
+        <h1 class="masthead-title">BREW DAILY</h1>
+        <div class="masthead-rule"></div>
         <div class="masthead-meta">
             <span>📅 {date_str} 発行</span>
-            <span>麦芽・ホップ・水・副原料 Top 10</span>
-            <span>Powered by Claude AI</span>
+            <span>🍺 麦芽・ホップ・水・副原料 Top {total_n}</span>
+            <span>✦ Powered by Claude AI</span>
         </div>
         <p class="masthead-tagline">世界の醸造所公式情報を AI が毎朝収集・翻訳・解説</p>
     </header>
 
-    <!-- カテゴリナビ -->
-    <nav class="category-nav" aria-label="カテゴリ">
-        <a href="#" onclick="filterCategory(event,'all')" class="active"><span class="dot" style="background:#aaa"></span>すべて</a>
-        <a href="#" onclick="filterCategory(event,'麦芽')"><span class="dot" style="background:var(--malt)"></span>麦芽</a>
-        <a href="#" onclick="filterCategory(event,'ホップ')"><span class="dot" style="background:var(--hop)"></span>ホップ</a>
-        <a href="#" onclick="filterCategory(event,'水')"><span class="dot" style="background:var(--water)"></span>水</a>
-        <a href="#" onclick="filterCategory(event,'副原料')"><span class="dot" style="background:var(--adjunct)"></span>副原料</a>
-        <a href="archive.html">バックナンバー</a>
+    <nav class="category-nav" aria-label="カテゴリフィルター">
+        <button class="nav-filter active" onclick="filter(this,'all')">
+            <span class="nav-dot" style="background:#888"></span>すべて
+            <span class="nav-badge">{total_n}</span>
+        </button>
+        <span class="nav-sep"></span>
+        <button class="nav-filter" onclick="filter(this,'麦芽')">
+            <span class="nav-dot" style="background:var(--malt)"></span>麦芽
+            <span class="nav-badge">{malt_n}</span>
+        </button>
+        <button class="nav-filter" onclick="filter(this,'ホップ')">
+            <span class="nav-dot" style="background:var(--hop)"></span>ホップ
+            <span class="nav-badge">{hop_n}</span>
+        </button>
+        <button class="nav-filter" onclick="filter(this,'水')">
+            <span class="nav-dot" style="background:var(--water)"></span>水
+            <span class="nav-badge">{water_n}</span>
+        </button>
+        <button class="nav-filter" onclick="filter(this,'副原料')">
+            <span class="nav-dot" style="background:var(--adjunct)"></span>副原料
+            <span class="nav-badge">{adj_n}</span>
+        </button>
+        <span class="nav-sep"></span>
+        <a class="nav-archive" href="archive.html">📚 バックナンバー</a>
     </nav>
 
     <main>
-        <p class="section-heading">Today's Ranking — Top 10</p>
+        <p class="section-heading">Today's Ranking — Top {total_n}</p>
         {articles_html if articles_html else '<p style="text-align:center;padding:3rem;color:#666;">本日の記事取得中にエラーが発生しました。</p>'}
+        <p class="no-results" id="no-results">該当する記事がありません</p>
     </main>
 
     <script>
-    function filterCategory(e, cat) {{
-        e.preventDefault();
-        document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
-        e.currentTarget.classList.add('active');
-        document.querySelectorAll('article.article').forEach(article => {{
-            if (cat === 'all' || article.dataset.category === cat) {{
-                article.style.display = '';
-            }} else {{
-                article.style.display = 'none';
-            }}
+    function filter(btn, cat) {{
+        document.querySelectorAll('.nav-filter').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        let visible = 0;
+        document.querySelectorAll('article.article').forEach(a => {{
+            const show = cat === 'all' || a.dataset.category === cat;
+            a.classList.toggle('hidden', !show);
+            if (show) visible++;
         }});
+        document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
     }}
     </script>
 
     <footer class="site-footer">
-        <p><strong>BREW DAILY</strong> は世界中の醸造所公式情報を自動収集し、AI が日本語に翻訳・解説した独自マガジンです。</p>
-        <p>Generated by Claude AI &nbsp;|&nbsp; Powered by Anthropic &nbsp;|&nbsp; {date_str}</p>
+        <p><strong>BREW DAILY</strong> — 世界中の醸造所公式情報を AI が自動収集・日本語翻訳・解説</p>
+        <p>{date_str} 発行 &nbsp;|&nbsp; Generated by Claude AI &nbsp;|&nbsp; Powered by Anthropic</p>
+        <div class="footer-links">
+            <a href="archive.html">📚 バックナンバー</a>
+            <a href="subscribe.html">📧 メルマガ登録</a>
+        </div>
     </footer>
 
 </body>
