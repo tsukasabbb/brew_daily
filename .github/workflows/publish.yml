@@ -34,8 +34,13 @@ jobs:
       # 通常運用: Claudeが事前にWebSearch/WebFetchで一次情報を検証し、
       # docs/index.html に用意しておいた号を、そのままメール配信するだけ。
       # 記事の自動収集・自動生成は行わない（内容の正確性が保証できないため）。
+      # 日付不一致（古い号/プレースホルダーの誤配信防止チェックに失敗した場合）で
+      # このステップがエラー終了しても、後続のデプロイ処理は止めずに進める。
+      # ただし Actions 上ではこのステップが失敗(赤)として記録されるため、
+      # Actions タブやGitHubの失敗通知で異常に気づける。
       - name: 📬 準備済みの号をメール配信（通常運用）
         if: ${{ github.event_name != 'workflow_dispatch' || inputs.full_regen != true }}
+        continue-on-error: true
         env:
           GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}

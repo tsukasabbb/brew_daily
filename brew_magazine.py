@@ -8,7 +8,7 @@ import json
 import re
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 # --- 設定 ---
@@ -958,7 +958,13 @@ Aurora 120Lの最大の特徴は、その複雑なフレーバープロファイ
 
 def send_today_mail_from_docs():
     """docs/index.html を既に用意された最新号として読み込み、内容を変えずにメール配信する。
-    ANTHROPIC_API_KEY は不要。記事収集・HTML生成は一切行わない。"""
+    ANTHROPIC_API_KEY は不要。記事収集・HTML生成は一切行わない。
+
+    安全策: docs/index.html に書かれている日付が「今日（日本時間）」でない場合は、
+    古い号（デモ/プレースホルダー含む）を誤って再送信してしまわないよう、
+    送信を中止してエラー終了する。過去に、UIリニューアル時のプレースホルダー記事が
+    docs/index.html に残ったまま複数日にわたって同じ内容がメール配信され続けた
+    事故があったため、その再発防止として導入している。"""
     docs_index = Path(__file__).parent / "docs" / "index.html"
     if not docs_index.exists():
         print(f"❌ エラー: {docs_index} が見つかりません")
@@ -966,14 +972,32 @@ def send_today_mail_from_docs():
 
     html = docs_index.read_text(encoding="utf-8")
 
-    m = re.search(r"<title>.*?-\s*(.+?)</title>", html)
-    if m:
-        date_str = m.group(1).strip()
-    else:
-        date_str = datetime.now().strftime("%Y年%m月%d日（%a）")
+    # <title>BREW DAILY — 2026年10月19日（Mon）</title> のように
+    # ハイフンではなく em dash（—）が使われているため、両方にマッチさせる
+    m = re.search(r"<title>.*?[—\-]\s*(.+?)</title>", html)
+    date_str = m.group(1).strip() if m else None
 
-    print(f"\n📬 mail-onlyモード: docs/index.html（{date_str}号）をそのまま配信します")
-    send_email(html, date_str)
+    # 日本時間での「今日」
+    jst_now = datetime.now(timezone.utc) + timedelta(hours=9)
+    today_jst_label = jst_now.strftime("%Y年%m月%d日")
+
+    # 本文中から年月日を抽出し、今日の日付と一致するか検証する
+    dm = re.search(r"(\d{4})年(\d{1,2})月(\d{1,2})日", html)
+    content_date_label = (
+        f"{dm.group(1)}年{int(dm.group(2))}月{int(dm.group(3))}日" if dm else None
+    )
+
+    if not dm or content_date_label != today_jst_label:
+        print(
+            f"❌ エラー: docs/index.html の日付（{content_date_label or '不明'}）が "
+            f"本日（{today_jst_label}, JST）と一致しません。"
+        )
+        print("   古い号（またはプレースホルダー）を誤って配信しないよう、メール送信を中止します。")
+        print("   先に今日分の記事を docs/index.html に反映・push してから、再度実行してください。")
+        sys.exit(1)
+
+    print(f"\n📬 mail-onlyモード: docs/index.html（{date_str or today_jst_label}号）をそのまま配信します")
+    send_email(html, date_str or today_jst_label)
 
 
 def main():
