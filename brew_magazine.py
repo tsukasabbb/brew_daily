@@ -15,6 +15,10 @@ from pathlib import Path
 OUTPUT_DIR = Path(__file__).parent / "output"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
+# 同じ号を同日中に誤って複数回配信してしまわないよう、配信済みの日付を記録するファイル。
+# ワークフロー側でこのファイルをコミット・pushすることで、実行をまたいで重複防止が機能する。
+MAIL_LOG_FILE = OUTPUT_DIR / "mail_sent_log.json"
+
 MODEL = "claude-opus-4-8"
 
 # 検索対象の醸造所・業界団体（オフィシャルソース）
@@ -956,6 +960,35 @@ Aurora 120Lの最大の特徴は、その複雑なフレーバープロファイ
     ]
 
 
+def _load_mail_log() -> dict:
+    """配信済みログを読み込む。壊れている/存在しない場合は空dictを返す。"""
+    if MAIL_LOG_FILE.exists():
+        try:
+            return json.loads(MAIL_LOG_FILE.read_text(encoding="utf-8"))
+        except Exception:
+            return {}
+    return {}
+
+
+def _record_mail_sent(date_label: str, sent_count: int, recipient_count: int) -> None:
+    """配信に成功した号の日付を記録する（重複配信防止用）。
+    実際に1件以上の送信に成功した場合にのみ呼び出すこと。"""
+    jst_now = datetime.now(timezone.utc) + timedelta(hours=9)
+    MAIL_LOG_FILE.write_text(
+        json.dumps(
+            {
+                "last_sent_date_label": date_label,
+                "sent_at_jst": jst_now.strftime("%Y-%m-%d %H:%M:%S"),
+                "sent_count": sent_count,
+                "recipient_count": recipient_count,
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+
+
 def send_today_mail_from_docs():
     """docs/index.html を既に用意された最新号として読み込み、内容を変えずにメール配信する。
     ANTHROPIC_API_KEY は不要。記事収集・HTML生成は一切行わない。
@@ -978,8 +1011,13 @@ def send_today_mail_from_docs():
     date_str = m.group(1).strip() if m else None
 
     # 日本時間での「今日」
+    # 注意: content_date_label 側は int() 変換でゼロ埋めを除去した形式
+    # （例: 「2026年11月5日」）になるため、こちらも同じ非ゼロ埋め形式で
+    # 揃える。strftime の %m/%d はゼロ埋めされるため、月・日が1桁の日に
+    # 「2026年11月05日」のような文字列になり、不一致でメール配信が毎月
+    # 1〜9日に失敗し続ける、という過去の不具合があったための対応。
     jst_now = datetime.now(timezone.utc) + timedelta(hours=9)
-    today_jst_label = jst_now.strftime("%Y年%m月%d日")
+    today_jst_label = f"{jst_now.year}年{jst_now.month}月{jst_now.day}日"
 
     # 本文中から年月日を抽出し、今日の日付と一致するか検証する
     dm = re.search(r"(\d{4})年(\d{1,2})月(\d{1,2})日", html)
@@ -996,8 +1034,23 @@ def send_today_mail_from_docs():
         print("   先に今日分の記事を docs/index.html に反映・push してから、再度実行してください。")
         sys.exit(1)
 
+    # 重複配信防止: 同じ号を同日中に既に配信済みなら、デフォルトではスキップする。
+    # ワークフローの手動実行を1日に複数回押してしまった場合などに、同じ内容を
+    # 宛先全員へ再送してしまう事故を防ぐための安全策。
+    force_resend = "--force-resend" in sys.argv
+    mail_log = _load_mail_log()
+    if not force_resend and mail_log.get("last_sent_date_label") == content_date_label:
+        print(
+            f"\n📬 {content_date_label}号は {mail_log.get('sent_at_jst', '―')}（JST）に"
+            f"配信済み（{mail_log.get('sent_count', '?')}件）のため、重複配信防止のためスキップします。"
+        )
+        print("   新しい宛先を追加して同日中に再送したい場合は、`--force-resend` を付けて実行してください。")
+        return
+
     print(f"\n📬 mail-onlyモード: docs/index.html（{date_str or today_jst_label}号）をそのまま配信します")
-    send_email(html, date_str or today_jst_label)
+    sent_count, recipient_count = send_email(html, date_str or today_jst_label)
+    if sent_count > 0:
+        _record_mail_sent(content_date_label, sent_count, recipient_count)
 
 
 def main():
@@ -1084,8 +1137,19 @@ def main():
     print(f"📰 記事数: {len(articles)}件")
     print("=" * 60)
 
-    # Step 6: メール配信
-    send_email(html, date_str)
+    # Step 6: メール配信（重複配信防止つき）
+    dedup_label = f"{now.year}年{now.month}月{now.day}日"
+    force_resend = "--force-resend" in sys.argv
+    mail_log = _load_mail_log()
+    if not force_resend and mail_log.get("last_sent_date_label") == dedup_label:
+        print(
+            f"\n📬 {dedup_label}号は {mail_log.get('sent_at_jst', '―')}（JST）に配信済みのため、"
+            "重複配信防止のためスキップします（--force-resend で強制再送可）。"
+        )
+    else:
+        sent_count, recipient_count = send_email(html, date_str)
+        if sent_count > 0:
+            _record_mail_sent(dedup_label, sent_count, recipient_count)
 
     # Windows の場合、ブラウザで開く
     if sys.platform == "win32":
@@ -1094,7 +1158,11 @@ def main():
 
 
 def send_email(html: str, date_str: str):
-    """生成したマガジンをメールで配信する"""
+    """生成したマガジンをメールで配信する。
+
+    戻り値: (実際に送信できた件数, 配信対象の宛先件数) のタプル。
+    メール設定が無い場合やSMTP接続自体に失敗した場合は (0, 0) を返す。
+    """
     import smtplib
     from email.mime.multipart import MIMEMultipart
     from email.mime.text import MIMEText
@@ -1104,7 +1172,7 @@ def send_email(html: str, date_str: str):
 
     if not gmail_address or not gmail_password:
         print("\n📧 メール設定なし（スキップ）")
-        return
+        return 0, 0
 
     # Cloudflare Worker から購読者リストを取得
     recipients = []
@@ -1163,6 +1231,8 @@ def send_email(html: str, date_str: str):
             print(f"  ⚠️ 送信失敗: {len(failed)}件")
     except Exception as e:
         print(f"  ❌ メール送信エラー（SMTP接続）: {e}")
+
+    return sent_count, len(recipients)
 
 
 if __name__ == "__main__":

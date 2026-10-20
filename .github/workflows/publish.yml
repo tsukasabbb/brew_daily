@@ -65,6 +65,19 @@ jobs:
           python brew_magazine.py
           cp output/latest.html docs/index.html
 
+      - name: 📮 配信記録をコミット（重複配信防止用）
+        continue-on-error: true
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain -- output/mail_sent_log.json)" ]; then
+            git add output/mail_sent_log.json
+            git commit -m "📮 配信記録を更新 (${{ github.run_id }})"
+            git push
+          else
+            echo "配信記録に変更なし（未配信、または同日分は配信済みでスキップされたため）"
+          fi
+
       - name: 静的ページをコピー
         run: |
           cp subscribe.html docs/subscribe.html
