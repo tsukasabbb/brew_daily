@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BREW DAILY — 2026年10月23日（Fri）</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --amber:   #C8860A;
+            --amber2:  #F5A623;
+            --ink:     #0F0C08;
+            --ink2:    #3D2B1F;
+            --muted:   #7A6A5A;
+            --paper:   #F9F6F0;
+            --card:    #FFFFFF;
+            --rule:    #D4C4A8;
+            --blue:    #1A4E8C;
+            --blue-bg: #EBF2FB;
+            --malt:    #8B5E00;
+            --hop:     #2E6B1A;
+            --water:   #1A4E8C;
+            --adjunct: #7A3A8C;
+            --nav-h:   52px;
+        }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { font-size:17px; scroll-behavior:smooth; scroll-padding-top:calc(var(--nav-h) + 8px); }
+        body {
+            font-family:'Noto Serif JP',Georgia,serif;
+            background:var(--paper);
+            color:var(--ink);
+            line-height:1.9;
+            -webkit-font-smoothing:antialiased;
+        }
+
+        /* ════ MASTHEAD ════ */
+        .masthead {
+            background:var(--ink);
+            color:#fff;
+            padding:2.2rem 1.5rem 1.6rem;
+            text-align:center;
+            position:relative;
+            overflow:hidden;
+        }
+        .masthead::before {
+            content:'';
+            position:absolute; inset:0;
+            background:repeating-linear-gradient(
+                90deg,
+                rgba(200,134,10,.07) 0px, rgba(200,134,10,.07) 1px,
+                transparent 1px, transparent 60px
+            );
+            pointer-events:none;
+        }
+        .masthead-eyebrow {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.65rem;
+            letter-spacing:.35em;
+            color:var(--amber2);
+            text-transform:uppercase;
+            margin-bottom:.8rem;
+        }
+        .masthead-title {
+            font-family:'Playfair Display','Noto Serif JP',serif;
+            font-size:clamp(2.8rem,8vw,5.5rem);
+            font-weight:900;
+            letter-spacing:.06em;
+            color:#fff;
+            line-height:1;
+            text-shadow:0 2px 24px rgba(200,134,10,.3);
+        }
+        .masthead-rule {
+            border:none;
+            height:1px;
+            background:linear-gradient(90deg,transparent,var(--amber),transparent);
+            margin:.9rem auto;
+            width:min(480px,80%);
+        }
+        .masthead-meta {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.68rem;
+            color:rgba(255,255,255,.55);
+            display:flex;
+            justify-content:center;
+            gap:1.5rem;
+            flex-wrap:wrap;
+        }
+        .masthead-meta span { display:flex; align-items:center; gap:.35rem; }
+        .masthead-editor {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.72rem;
+            color:rgba(255,255,255,.65);
+            letter-spacing:.05em;
+            margin-bottom:.6rem;
+        }
+        .masthead-tagline {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.72rem;
+            color:rgba(255,255,255,.4);
+            margin-top:.7rem;
+            letter-spacing:.08em;
+        }
+
+        /* ════ GREETING ════ */
+        .greeting-band {
+            background:var(--paper);
+            border-bottom:1px solid var(--rule);
+            padding:1.2rem var(--side);
+            max-width:var(--max-w);
+            margin:0 auto;
+            width:100%;
+        }
+        .greeting-text {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.88rem;
+            color:var(--ink2);
+            line-height:1.8;
+            margin-bottom:.3rem;
+        }
+        .greeting-link {
+            margin-top:.6rem;
+            font-size:.82rem;
+        }
+        .greeting-link a {
+            color:var(--amber);
+            text-decoration:none;
+            border-bottom:1px solid currentColor;
+            padding-bottom:1px;
+        }
+        .greeting-link a:hover { color:var(--ink); }
+
+        /* ════ NAV ════ */
+        .category-nav {
+            background:var(--ink);
+            border-top:1px solid #2a2218;
+            height:var(--nav-h);
+            display:flex;
+            align-items:stretch;
+            justify-content:center;
+            position:sticky;
+            top:0;
+            z-index:200;
+            box-shadow:0 2px 12px rgba(0,0,0,.4);
+        }
+        .nav-filter, .nav-archive {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.72rem;
+            font-weight:700;
+            letter-spacing:.1em;
+            color:rgba(255,255,255,.5);
+            text-decoration:none;
+            padding:0 1.1rem;
+            display:flex;
+            align-items:center;
+            gap:.45rem;
+            border:none;
+            background:none;
+            cursor:pointer;
+            position:relative;
+            transition:color .2s;
+            white-space:nowrap;
+        }
+        .nav-filter::after {
+            content:'';
+            position:absolute;
+            bottom:0; left:50%; right:50%;
+            height:2px;
+            background:var(--amber2);
+            transition:left .2s, right .2s;
+        }
+        .nav-filter:hover, .nav-archive:hover { color:rgba(255,255,255,.9); }
+        .nav-filter.active { color:#fff; }
+        .nav-filter.active::after { left:0; right:0; }
+        .nav-dot {
+            width:7px; height:7px;
+            border-radius:50%;
+            flex-shrink:0;
+        }
+        .nav-badge {
+            font-size:.6rem;
+            background:rgba(255,255,255,.12);
+            color:rgba(255,255,255,.5);
+            border-radius:9px;
+            padding:.05rem .42rem;
+            font-weight:500;
+        }
+        .nav-filter.active .nav-badge {
+            background:var(--amber);
+            color:#fff;
+        }
+        .nav-sep {
+            width:1px;
+            background:rgba(255,255,255,.1);
+            align-self:center;
+            height:60%;
+            flex-shrink:0;
+        }
+        .nav-archive {
+            border-left:1px solid rgba(255,255,255,.1);
+            margin-left:.5rem;
+            padding-left:1.2rem;
+            color:var(--amber2);
+            opacity:.8;
+        }
+        .nav-archive:hover { opacity:1; }
+
+        /* ════ MAIN ════ */
+        main {
+            max-width:760px;
+            margin:0 auto;
+            padding:2.8rem 1.5rem 5rem;
+        }
+        .section-heading {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.65rem;
+            font-weight:700;
+            letter-spacing:.28em;
+            text-transform:uppercase;
+            color:var(--amber);
+            border-bottom:1px solid var(--rule);
+            padding-bottom:.6rem;
+            margin-bottom:2.2rem;
+            display:flex;
+            align-items:center;
+            gap:.6rem;
+        }
+        .section-heading::before {
+            content:''; display:block;
+            width:18px; height:2px; background:var(--amber);
+        }
+
+        /* ════ ARTICLE ════ */
+        .article {
+            background:var(--card);
+            border-left:4px solid var(--cat-color, var(--muted));
+            border-radius:0 4px 4px 0;
+            padding:1.8rem 2rem 1.6rem;
+            margin-bottom:1.6rem;
+            box-shadow:0 1px 4px rgba(0,0,0,.06);
+            transition:opacity .25s, transform .25s;
+        }
+        .article.hidden {
+            display:none;
+        }
+        .article-kicker {
+            display:flex;
+            align-items:center;
+            gap:.6rem;
+            margin-bottom:.7rem;
+        }
+        .article-rank {
+            font-family:'Playfair Display',serif;
+            font-size:1.7rem;
+            font-weight:900;
+            color:var(--rule);
+            line-height:1;
+            min-width:2rem;
+        }
+        .article-category {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.62rem;
+            font-weight:700;
+            letter-spacing:.15em;
+            color:#fff;
+            background:var(--cat-color, var(--muted));
+            padding:.18rem .65rem;
+            border-radius:2px;
+        }
+        .article-popularity { margin-left:auto; font-size:.75rem; color:var(--amber2); }
+        .article-headline {
+            font-family:'Noto Serif JP',serif;
+            font-size:1.3rem;
+            font-weight:700;
+            line-height:1.55;
+            color:var(--ink);
+            margin-bottom:.6rem;
+        }
+        .article-deck {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.85rem;
+            font-weight:500;
+            color:var(--ink2);
+            border-left:3px solid var(--amber);
+            padding-left:.75rem;
+            margin-bottom:.85rem;
+            line-height:1.65;
+        }
+        .article-byline {
+            display:flex;
+            gap:1rem;
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.68rem;
+            color:var(--muted);
+            padding-bottom:.75rem;
+            border-bottom:1px solid var(--rule);
+            margin-bottom:1.1rem;
+            flex-wrap:wrap;
+        }
+        .article-body p {
+            font-size:.95rem;
+            line-height:1.95;
+            color:#3D2B1F;
+            margin-bottom:1.1em;
+            text-align:justify;
+        }
+        .article-body p:last-child { margin-bottom:0; }
+        .analysis {
+            background:var(--blue-bg);
+            border-left:3px solid var(--blue);
+            padding:.9rem 1.1rem;
+            margin-top:1.3rem;
+            border-radius:0 3px 3px 0;
+        }
+        .analysis-label {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.62rem;
+            font-weight:700;
+            letter-spacing:.18em;
+            text-transform:uppercase;
+            color:var(--blue);
+            display:block;
+            margin-bottom:.4rem;
+        }
+        .analysis p {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.82rem;
+            line-height:1.85;
+            color:#1a2a3a;
+        }
+        .article-source {
+            margin-top:1.1rem;
+            font-family:'Noto Sans JP',sans-serif;
+        }
+        .article-source a {
+            font-size:.72rem;
+            color:var(--blue);
+            text-decoration:none;
+            border-bottom:1px solid currentColor;
+            padding-bottom:1px;
+            opacity:.8;
+        }
+        .article-source a:hover { opacity:1; color:var(--amber); }
+
+        /* ── no-results ── */
+        .no-results {
+            text-align:center;
+            padding:3rem;
+            color:var(--muted);
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.85rem;
+            display:none;
+        }
+
+        /* ════ FOOTER ════ */
+        .site-footer {
+            background:var(--ink);
+            color:rgba(255,255,255,.35);
+            text-align:center;
+            padding:2.5rem 1rem;
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.7rem;
+            line-height:2;
+        }
+        .site-footer strong { color:var(--amber2); }
+        .footer-links { margin-top:.6rem; display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; }
+        .footer-links a { color:rgba(255,255,255,.45); text-decoration:none; }
+        .footer-links a:hover { color:var(--amber2); }
+
+        /* ════ RESPONSIVE ════ */
+        @media(max-width:600px) {
+            html { font-size:15px; }
+            main { padding:1.8rem 1rem 3.5rem; }
+            .article { padding:1.3rem 1.2rem 1.2rem; }
+            .article-headline { font-size:1.15rem; }
+            .nav-filter, .nav-archive { padding:0 .7rem; font-size:.65rem; }
+            .nav-badge { display:none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="masthead" style="background:#0F0C08;">
+        <p class="masthead-eyebrow" style="color:#F5A623;">世界のブルワリー最新情報マガジン</p>
+        <h1 class="masthead-title" style="color:#ffffff;">BREW DAILY</h1>
+        <div class="masthead-rule" style="background:#C8860A;"></div>
+        <p class="masthead-editor" style="color:rgba(255,255,255,.65);">✍ 編集者　高橋司（株式会社ベアレン醸造所営業部長／岩手日独協会会長）</p>
+        <div class="masthead-meta">
+            <span style="color:rgba(255,255,255,.55);">📅 2026年10月23日（Fri） 発行</span>
+            <span style="color:rgba(255,255,255,.55);">🍺 麦芽・ホップ・水・副原料 Top 9</span>
+            <span style="color:rgba(255,255,255,.55);">✦ Powered by Claude AI</span>
+        </div>
+        <p class="masthead-tagline" style="color:rgba(255,255,255,.4);">ビール業界関係者のための毎日の情報誌</p>
+    </header>
+
+    <div class="greeting-band">
+        <p class="greeting-text">いつもご覧いただきありがとうございます。編集者の高橋司です。</p>
+        <p class="greeting-text">本日の最新号をお届けします。世界の醸造所・業界団体の公式情報を AI が収集・翻訳・解説しています。</p>
+        <p class="greeting-link"><a href="https://tsukasabbb.github.io/brew_daily/">▶ 最新号をブラウザで読む　https://tsukasabbb.github.io/brew_daily/</a></p>
+    </div>
+
+    <nav class="category-nav" aria-label="カテゴリフィルター" style="background:#0F0C08;">
+        <button class="nav-filter active" onclick="filter(this,'all')" style="color:#ffffff;">
+            <span class="nav-dot" style="background:#888"></span>すべて
+            <span class="nav-badge" style="background:#C8860A;color:#ffffff;">9</span>
+        </button>
+        <span class="nav-sep" style="background:rgba(255,255,255,.15);"></span>
+        <button class="nav-filter" onclick="filter(this,'麦芽')" style="color:rgba(255,255,255,.75);">
+            <span class="nav-dot" style="background:#8B5E00"></span>麦芽
+            <span class="nav-badge" style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.75);">2</span>
+        </button>
+        <button class="nav-filter" onclick="filter(this,'ホップ')" style="color:rgba(255,255,255,.75);">
+            <span class="nav-dot" style="background:#2E6B1A"></span>ホップ
+            <span class="nav-badge" style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.75);">3</span>
+        </button>
+        <button class="nav-filter" onclick="filter(this,'水')" style="color:rgba(255,255,255,.75);">
+            <span class="nav-dot" style="background:#1A4E8C"></span>水
+            <span class="nav-badge" style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.75);">2</span>
+        </button>
+        <button class="nav-filter" onclick="filter(this,'副原料')" style="color:rgba(255,255,255,.75);">
+            <span class="nav-dot" style="background:#7A3A8C"></span>副原料
+            <span class="nav-badge" style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.75);">2</span>
+        </button>
+        <span class="nav-sep" style="background:rgba(255,255,255,.15);"></span>
+        <a class="nav-archive" href="https://tsukasabbb.github.io/brew_daily/archive.html" target="_blank" rel="noopener" style="color:#F5A623;">📚 バックナンバー</a>
+    </nav>
+
+    <main>
+        <p class="section-heading">Today's Ranking — Top 9</p>
+
+        <article class="article" id="article-1" data-category="麦芽" style="--cat-color:#8B6914">
+            <div class="article-kicker">
+                <span class="article-rank">01</span>
+                <span class="article-category">🌾 麦芽</span>
+                <span class="article-popularity">⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-headline">アイルランドの製麦大手ボートモルト、2026年産ビール用大麦に追加払いなしを通告　ギネスの親会社ディアジオの関与を問う声も</h2>
+            <p class="article-deck">生産者が受け取る価格は飼料用大麦より安く、"乾燥費"か"公平化費"かで対立　IFAとは2027年産の価格体系を協議へ</p>
+            <div class="article-byline">
+                <span>Agriland(Richard Halleron) / アイルランド農業者協会(IFA)・ボートモルト</span>
+                <span>アイルランド</span>
+                <span>発表日: 2026年10月13日</span>
+            </div>
+            <div class="article-body">
+                <p>アイルランドの大手製麦会社ボートモルトは、2026年産ビール用大麦について追加の価格支援を行わない方針を明らかにした。同社の代表者スチュアート・サンズ氏は、2026年10月12日にアイルランド南東部カーロウで開かれたアイルランド農業者協会(IFA)主催の「製麦用大麦危機会合」で、追加の価格措置を求める声に対し「そのための資金がない」と述べた。南部レンスター地方やコークの生産者らは、2026年産の受け取り価格が飼料用大麦の価格を下回ったとして強い不満を表明している。</p>
+                <p>生産者側とボートモルトの間では、同社が2022年に導入した1トン当たり10ユーロの課金についても見解が割れている。生産者側はこれを「乾燥費」と呼び実質的な値引きだと主張するが、ボートモルト側は「公平化費」だとしている。生産者は、製麦用品種は飼料用大麦よりも1エーカー当たり最大0.5トン多く収穫できる一方、追加のコストもかかると説明する。ボートモルトは製麦業界全体が、ビール消費の低迷と蒸留用アルコールの供給過剰による圧迫を受けているとし、エイシー(Athy)拠点への投資にも言及した。</p>
+                <p>会合では多くの生産者が、2027年はボートモルト向けに製麦用大麦を栽培しないと表明した。IFA会長フランシー・ゴーマン氏は会合の議長を務め、業界は「転換点にある」と警告した。IFAとボートモルトは今後数週間のうちに2027年産の価格体系について協議することで合意し、2027年からは先物価格をより早期に公表する方針も確認された。会合ではボートモルトの最大顧客であるギネス(親会社ディアジオ)が交渉に関与すべきではないかという声も生産者から上がった。</p>
+            </div>
+            <div class="analysis">
+                <span class="analysis-label">編集部の考察</span>
+                <p>大手ビール会社の原料調達における価格圧力が、最終的に農家にしわ寄せされる構図は、日本の中小ブルワリーが原料の国産化・地場化を進める際にも他山の石となる。輸入大麦に依存する以上、調達先の価格交渉力学は無関係ではなく、またこの対立は「乾燥費」と「公平化費」のどちらの名目であれ、サプライチェーンの上流にいる生産者が交渉力を持ちにくい構造を象徴している。原料を安定的に確保するには、価格だけでなく生産者との関係性そのものに投資する視点が欠かせない。</p>
+            </div>
+            <div class="article-source">
+                <a href="https://www.agriland.ie/farming-news/growers-frustrated-as-boortmalt-rules-out-2026-price-increase/" target="_blank" rel="noopener">
+                    オリジナル記事を読む →
+                </a>
+            </div>
+        </article>
+
+        <article class="article" id="article-2" data-category="ホップ" style="--cat-color:#4A7C2F">
+            <div class="article-kicker">
+                <span class="article-rank">02</span>
+                <span class="article-category">🌿 ホップ</span>
+                <span class="article-popularity">⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-headline">ドイツのホップ農家、2026年は最大1億ユーロの減収見通し　"4年連続の不作か安値"で家族経営が限界に</h2>
+            <p class="article-deck">収穫量は前年比17%減の3万3800トン　大手ホップ商社バートハースは「さらなる面積削減が必要」と指摘</p>
+            <div class="article-byline">
+                <span>Lebensmittelpraxis / ドイツホップ生産者協会(VDH)</span>
+                <span>ドイツ</span>
+                <span>発表日: 2026年8月26日</span>
+            </div>
+            <div class="article-body">
+                <p>ドイツのホップ生産者らは2026年、最大で1億ユーロの減収に見舞われる見通しであることが、2026年8月26日付のLebensmittelpraxisの報道で明らかになった。同国のホップ農家約900軒の通常の年間売上高は合計で約3億ユーロとされ、今回の減収見通しはその規模の大きさを物語る。2026年の収穫量は前年を9000トン以上、率にして17%下回る3万3800トン弱となる見通しで、栽培面積は約1万8000ヘクタール。ドイツは世界のホップ栽培の3分の1以上を占め、米国・チェコがこれに続く。</p>
+                <p>ドイツホップ生産者協会(VDH)は、不作か安値、あるいは両方が重なる状況が4年続いており、多くの家族経営農家が深刻な財務上の問題を抱えていると説明する。会長のアディ・シャプフル氏は、ビール消費の減少が多くの国で進んだ結果、世界的な供給過剰が生じていると指摘し、気候変動も深刻な困難をもたらしているとして、灌漑設備拡充のための国・EUからの資金支援が避けられないと訴えている。すでに数十軒の農家が廃業し栽培面積は縮小しているが、それでも供給過剰の解消には至っていないという。</p>
+                <p>ニュルンベルクを拠点とする大手ホップ商社バートハースも、今後数年間は厳しい状況が続くとの見方を示す。同社の経営責任者トーマス・ライザー氏は、現在の栽培面積と平均的な収量を前提にすれば供給過剰は避けられず、さらなる面積削減が必要だと述べた。バートハースはまた、高温と乾燥により2026年の欧州全体のホップ収穫が平年を下回り、収益の低下と原料品質の低下を招くとの見通しも示している。</p>
+            </div>
+            <div class="analysis">
+                <span class="analysis-label">編集部の考察</span>
+                <p>ホップの供給過剰は輸入ホップに依存する日本の中小ブルワリーにとっては短期的には調達価格の安定につながりうるが、その裏側では主要産地の家族経営農家が気候変動と消費低迷の二重苦で廃業に追い込まれているという事実を踏まえておく必要がある。数年先に特定品種の供給が急に細る可能性もあり、「安く買える今」だけでなく、産地の構造的な変化を長期的な視点で注視しておきたい。</p>
+            </div>
+            <div class="article-source">
+                <a href="https://lebensmittelpraxis.de/industrie-aktuell/49665-bierbranche-in-not-hopfenpflanzer-erwarten-mindereinnahmen-von-bis-zu-100-millionen-euro.html" target="_blank" rel="noopener">
+                    オリジナル記事を読む →
+                </a>
+            </div>
+        </article>
+
+        <article class="article" id="article-3" data-category="ホップ" style="--cat-color:#4A7C2F">
+            <div class="article-kicker">
+                <span class="article-rank">03</span>
+                <span class="article-category">🌿 ホップ</span>
+                <span class="article-popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-headline">米国のホップ在庫、2026年9月時点で前年比9%減の1.05億ポンドに　3年連続の減少も過剰感は根強く</h2>
+            <p class="article-deck">USDA統計、業者・生産者の保有分も醸造者の保有分もともに縮小　供給過剰の調整はなお道半ば</p>
+            <div class="article-byline">
+                <span>USDA 全国農業統計局(NASS)</span>
+                <span>米国</span>
+                <span>発表日: 2026年9月18日</span>
+            </div>
+            <div class="article-body">
+                <p>米農務省全国農業統計局(USDA NASS)は2026年9月18日、アイダホ・オレゴン・ワシントンの3州の生産者・業者・醸造者を対象とした調査に基づく「ホップ在庫報告」を発表した。2026年9月1日時点の在庫総量は1億500万ポンドで、2025年同時点の1億1600万ポンドから9%減少し、2024年の1億3600万ポンドからも大きく減った。3年連続の減少となる。</p>
+                <p>保有者別では、2026年9月1日時点で業者・生産者が8600万ポンド(2025年の9500万ポンドから減少)、醸造者が1900万ポンド(2025年の2100万ポンドから減少)を保有していた。2026年3月1日時点の総在庫は1億4700万ポンドで、2025年の1億6900万ポンド、2024年の1億8400万ポンドから減少している。3月1日時点の保有者別では、業者・生産者が1億2700万ポンド(2025年の1億4600万ポンドから減少)、醸造者が2000万ポンド(2025年の2300万ポンドから減少)だった。</p>
+                <p>在庫は複数年にわたって減少を続けているものの、依然として過去と比べて高水準にあり、世界的なホップの供給過剰が簡単には解消されない状況を映し出している。この傾向は、ドイツの生産者が訴える栽培面積の縮小にもかかわらず過剰感が続いているという状況とも重なる構図だ。</p>
+            </div>
+            <div class="analysis">
+                <span class="analysis-label">編集部の考察</span>
+                <p>米国の大口保有者が抱える在庫がなお高水準にあるという事実は、輸入ホップに依存する日本の中小ブルワリーにとって、短中期的には調達コストが抑えられやすい環境が続くことを示唆する。ただし在庫の減少ペース自体は年々明確になってきており、この調整がどこかで底を打てば、特定品種の値上がりや品薄が急に表面化する可能性もある。数字の推移を定点観測しておく価値は十分にある。</p>
+            </div>
+            <div class="article-source">
+                <a href="https://esmis.nal.usda.gov/sites/default/release-files/796065/hops0926.pdf" target="_blank" rel="noopener">
+                    オリジナル記事を読む →
+                </a>
+            </div>
+        </article>
+
+        <article class="article" id="article-4" data-category="麦芽" style="--cat-color:#8B6914">
+            <div class="article-kicker">
+                <span class="article-rank">04</span>
+                <span class="article-category">🌾 麦芽</span>
+                <span class="article-popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-headline">英クリスプ・モルト、「サステナビリティ・レポート2026」を公表　Scope1・2排出量を2019年比26.2%削減</h2>
+            <p class="article-deck">英国・ドイツ・ポーランドの6拠点で年40万トン超の麦芽を製造、2024→2025年の1年でさらに6.2%の追加削減</p>
+            <div class="article-byline">
+                <span>Crisp Malt / Brewers Journal</span>
+                <span>英国</span>
+                <span>発表日: 2026年7月6日</span>
+            </div>
+            <div class="article-body">
+                <p>英国の製麦会社クリスプ・モルトは2026年7月、環境面の取り組みや投資・技術革新をまとめた「サステナビリティ・レポート2026」を公表した。同社は1870年創業で、英国・ドイツ・ポーランドに6つの製麦拠点を持ち、ビール・蒸留酒・食品向けに年間40万トンを超える麦芽化穀物を製造している。主要な大麦産地の生産者と連携し、持続可能性・トレーサビリティ・品質を兼ね備えた大麦の調達に取り組んでいるという。</p>
+                <p>レポートによれば、同社の6拠点合計のScope1・Scope2(自社の直接排出・購入電力等に伴う排出)は、基準年の2019年比で26.2%削減された。さらに2024年から2025年の1年間だけでも6.2%の追加削減を実現したとしている。</p>
+                <p>サステナビリティ・マネジャーのエリー・ウッド氏は「私たちの焦点は、意欲を測定可能な成果に転換することに変わらず置かれている」とコメントし、人々が信頼を置けるような事業体であり続けることを目指すと述べている。</p>
+            </div>
+            <div class="analysis">
+                <span class="analysis-label">編集部の考察</span>
+                <p>原料となる大麦の生産者がアイルランドのボートモルトの事例のように価格面で苦境に立たされている一方で、製麦会社側は自社の排出量削減という測定可能な成果を前面に打ち出している。サプライチェーンのどの部分が「サステナビリティ」の成果として語られ、どの部分が語られずに済まされているかは、原料を調達する側として見極めておきたい視点だ。日本の中小ブルワリーが自社の環境面の取り組みを発信する際も、数値で示せる部分と生産者との関係性という数値化しにくい部分の両方を意識したい。</p>
+            </div>
+            <div class="article-source">
+                <a href="https://www.brewersjournal.info/crisp-malt-shares-sustainability-progress/" target="_blank" rel="noopener">
+                    オリジナル記事を読む →
+                </a>
+            </div>
+        </article>
+
+        <article class="article" id="article-5" data-category="水" style="--cat-color:#1E6B9E">
+            <div class="article-kicker">
+                <span class="article-rank">05</span>
+                <span class="article-category">💧 水</span>
+                <span class="article-popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-headline">ハイネケン系ユナイテッド・ブルワリーズ、インド・テランガナ州で水資源再生プロジェクト「Jal Shakti」始動</h2>
+            <p class="article-deck">堰(チェックダム)の新設・再生と灌漑用水路3本の改修、再生可能エネルギー駆動の農家支援拠点も2カ所開設</p>
+            <div class="article-byline">
+                <span>United Breweries Limited(UBL) / BharatCares</span>
+                <span>インド</span>
+                <span>発表日: 2026年2月13日</span>
+            </div>
+            <div class="article-body">
+                <p>ハイネケン・グループ傘下のユナイテッド・ブルワリーズ(UBL)は2026年2月、インド南部テランガナ州サンガレディ地区の6つの村落自治体(グラム・パンチャーヤト)を対象に、非営利団体バーラト・ケアーズ(BharatCares)と共同で水資源再生プロジェクト「Jal Shakti(ジャル・シャクティ)」を始動させた。</p>
+                <p>プロジェクトでは、新たな堰(チェックダム)の建設と既存の堰の再生に加え、灌漑用水路3本の拡幅・掘り直しを実施。郷土種の苗木1200本超も植樹し、地域の生態系回復にも取り組む。あわせて、再生可能エネルギーで稼働する「センター・オブ・エクセレンス」を2カ所開設し、土壌・水資源保全に関する研修や、自動気象観測装置・土壌検査ラボを通じて農家を支援する。</p>
+                <p>UBLの最高広報責任者ガリマ・シン氏は、このプロジェクトが「自社の事業地域における水資源管理の実践」を反映したものであり、農家の能力育成と水資源保全インフラの整備を両立させるものだと述べた。BharatCaresの理事ボミック・シャー氏も、センター・オブ・エクセレンスが地域農家の「長期的な強靭性の構築」に重要な役割を果たすと評価している。</p>
+            </div>
+            <div class="analysis">
+                <span class="analysis-label">編集部の考察</span>
+                <p>ハイネケン規模の企業だからこそ可能な、工場の外に出て農業用水インフラそのものに投資する規模感の取り組みだが、着目すべきは「気象データ・土壌診断を使った農家支援拠点」という要素だ。地域の農協や自治体と連携し気象・土壌データを共有する仕組みは、岩手のような大麦・ホップ産地を持つ地域でも、規模を問わず応用できる発想かもしれない。</p>
+            </div>
+            <div class="article-source">
+                <a href="https://indiacsr.in/csr-united-breweries-implements-project-jal-shakti-telangana/" target="_blank" rel="noopener">
+                    オリジナル記事を読む →
+                </a>
+            </div>
+        </article>
+
+        <article class="article" id="article-6" data-category="水" style="--cat-color:#1E6B9E">
+            <div class="article-kicker">
+                <span class="article-rank">06</span>
+                <span class="article-category">💧 水</span>
+                <span class="article-popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-headline">米マサチューセッツ州のアクアティック・ブルーイング、水・エネルギー管理で「グリーン飲料製造者」に認定</h2>
+            <p class="article-deck">排水予定だった仕込み水を再利用、発酵由来のCO2で炭酸ガスを自給する「スパンディング」も採用</p>
+            <div class="article-byline">
+                <span>BetterBev(マサチューセッツ大学アマースト校エネルギー転換研究所) / Aquatic Brewing</span>
+                <span>米国</span>
+                <span>発表日: 2026年8月24日</span>
+            </div>
+            <div class="article-body">
+                <p>米マサチューセッツ州ファルマスの小規模ブルワリー、アクアティック・ブルーイングは2026年8月、環境認証プログラム「BetterBev」の下で「グリーン飲料製造者」として認定された。BetterBevはマサチューセッツ大学アマースト校のエネルギー転換研究所が運営し、米環境保護局(EPA)の汚染防止プログラムからの助成も一部活用している。認定は水・エネルギー使用、廃棄物、環境文化に関する現地の評価担当者による審査を経て行われる。</p>
+                <p>同ブルワリーは、水と購入CO2の使用量を業界平均より低く抑えることで運営コストを削減している。通常なら下水に排出される仕込み用の水を回収し、ブルーハウス内の別工程で再利用。さらに、発酵過程で生じるCO2をタンク内でそのまま炭酸化に利用する「スパンディング」という手法も採用し、購入するCO2ガスへの依存を減らしている。</p>
+                <p>電力については地域の太陽光発電事業「グラスホッパー・エナジー」との契約によって全量を相殺し、電動のブルーハウスを使用することで同規模のブルワリーより排出量を大幅に抑えているという。また、麦芽粕(モルト粕)・使用済みホップ・酵母などの有機副産物は地元農家に提供し、飼料や堆肥として活用されている。</p>
+            </div>
+            <div class="analysis">
+                <span class="analysis-label">編集部の考察</span>
+                <p>ハイネケンのような大企業の水資源プロジェクトと対照的に、アクアティック・ブルーイングの取り組みは、仕込み水の再利用やスパンディングによるCO2自給など、大きな資本投資なしに個々の小規模ブルワリーが今すぐ始められる工夫ばかりだ。麦芽粕や使用済みホップを地元農家に提供する仕組みも含め、規模の小さい日本の地ビールメーカーがそのまま参考にできる実践例と言える。</p>
+            </div>
+            <div class="article-source">
+                <a href="https://www.brewbound.com/pr/2026/08/24/falmouths-aquatic-brewing-earns-green-brewery-recognition" target="_blank" rel="noopener">
+                    オリジナル記事を読む →
+                </a>
+            </div>
+        </article>
+
+        <article class="article" id="article-7" data-category="副原料" style="--cat-color:#9B4E9E">
+            <div class="article-kicker">
+                <span class="article-rank">07</span>
+                <span class="article-category">🌽 副原料</span>
+                <span class="article-popularity">⭐⭐</span>
+            </div>
+            <h2 class="article-headline">象印、炊飯器の試験炊き"残りご飯"をビールに　新潟・エチゴビールと「ゾウのマイ」を発売</h2>
+            <p class="article-deck">通常は米粉を使うビールに炊いたご飯をそのまま投入、コンポストに回していた残飯を"米アップサイクル"の第2弾に</p>
+            <div class="article-byline">
+                <span>象印マホービン株式会社 / エチゴビール株式会社</span>
+                <span>日本</span>
+                <span>発表日: 2026年3月16日</span>
+            </div>
+            <div class="article-body">
+                <p>家電メーカーの象印マホービンは2026年3月、炊飯器の開発・試験工程で生じる"残りご飯"を活用したクラフトビール「ゾウのマイ」を発売した。炊飯器の開発では試作機での炊飯と試食を繰り返すため、大量の余剰ご飯が発生し、これまでは外部業者に委託してコンポスト(堆肥化)処理していた。同社はこれを「もったいない」と捉え、ウェットティッシュや米こうじグラノーラに続く"米アップサイクル"の第2弾として、このビールの開発に取り組んだ。</p>
+                <p>ビール造りでは通常、原料として米粉を使うが、「ゾウのマイ」は炊いたご飯をそのまま投入するという異例の製法を採用し、試行錯誤を重ねたという。醸造を担ったのは、日本初のクラフトビールメーカーとして知られる新潟のエチゴビール。販売は2026年3月10日より、象印グループの販売会社エチゴビールフレスコを通じて開始された。</p>
+                <p>味わいはホップ由来の柑橘系の香りを生かしつつ苦味を抑え、和食や家庭料理に合わせやすい仕上がりとしている。商品名の「ゾウのマイ」には、あまりの美味しさに象が舞い上がってしまうほど、かつ"米"を使ったビールであるという意味が込められている。</p>
+            </div>
+            <div class="analysis">
+                <span class="analysis-label">編集部の考察</span>
+                <p>家電メーカーが飲料会社ではなく自社の開発工程から出る食品ロスを起点にクラフトビールに参入したという構図が興味深い。原料の調達先は必ずしも伝統的な農業生産者や商社に限らず、地元の食品加工業者や製造業の副産物にも新たな原料の可能性が眠っているかもしれないという視点は、副原料を模索する中小ブルワリーにとって参考になる。</p>
+            </div>
+            <div class="article-source">
+                <a href="https://www.advertimes.com/?p=537286" target="_blank" rel="noopener">
+                    オリジナル記事を読む →
+                </a>
+            </div>
+        </article>
+
+        <article class="article" id="article-8" data-category="副原料" style="--cat-color:#9B4E9E">
+            <div class="article-kicker">
+                <span class="article-rank">08</span>
+                <span class="article-category">🌽 副原料</span>
+                <span class="article-popularity">⭐⭐</span>
+            </div>
+            <h2 class="article-headline">神奈川・海老名の「Better life with upcycle」、規格外の湘南ゴールドと花椒を使ったケルシュ「Oriental Citrus Ale」を発売</h2>
+            <p class="article-deck">パン会社が運営するブルワリーが小田原の耕作放棄地再生団体と連携、見た目の悪い柑橘に値段をつけてフードロス削減へ</p>
+            <div class="article-byline">
+                <span>Better life with upcycle(栄屋製パン) / SNOA(農地再生団体)</span>
+                <span>日本</span>
+                <span>発表日: 2026年6月5日</span>
+            </div>
+            <div class="article-body">
+                <p>神奈川県海老名市のクラフトブルワリー「Better life with upcycle」(パン製造会社・栄屋製パンが運営)は2026年6月、神奈川県小田原市・足柄地域の耕作放棄地再生に取り組む団体SNOA(シニア・ネットワーク小田原・足柄)と連携し、規格外の「湘南ゴールド」を使ったビール「Oriental Citrus Ale」を発売した。</p>
+                <p>「Oriental Citrus Ale」はケルシュスタイル(ABV5.0%)で、見た目の傷などを理由に通常の販路で売れない規格外の湘南ゴールドに、中国由来のスパイス「青花椒」を組み合わせている。2026年6月9日に発売され、6月6〜7日開催の「EBINA BOOZE FEST 2026」でも提供された。価格は350ml缶1本572円(税込・配送料別)で、ブルワリーの直販サイトで販売されている。</p>
+                <p>このビールは、本来なら売り先のない規格外の果物に価値を与えるとともに、SNOAが進める耕作放棄地再生の取り組みを後押しし、フードロス削減にもつなげる狙いがある。</p>
+            </div>
+            <div class="analysis">
+                <span class="analysis-label">編集部の考察</span>
+                <p>全国的な家電メーカーによる米のアップサイクル(ゾウのマイ)と、地域のパン会社が運営する小さなブルワリーによる規格外柑橘の活用は、規模は全く異なるものの「廃棄されるはずの食材をビールに変える」という発想を共有している。岩手県内でも規格外のりんごや果物が発生する地域は多く、こうした小規模な連携モデルは、原料コストをかけずに地域性のあるビールを生み出す手段として参考にできる。</p>
+            </div>
+            <div class="article-source">
+                <a href="https://voix.jp/life/news/83147/" target="_blank" rel="noopener">
+                    オリジナル記事を読む →
+                </a>
+            </div>
+        </article>
+
+        <article class="article" id="article-9" data-category="ホップ" style="--cat-color:#4A7C2F">
+            <div class="article-kicker">
+                <span class="article-rank">09</span>
+                <span class="article-category">🌿 ホップ</span>
+                <span class="article-popularity">⭐⭐</span>
+            </div>
+            <h2 class="article-headline">米オレゴン州ウッドバーン、「オレゴン・ホップ・フェスティバル」第3回開催　20軒超のブルワリーがフレッシュホップビールを提供</h2>
+            <p class="article-deck">1900年創業のクロスビー・ホップ・ファーム併設タップルーム「TopWire」が会場に、ホップ畑のトラクター見学も</p>
+            <div class="article-byline">
+                <span>Hoodline / TopWire Hop Project・Crosby Hop Farm</span>
+                <span>米国</span>
+                <span>発表日: 2026年9月12日</span>
+            </div>
+            <div class="article-body">
+                <p>米オレゴン州ウッドバーンで2026年9月12〜13日、第3回「オレゴン・ホップ・フェスティバル」が開催された。会場は、稼働中のホップ畑の中にあるタップルーム「TopWire Hop Project」。20軒を超えるブルワリーが、収穫したばかりのホップを使ったフレッシュホップビールを提供した。入場料は25ドルで、21歳未満は無料、駐車場も無料だった。</p>
+                <p>イベントでは、ホップの香りや質感を楽しむ体験コーナー、稼働中のホップ畑をトラクターで巡るツアー、ライブ音楽、地元の飲食ブースなどが用意され、子ども向けの催しも行われた。TopWireは2020年夏に、現役のホップ畑の中に開業した季節限定のタップルームで、オレゴン州観光局によれば、州内のホップ農場でこの種の一般開放型タップルームを持つのはここだけだという。</p>
+                <p>会場となったクロスビー・ホップ・ファームは1900年創業で、現在5代目の一族が経営する。2016年にはホップ供給会社として初めてB Corp(公益認証企業)の認証を取得し、河川環境に配慮した「サーモン・セーフ」認証も保持している。オレゴン州の商業ホップ栽培は1867年に始まったが、同州の生産者を含め米国のホップ産業全体が市場の圧力に直面しているという。</p>
+            </div>
+            <div class="analysis">
+                <span class="analysis-label">編集部の考察</span>
+                <p>本誌の他の記事で触れたホップの供給過剰という逆風のなかでも、クロスビー・ホップ・ファームのように直販型の観光イベントやB Corp・サーモン・セーフといった認証を通じたブランド価値の構築に投資する生産者がいることは示唆的だ。岩手県遠野市のようなホップ産地にとっても、収穫したホップをそのまま商社に卸すだけでなく、農場体験や認証を通じて「原料そのものの物語」を売る視点は、ブランド力を高める一つの方向性になり得る。</p>
+            </div>
+            <div class="article-source">
+                <a href="https://hoodline.com/2026/09/woodburn-s-oregon-hop-festival-returns-with-20-plus-breweries/" target="_blank" rel="noopener">
+                    オリジナル記事を読む →
+                </a>
+            </div>
+        </article>
+
+        <p class="no-results" id="no-results">該当する記事がありません</p>
+    </main>
+
+    <script>
+    function filter(btn, cat) {
+        document.querySelectorAll('.nav-filter').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        let visible = 0;
+        document.querySelectorAll('article.article').forEach(a => {
+            const show = cat === 'all' || a.dataset.category === cat;
+            a.classList.toggle('hidden', !show);
+            if (show) visible++;
+        });
+        document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+    }
+    </script>
+
+    <footer class="site-footer" style="background:#0F0C08;">
+        <p style="color:rgba(255,255,255,.55);"><strong style="color:#F5A623;">BREW DAILY</strong> — ビール業界関係者のための毎日の情報誌</p>
+        <p style="color:rgba(255,255,255,.55);">編集者：高橋司（株式会社ベアレン醸造所営業部長／岩手日独協会会長）</p>
+        <p style="color:rgba(255,255,255,.55);">2026年10月23日（Fri） 発行 &nbsp;|&nbsp; 世界の醸造所公式情報を AI が自動収集・日本語翻訳・解説</p>
+        <div class="footer-links">
+            <a href="https://tsukasabbb.github.io/brew_daily/archive.html" target="_blank" rel="noopener" style="color:rgba(255,255,255,.75);">📚 バックナンバー</a>
+            <a href="https://tsukasabbb.github.io/brew_daily/subscribe.html" target="_blank" rel="noopener" style="color:rgba(255,255,255,.75);">📧 メルマガ登録</a>
+        </div>
+    </footer>
+
+</body>
+</html>
