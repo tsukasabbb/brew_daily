@@ -686,10 +686,10 @@ def generate_html_magazine(articles: list[dict], date_str: str) -> str:
 </head>
 <body>
 
-    <header class="masthead" style="background:#0F0C08;">
+    <header class="masthead" style="background-color:#0F0C08;">
         <p class="masthead-eyebrow" style="color:#F5A623;">世界のブルワリー最新情報マガジン</p>
         <h1 class="masthead-title" style="color:#ffffff;">BREW DAILY</h1>
-        <div class="masthead-rule" style="background:#C8860A;"></div>
+        <div class="masthead-rule" style="background-color:#C8860A;"></div>
         <p class="masthead-editor" style="color:rgba(255,255,255,.65);">✍ 編集者　高橋司（株式会社ベアレン醸造所営業部長／岩手日独協会会長）</p>
         <div class="masthead-meta">
             <span style="color:rgba(255,255,255,.55);">📅 {date_str} 発行</span>
@@ -706,29 +706,29 @@ def generate_html_magazine(articles: list[dict], date_str: str) -> str:
     </div>
 
 
-    <nav class="category-nav" aria-label="カテゴリフィルター" style="background:#0F0C08;">
+    <nav class="category-nav" aria-label="カテゴリフィルター" style="background-color:#0F0C08;">
         <button class="nav-filter active" onclick="filter(this,'all')" style="color:#ffffff;">
-            <span class="nav-dot" style="background:#888"></span>すべて
-            <span class="nav-badge" style="background:#C8860A;color:#ffffff;">{total_n}</span>
+            <span class="nav-dot" style="background-color:#888"></span>すべて
+            <span class="nav-badge" style="background-color:#C8860A;color:#ffffff;">{total_n}</span>
         </button>
-        <span class="nav-sep" style="background:rgba(255,255,255,.15);"></span>
+        <span class="nav-sep" style="background-color:rgba(255,255,255,.15);"></span>
         <button class="nav-filter" onclick="filter(this,'麦芽')" style="color:rgba(255,255,255,.75);">
-            <span class="nav-dot" style="background:#8B5E00"></span>麦芽
-            <span class="nav-badge" style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.75);">{malt_n}</span>
+            <span class="nav-dot" style="background-color:#8B5E00"></span>麦芽
+            <span class="nav-badge" style="background-color:rgba(255,255,255,.15);color:rgba(255,255,255,.75);">{malt_n}</span>
         </button>
         <button class="nav-filter" onclick="filter(this,'ホップ')" style="color:rgba(255,255,255,.75);">
-            <span class="nav-dot" style="background:#2E6B1A"></span>ホップ
-            <span class="nav-badge" style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.75);">{hop_n}</span>
+            <span class="nav-dot" style="background-color:#2E6B1A"></span>ホップ
+            <span class="nav-badge" style="background-color:rgba(255,255,255,.15);color:rgba(255,255,255,.75);">{hop_n}</span>
         </button>
         <button class="nav-filter" onclick="filter(this,'水')" style="color:rgba(255,255,255,.75);">
-            <span class="nav-dot" style="background:#1A4E8C"></span>水
-            <span class="nav-badge" style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.75);">{water_n}</span>
+            <span class="nav-dot" style="background-color:#1A4E8C"></span>水
+            <span class="nav-badge" style="background-color:rgba(255,255,255,.15);color:rgba(255,255,255,.75);">{water_n}</span>
         </button>
         <button class="nav-filter" onclick="filter(this,'副原料')" style="color:rgba(255,255,255,.75);">
-            <span class="nav-dot" style="background:#7A3A8C"></span>副原料
-            <span class="nav-badge" style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.75);">{adj_n}</span>
+            <span class="nav-dot" style="background-color:#7A3A8C"></span>副原料
+            <span class="nav-badge" style="background-color:rgba(255,255,255,.15);color:rgba(255,255,255,.75);">{adj_n}</span>
         </button>
-        <span class="nav-sep" style="background:rgba(255,255,255,.15);"></span>
+        <span class="nav-sep" style="background-color:rgba(255,255,255,.15);"></span>
         <a class="nav-archive" href="https://tsukasabbb.github.io/brew_daily/archive.html" target="_blank" rel="noopener" style="color:#F5A623;">📚 バックナンバー</a>
     </nav>
 
@@ -752,7 +752,7 @@ def generate_html_magazine(articles: list[dict], date_str: str) -> str:
     }}
     </script>
 
-    <footer class="site-footer" style="background:#0F0C08;">
+    <footer class="site-footer" style="background-color:#0F0C08;">
         <p style="color:rgba(255,255,255,.55);"><strong style="color:#F5A623;">BREW DAILY</strong> — ビール業界関係者のための毎日の情報誌</p>
         <p style="color:rgba(255,255,255,.55);">編集者：高橋司（株式会社ベアレン醸造所営業部長／岩手日独協会会長）</p>
         <p style="color:rgba(255,255,255,.55);">{date_str} 発行 &nbsp;|&nbsp; 世界の醸造所公式情報を AI が自動収集・日本語翻訳・解説</p>
@@ -989,6 +989,36 @@ def _record_mail_sent(date_label: str, sent_count: int, recipient_count: int) ->
     )
 
 
+def _prepare_html_for_email(html: str) -> str:
+    """メール配信前にHTMLのCSSをメールクライアント互換に変換する。
+
+    Outlook等はCSSカスタムプロパティ(var(--xxx))と
+    backgroundショートハンドを正しく処理できないため展開する。
+    """
+    # :root から CSS変数マップを生成
+    css_vars: dict[str, str] = {}
+    root_m = re.search(r":root\s*\{([^}]+)\}", html, re.DOTALL)
+    if root_m:
+        for vm in re.finditer(r"--([a-z0-9-]+)\s*:\s*([^;]+);", root_m.group(1)):
+            css_vars[vm.group(1)] = vm.group(2).strip()
+
+    def expand_style(style: str) -> str:
+        # var(--xxx) を実際の値に置換
+        def repl_var(m: re.Match) -> str:
+            return css_vars.get(m.group(1), m.group(0))
+        style = re.sub(r"var\(--([a-z0-9-]+)\)", repl_var, style)
+        # background: <color> → background-color: <color>（url/gradient は除外）
+        style = re.sub(
+            r"(?<![a-z-])background\s*:\s*(?!url|linear-gradient|radial-gradient)([^;]+);",
+            lambda m: f"background-color:{m.group(1)};",
+            style,
+        )
+        return style
+
+    html = re.sub(r'style="([^"]*)"', lambda m: f'style="{expand_style(m.group(1))}"', html)
+    return html
+
+
 def send_today_mail_from_docs():
     """docs/index.html を既に用意された最新号として読み込み、内容を変えずにメール配信する。
     ANTHROPIC_API_KEY は不要。記事収集・HTML生成は一切行わない。
@@ -1048,6 +1078,7 @@ def send_today_mail_from_docs():
         return
 
     print(f"\n📬 mail-onlyモード: docs/index.html（{date_str or today_jst_label}号）をそのまま配信します")
+    html = _prepare_html_for_email(html)
     sent_count, recipient_count = send_email(html, date_str or today_jst_label)
     if sent_count > 0:
         _record_mail_sent(content_date_label, sent_count, recipient_count)
