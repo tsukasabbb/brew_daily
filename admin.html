@@ -114,7 +114,7 @@
   let subscribers = [];
 
   // ── ログイン ──────────────────────────────────────
-  function login() {
+  async function login() {
     const pw = document.getElementById("password").value;
     if (!pw) return;
 
