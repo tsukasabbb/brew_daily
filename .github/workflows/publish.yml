@@ -91,6 +91,28 @@ jobs:
       - name: アーカイブ一覧ページを生成
         run: python generate_archive.py
 
+      # 公開ページだけに Cloudflare Web Analytics の計測タグを入れる。
+      # メール配信はこれより前のステップで終わっているため、メール本文には入らない。
+      # トークンはページに公開される値なので秘密ではない。
+      - name: 📈 公開ページにアクセス計測タグを追加
+        env:
+          CF_BEACON_TOKEN: '__CF_BEACON_TOKEN__'
+        run: |
+          python - <<'EOF'
+          import os, pathlib
+          token = os.environ["CF_BEACON_TOKEN"]
+          tag = ("<script defer src='https://static.cloudflareinsights.com/beacon.min.js' "
+                 f"data-cf-beacon='{{\"token\": \"{token}\"}}'></script>")
+          pages = [p for p in pathlib.Path("docs").rglob("*.html") if p.name != "admin.html"]
+          for p in pages:
+              html = p.read_text(encoding="utf-8")
+              if "cloudflareinsights.com/beacon" in html or "</body>" not in html:
+                  continue
+              i = html.rfind("</body>")
+              p.write_text(html[:i] + tag + "\n" + html[i:], encoding="utf-8")
+          print(f"計測タグ追加: {len(pages)} ページ")
+          EOF
+
       - name: GitHub Pages へデプロイ
         uses: peaceiris/actions-gh-pages@v3
         with:
