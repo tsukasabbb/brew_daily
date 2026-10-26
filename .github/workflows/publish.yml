@@ -96,12 +96,12 @@ jobs:
       # トークンはページに公開される値なので秘密ではない。
       - name: 📈 公開ページにアクセス計測タグを追加
         env:
-          CF_BEACON_TOKEN: '__CF_BEACON_TOKEN__'
+          CF_BEACON_TOKEN: '36d15d4306134855b84fea6a3cf4a0b3'
         run: |
           python - <<'EOF'
           import os, pathlib
           token = os.environ["CF_BEACON_TOKEN"]
-          tag = ("<script defer src='https://static.cloudflareinsights.com/beacon.min.js' "
+          tag = ("<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' "
                  f"data-cf-beacon='{{\"token\": \"{token}\"}}'></script>")
           pages = [p for p in pathlib.Path("docs").rglob("*.html") if p.name != "admin.html"]
           for p in pages:
