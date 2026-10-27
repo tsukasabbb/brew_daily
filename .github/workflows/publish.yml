@@ -10,6 +10,12 @@ on:
         type: boolean
         default: false
 
+# 7:00 JST の予約実行（workflow_dispatch）と遅れて動く cron が重なっても、
+# 同時に走らず順番に実行されるようにする（重複配信防止）。
+concurrency:
+  group: brew-daily-publish
+  cancel-in-progress: false
+
 permissions:
   contents: write
   pages: write
@@ -22,6 +28,10 @@ jobs:
     steps:
       - name: リポジトリをチェックアウト
         uses: actions/checkout@v4
+        with:
+          # 起動時点ではなく実行時点のブランチ最新を使う。先に走った実行が
+          # コミットした配信記録を読み、同日分の重複配信をスキップするため。
+          ref: ${{ github.ref_name }}
 
       - name: Python セットアップ
         uses: actions/setup-python@v5
