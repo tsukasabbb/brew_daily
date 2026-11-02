@@ -88,6 +88,33 @@ jobs:
             echo "配信記録に変更なし（未配信、または同日分は配信済みでスキップされたため）"
           fi
 
+      # docs/index.html の号を、<title> の日付でバックナンバーとして main に保存する。
+      # これまではバックナンバー保存が main に push されず、一覧から号が抜けていた。
+      - name: 📚 今号をバックナンバーとして保存・コミット
+        continue-on-error: true
+        run: |
+          python - <<'EOF'
+          import re, shutil, pathlib
+          html = pathlib.Path("docs/index.html").read_text(encoding="utf-8")
+          m = re.search(r"<title>[^<]*?(\d{4})年(\d{1,2})月(\d{1,2})日", html)
+          if not m:
+              raise SystemExit("docs/index.html の <title> から日付を読み取れませんでした")
+          name = f"brew_daily_{int(m[1]):04d}{int(m[2]):02d}{int(m[3]):02d}.html"
+          pathlib.Path("docs/archive").mkdir(parents=True, exist_ok=True)
+          shutil.copyfile("docs/index.html", f"docs/archive/{name}")
+          shutil.copyfile("docs/index.html", f"output/{name}")
+          print(f"バックナンバー保存: {name}")
+          EOF
+          python generate_archive.py
+          git add docs/archive docs/archive.html output/brew_daily_*.html
+          if git diff --cached --quiet; then
+            echo "バックナンバーに変更なし"
+          else
+            git commit -m "📚 バックナンバーを更新 (${{ github.run_id }})"
+            git pull --rebase
+            git push
+          fi
+
       - name: 静的ページをコピー
         run: |
           cp subscribe.html docs/subscribe.html
