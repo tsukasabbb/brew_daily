@@ -11,14 +11,15 @@
     --amber:#C8860A; --amber2:#F5A623;
     --ink:#0F0C08; --ink2:#3D2B1F; --muted:#7A6A5A;
     --paper:#F9F6F0; --card:#fff; --rule:#D4C4A8; --blue:#1A4E8C;
+    --mark:#FCE7B2;
+    --c-malt:#8B6914; --c-hop:#4A7C2F; --c-water:#1A6B8C; --c-adj:#9B4E9E;
   }
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
   html{font-size:16px;}
   body{
     font-family:'Noto Sans JP',sans-serif;
     background:var(--paper); color:var(--ink);
-    min-height:100vh;
-    -webkit-font-smoothing:antialiased;
+    min-height:100vh; -webkit-font-smoothing:antialiased;
   }
   header{
     background:var(--ink); color:#fff;
@@ -31,64 +32,93 @@
     pointer-events:none;
   }
   .eyebrow{font-size:.6rem;letter-spacing:.35em;color:var(--amber2);text-transform:uppercase;margin-bottom:.7rem;}
-  h1{
-    font-family:'Playfair Display',serif;
-    font-size:clamp(2rem,6vw,3.5rem);font-weight:900;
-    color:#fff; letter-spacing:.06em; line-height:1;
-  }
-  .rule{
-    border:none;height:1px;
-    background:linear-gradient(90deg,transparent,var(--amber),transparent);
-    margin:.8rem auto; width:min(360px,70%);
-  }
+  h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,6vw,3.5rem);font-weight:900;color:#fff;letter-spacing:.06em;line-height:1;}
+  .rule{border:none;height:1px;background:linear-gradient(90deg,transparent,var(--amber),transparent);margin:.8rem auto;width:min(360px,70%);}
   .subtitle{font-size:.7rem;color:rgba(255,255,255,.45);letter-spacing:.08em;}
 
-  main{max-width:680px;margin:0 auto;padding:2.5rem 1.5rem 4rem;}
+  main{max-width:760px;margin:0 auto;padding:2rem 1.5rem 4rem;}
   .section-label{
-    font-size:.62rem;font-weight:700;letter-spacing:.28em;
-    text-transform:uppercase;color:var(--amber);
-    border-bottom:1px solid var(--rule);padding-bottom:.5rem;
-    margin-bottom:1.5rem;display:flex;align-items:center;gap:.5rem;
+    font-size:.62rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--amber);
+    border-bottom:1px solid var(--rule);padding-bottom:.5rem;margin-bottom:1rem;
+    display:flex;align-items:center;gap:.5rem;
   }
   .section-label::before{content:'';display:block;width:14px;height:2px;background:var(--amber);}
 
-  ul{list-style:none;}
-  li+li{border-top:1px solid var(--rule);}
-  li a{
-    display:flex;align-items:center;gap:.8rem;
-    padding:.9rem .5rem;
-    color:var(--ink2);text-decoration:none;
-    font-size:.88rem;font-weight:500;
-    transition:background .15s, padding-left .15s;
+  /* ── 検索 ── */
+  .search{background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:1rem;margin-bottom:2rem;
+    position:sticky;top:0;z-index:5;box-shadow:0 2px 10px rgba(15,12,8,.05);}
+  .search-row{display:flex;gap:.5rem;}
+  .search input[type=search]{
+    flex:1;min-width:0;font:inherit;font-size:1rem;padding:.65rem .8rem;
+    border:1px solid var(--rule);border-radius:4px;background:var(--paper);color:var(--ink);
   }
-  li a:hover{
-    background:#fff;padding-left:1rem;
-    color:var(--ink);
+  .search input[type=search]:focus{outline:2px solid var(--amber);outline-offset:1px;background:#fff;}
+  .filters{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.7rem;align-items:center;}
+  .chip{
+    font:inherit;font-size:.75rem;padding:.3rem .75rem;border-radius:999px;cursor:pointer;
+    border:1px solid var(--rule);background:#fff;color:var(--ink2);
   }
-  li a .icon{font-size:1rem;flex-shrink:0;}
-  li a .label{flex:1;}
-  li a::after{content:'→';color:var(--amber);opacity:0;transition:opacity .15s;}
-  li a:hover::after{opacity:1;}
-  li.empty{padding:.9rem .5rem;color:var(--muted);font-size:.85rem;}
+  .chip[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .filters select{font:inherit;font-size:.75rem;padding:.3rem .5rem;border:1px solid var(--rule);border-radius:4px;background:#fff;color:var(--ink2);margin-left:auto;}
+  .hint{font-size:.7rem;color:var(--muted);margin-top:.6rem;}
+  .status{font-size:.8rem;color:var(--ink2);margin-bottom:1rem;}
+  .status strong{color:var(--amber);font-size:1rem;}
 
-  .back{
-    margin-top:2rem;
-    font-size:.8rem;
-  }
-  .back a{
-    color:var(--blue);text-decoration:none;
-    border-bottom:1px solid currentColor;padding-bottom:1px;
-  }
+  .results{list-style:none;}
+  .result{background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--cc,var(--amber));border-radius:4px;padding:.9rem 1rem;margin-bottom:.8rem;}
+  .result-meta{display:flex;flex-wrap:wrap;gap:.3rem .7rem;font-size:.7rem;color:var(--muted);margin-bottom:.35rem;align-items:center;}
+  .result h3{font-size:.95rem;line-height:1.5;margin-bottom:.35rem;}
+  .result h3 a{color:var(--ink);text-decoration:none;}
+  .result h3 a:hover{color:var(--blue);text-decoration:underline;}
+  .snippet{font-size:.8rem;line-height:1.75;color:var(--ink2);}
+  .result-links{margin-top:.5rem;font-size:.72rem;display:flex;gap:1rem;flex-wrap:wrap;}
+  .result-links a{color:var(--blue);}
+  mark{background:var(--mark);color:inherit;padding:0 .1em;border-radius:2px;}
+  .more{display:block;margin:1rem auto;font:inherit;font-size:.8rem;padding:.5rem 1.2rem;border:1px solid var(--rule);background:#fff;border-radius:4px;cursor:pointer;}
+  .noresult{padding:1.5rem;text-align:center;color:var(--muted);font-size:.85rem;background:var(--card);border:1px dashed var(--rule);border-radius:4px;}
+
+  .cat{display:inline-block;font-size:.62rem;font-weight:700;color:#fff;padding:.1rem .45rem;border-radius:3px;margin-right:.5rem;vertical-align:.1em;background:var(--muted);flex-shrink:0;}
+  .cat-麦芽{background:var(--c-malt);} .cat-ホップ{background:var(--c-hop);}
+  .cat-水{background:var(--c-water);} .cat-副原料{background:var(--c-adj);}
+
+  /* ── 月別一覧 ── */
+  .summary-line{font-size:.75rem;color:var(--muted);margin-bottom:1rem;}
+  details.month{background:var(--card);border:1px solid var(--rule);border-radius:6px;margin-bottom:1rem;overflow:hidden;}
+  .month-head{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.8rem;padding:1rem 1.1rem;background:var(--ink);color:#fff;}
+  .month-head::-webkit-details-marker{display:none;}
+  .month-head::before{content:'▸';color:var(--amber2);transition:transform .15s;display:inline-block;}
+  details.month[open] > .month-head::before{transform:rotate(90deg);}
+  .month-name{font-family:'Playfair Display','Noto Sans JP',serif;font-size:1.2rem;font-weight:700;}
+  .month-meta{font-size:.7rem;color:rgba(255,255,255,.55);margin-left:auto;}
+  ul.issues{list-style:none;}
+  li.issue + li.issue{border-top:1px solid var(--rule);}
+  li.issue summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:.8rem;padding:.8rem 1.1rem;font-size:.88rem;font-weight:500;color:var(--ink2);}
+  li.issue summary::-webkit-details-marker{display:none;}
+  li.issue summary::before{content:'📰';}
+  li.issue summary:hover{background:var(--paper);}
+  li.issue .label{flex:1;}
+  li.issue .count{font-size:.7rem;color:var(--muted);}
+  li.issue summary::after{content:'＋';color:var(--amber);font-weight:700;}
+  li.issue details[open] summary::after{content:'－';}
+  ol.heads{list-style:none;padding:0 1.1rem .4rem 2.9rem;}
+  ol.heads li{padding:.35rem 0;font-size:.8rem;line-height:1.55;display:flex;align-items:baseline;}
+  ol.heads a{color:var(--ink2);text-decoration:none;}
+  ol.heads a:hover{color:var(--blue);text-decoration:underline;}
+  .open-issue{display:inline-block;margin:0 1.1rem .9rem 2.9rem;font-size:.75rem;color:var(--blue);}
+  .empty{color:var(--muted);font-size:.85rem;}
+
+  .back{margin-top:2rem;font-size:.8rem;}
+  .back a{color:var(--blue);text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:1px;}
   .back a:hover{color:var(--amber);}
-
-  footer{
-    background:var(--ink);color:rgba(255,255,255,.3);
-    text-align:center;padding:1.5rem;
-    font-size:.68rem;line-height:1.8;
-  }
+  footer{background:var(--ink);color:rgba(255,255,255,.3);text-align:center;padding:1.5rem;font-size:.68rem;line-height:1.8;}
   footer strong{color:var(--amber2);}
+  [hidden]{display:none !important;}
   @media(max-width:480px){
-    main{padding:1.5rem 1rem 3rem;}
+    main{padding:1.25rem 1rem 3rem;}
+    .search{position:static;}
+    .filters select{margin-left:0;}
+    ol.heads{padding-left:1.1rem;}
+    .open-issue{margin-left:1.1rem;}
   }
 </style>
 </head>
@@ -100,44 +130,216 @@
   <p class="subtitle">バックナンバー</p>
 </header>
 <main>
-  <p class="section-label">Archive</p>
-  <ul><li><a href="archive/brew_daily_20261111.html"><span class="icon">📰</span><span class="label">2026年11月11日（水） 号</span></a></li>
-<li><a href="archive/brew_daily_20261110.html"><span class="icon">📰</span><span class="label">2026年11月10日（火） 号</span></a></li>
-<li><a href="archive/brew_daily_20261109.html"><span class="icon">📰</span><span class="label">2026年11月09日（月） 号</span></a></li>
-<li><a href="archive/brew_daily_20261108.html"><span class="icon">📰</span><span class="label">2026年11月08日（日） 号</span></a></li>
-<li><a href="archive/brew_daily_20261107.html"><span class="icon">📰</span><span class="label">2026年11月07日（土） 号</span></a></li>
-<li><a href="archive/brew_daily_20261106.html"><span class="icon">📰</span><span class="label">2026年11月06日（金） 号</span></a></li>
-<li><a href="archive/brew_daily_20261105.html"><span class="icon">📰</span><span class="label">2026年11月05日（木） 号</span></a></li>
-<li><a href="archive/brew_daily_20261104.html"><span class="icon">📰</span><span class="label">2026年11月04日（水） 号</span></a></li>
-<li><a href="archive/brew_daily_20261103.html"><span class="icon">📰</span><span class="label">2026年11月03日（火） 号</span></a></li>
-<li><a href="archive/brew_daily_20261102.html"><span class="icon">📰</span><span class="label">2026年11月02日（月） 号</span></a></li>
-<li><a href="archive/brew_daily_20261101.html"><span class="icon">📰</span><span class="label">2026年11月01日（日） 号</span></a></li>
-<li><a href="archive/brew_daily_20261031.html"><span class="icon">📰</span><span class="label">2026年10月31日（土） 号</span></a></li>
-<li><a href="archive/brew_daily_20261030.html"><span class="icon">📰</span><span class="label">2026年10月30日（金） 号</span></a></li>
-<li><a href="archive/brew_daily_20261029.html"><span class="icon">📰</span><span class="label">2026年10月29日（木） 号</span></a></li>
-<li><a href="archive/brew_daily_20261028.html"><span class="icon">📰</span><span class="label">2026年10月28日（水） 号</span></a></li>
-<li><a href="archive/brew_daily_20261027.html"><span class="icon">📰</span><span class="label">2026年10月27日（火） 号</span></a></li>
-<li><a href="archive/brew_daily_20261026.html"><span class="icon">📰</span><span class="label">2026年10月26日（月） 号</span></a></li>
-<li><a href="archive/brew_daily_20261025.html"><span class="icon">📰</span><span class="label">2026年10月25日（日） 号</span></a></li>
-<li><a href="archive/brew_daily_20261024.html"><span class="icon">📰</span><span class="label">2026年10月24日（土） 号</span></a></li>
-<li><a href="archive/brew_daily_20261023.html"><span class="icon">📰</span><span class="label">2026年10月23日（金） 号</span></a></li>
-<li><a href="archive/brew_daily_20261022.html"><span class="icon">📰</span><span class="label">2026年10月22日（木） 号</span></a></li>
-<li><a href="archive/brew_daily_20261021.html"><span class="icon">📰</span><span class="label">2026年10月21日（水） 号</span></a></li>
-<li><a href="archive/brew_daily_20261020.html"><span class="icon">📰</span><span class="label">2026年10月20日（火） 号</span></a></li>
-<li><a href="archive/brew_daily_20261019.html"><span class="icon">📰</span><span class="label">2026年10月19日（月） 号</span></a></li>
-<li><a href="archive/brew_daily_20261018.html"><span class="icon">📰</span><span class="label">2026年10月18日（日） 号</span></a></li>
-<li><a href="archive/brew_daily_20261017.html"><span class="icon">📰</span><span class="label">2026年10月17日（土） 号</span></a></li>
-<li><a href="archive/brew_daily_20261016.html"><span class="icon">📰</span><span class="label">2026年10月16日（金） 号</span></a></li>
-<li><a href="archive/brew_daily_20261014.html"><span class="icon">📰</span><span class="label">2026年10月14日（水） 号</span></a></li>
-<li><a href="archive/brew_daily_20261013.html"><span class="icon">📰</span><span class="label">2026年10月13日（火） 号</span></a></li>
-<li><a href="archive/brew_daily_20261012.html"><span class="icon">📰</span><span class="label">2026年10月12日（月） 号</span></a></li>
-<li><a href="archive/brew_daily_20261010.html"><span class="icon">📰</span><span class="label">2026年10月10日（土） 号</span></a></li>
-<li><a href="archive/brew_daily_20260602.html"><span class="icon">📰</span><span class="label">2026年06月02日（火） 号</span></a></li>
-</ul>
+  <section class="search" role="search">
+    <div class="search-row">
+      <input type="search" id="q" placeholder="キーワードで記事を検索（例：ホップ 収穫、GABF、キリン）" autocomplete="off" aria-label="記事を検索">
+    </div>
+    <div class="filters" id="filters">
+      <button class="chip" type="button" data-cat="" aria-pressed="true">すべて</button>
+      <button class="chip" type="button" data-cat="麦芽" aria-pressed="false">🌾 麦芽</button>
+      <button class="chip" type="button" data-cat="ホップ" aria-pressed="false">🌿 ホップ</button>
+      <button class="chip" type="button" data-cat="水" aria-pressed="false">💧 水</button>
+      <button class="chip" type="button" data-cat="副原料" aria-pressed="false">🌽 副原料</button>
+      <select id="month" aria-label="月で絞り込み"><option value="">すべての月</option><option value="202611">2026年11月</option><option value="202610">2026年10月</option></select>
+    </div>
+    <p class="hint">見出し・本文・編集部の考察・醸造所名・国名から検索します。スペース区切りで複数語のAND検索ができます。</p>
+  </section>
+
+  <section id="search-results" hidden>
+    <p class="section-label">Search</p>
+    <p class="status" id="status"></p>
+    <ol class="results" id="results"></ol>
+    <button class="more" id="more" type="button" hidden>さらに表示</button>
+  </section>
+
+  <section id="archive-list">
+    <p class="section-label">Archive — 月別</p>
+    <p class="summary-line">2026年10月10日〜2026年11月11日・全31号・235記事</p>
+    <details class="month" open><summary class="month-head"><span class="month-name">2026年11月</span><span class="month-meta">11号・66記事</span></summary><ul class="issues"><li class="issue"><details><summary><span class="label">11月11日（水）号</span><span class="count">6本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261111.html#article-1"><span class="cat cat-ホップ">ホップ</span>アサヒビール、「ブランド史上最高の苦味」をうたう「アサヒ ザ・ビタリスト エクストラビター」を11月10日に数量限定で発売　ABV6.5%</a></li><li><a href="archive/brew_daily_20261111.html#article-2"><span class="cat cat-麦芽">麦芽</span>ミュンヘン市、オクトーバーフェストに出店できる醸造所の基準を見直しへ　現在は6社に限定、ギージンガー・ブロイなどが参入を希望</a></li><li><a href="archive/brew_daily_20261111.html#article-3"><span class="cat cat-麦芽">麦芽</span>サッポロビール、冬の定番「サッポロ 冬物語」を11月10日に数量限定で発売　1988年発売から39年目、ABV5.5%</a></li><li><a href="archive/brew_daily_20261111.html#article-4"><span class="cat cat-麦芽">麦芽</span>サントリー、糖質ゼロの「パーフェクトサントリービール」から「アンバーエール」を11月10日に数量限定発売　ABV5.5%</a></li><li><a href="archive/brew_daily_20261111.html#article-5"><span class="cat cat-副原料">副原料</span>英サイレン・クラフト・ブルー、冬のスタウト「CCC」シリーズ2026を発表　米国の3醸造所と共同で白味噌や昆布、焦がしパイナップルを使う</a></li><li><a href="archive/brew_daily_20261111.html#article-6"><span class="cat cat-麦芽">麦芽</span>キリンの家庭用生ビールサービス「ホームタップ」の泡をつくる技術、「令和8年度関東地方発明表彰」で発明奨励賞を受賞</a></li></ol><a class="open-issue" href="archive/brew_daily_20261111.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">11月10日（火）号</span><span class="count">6本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261110.html#article-1"><span class="cat cat-副原料">副原料</span>岩手・盛岡のベアレン醸造所、今年収穫の岩手県産リンゴ100%の「ベアレン Our Hour ドライシードル」を11月6日に数量限定で発売　ABV6.5%</a></li><li><a href="archive/brew_daily_20261110.html#article-2"><span class="cat cat-副原料">副原料</span>オリオンビール、ガレッジセール・ゴリさんとのコラボ第3弾「75BEER マンゴーホワイトエール」を11月25日に発売　沖縄県産マンゴー使用、ABV5%</a></li><li><a href="archive/brew_daily_20261110.html#article-3"><span class="cat cat-麦芽">麦芽</span>米メリーランド州の老舗ヘビー・シーズ(Clipper City Brewing)、連邦破産法11条の適用を申請　1995年創業</a></li><li><a href="archive/brew_daily_20261110.html#article-4"><span class="cat cat-麦芽">麦芽</span>サゼラックが買収したオレゴン州のフルセイル、フッドリバーのブリューパブを閉鎖　「長期的にフルセイルのビールを造る計画はない」</a></li><li><a href="archive/brew_daily_20261110.html#article-5"><span class="cat cat-麦芽">麦芽</span>米オハイオ州コロンバスのランドグラント・ブルーイング、8月から休業していたノクテラ・ブルーイングとパウエルのタップルームを買収</a></li><li><a href="archive/brew_daily_20261110.html#article-6"><span class="cat cat-麦芽">麦芽</span>ナイジェリアのチャンピオン・ブルワリーズ、ラゴスのクラフト醸造所バトゥーレのビールを全国で製造・販売へ　年4万hlに達すればブランド買収の権利</a></li></ol><a class="open-issue" href="archive/brew_daily_20261110.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">11月9日（月）号</span><span class="count">6本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261109.html#article-1"><span class="cat cat-ホップ">ホップ</span>岩手・遠野、宮城・石巻、福島・田村の3醸造所の「フレッシュホップビール」、家庭用サーバー向けに各240本限定で発売　ドリームビア</a></li><li><a href="archive/brew_daily_20261109.html#article-2"><span class="cat cat-副原料">副原料</span>伊勢角屋麦酒とちとせグループ、微細藻類スピルリナを使ったセゾン「ちとせのセゾン ―みどり―」を11月11日に発売　ABV2.5%</a></li><li><a href="archive/brew_daily_20261109.html#article-3"><span class="cat cat-ホップ">ホップ</span>広島・尾道のしまなみブルワリー、「しまなみホッピンラガー ネルソンソーヴィン」を発泡酒からビールに変えて再発売　ABV5.5%</a></li><li><a href="archive/brew_daily_20261109.html#article-4"><span class="cat cat-麦芽">麦芽</span>独クロムバッハー醸造所、2027年の寄付キャンペーンの投票を開始　100の団体に2,500ユーロずつ、応募は3,000件超</a></li><li><a href="archive/brew_daily_20261109.html#article-5"><span class="cat cat-麦芽">麦芽</span>独ハウス・クラマー・グループのヘルビール「オーバーブロイ」、シャモア(ガムス)をマスコットに若者向けキャンペーン　11月中旬から2027年2月まで</a></li><li><a href="archive/brew_daily_20261109.html#article-6"><span class="cat cat-麦芽">麦芽</span>英国の飲酒者の91%が「飲む量を控える工夫」　啓発団体ドリンクアウェア、飲料メーカーに節度ある飲み方の後押しを呼びかけ　ノンアルビールは2024年に20%増</a></li></ol><a class="open-issue" href="archive/brew_daily_20261109.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">11月8日（日）号</span><span class="count">6本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261108.html#article-1"><span class="cat cat-副原料">副原料</span>ヤッホーブルーイング、ファイターズ選手の「折れたバット」の香りを生かしたラガー「バットエール2026」　11月21日からエスコンフィールドHOKKAIDOの「そらとしば」で提供</a></li><li><a href="archive/brew_daily_20261108.html#article-2"><span class="cat cat-麦芽">麦芽</span>「京都駅ビルビアフェスタ2026」、11月13日・14日に開催　関西・北陸・中国・四国の11醸造所が集結、うち5社は初出店</a></li><li><a href="archive/brew_daily_20261108.html#article-3"><span class="cat cat-麦芽">麦芽</span>米国の32醸造所が集う「アメリカン クラフトビア エクスペリエンス2026」、東京・木場公園できょう最終日　シエラネバダ、オールスミス、アラガッシュなど</a></li><li><a href="archive/brew_daily_20261108.html#article-4"><span class="cat cat-副原料">副原料</span>鰹節の出汁を使ったラオホ「鰹出汁ラオホ」、インターナショナル・ビアカップ2026のスモークビール部門で銅賞　東京・銀座の小さな醸造所「orca 銀座醸造所」</a></li><li><a href="archive/brew_daily_20261108.html#article-5"><span class="cat cat-麦芽">麦芽</span>「小田原・箱根 クラフトビールフェス 2026」、鈴廣かまぼこの里できょうまで　箱根ビールなど地元5醸造所が出店</a></li><li><a href="archive/brew_daily_20261108.html#article-6"><span class="cat cat-麦芽">麦芽</span>独ファルティンス醸造所、地域の医師確保を支える団体「ドクター・ジョブ」への支援を継続　2016年から主要スポンサー、累計10万ユーロ超</a></li></ol><a class="open-issue" href="archive/brew_daily_20261108.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">11月7日（土）号</span><span class="count">6本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261107.html#article-1"><span class="cat cat-麦芽">麦芽</span>2027年ワールド・ビア・カップの出品受付が始まる　「ニュージーランド・スタイル・ピルスナー」「チェコ・スタイル・ダークラガー」など新部門、サイダーは独立した「ワールド・サイダー・カップ」に</a></li><li><a href="archive/brew_daily_20261107.html#article-2"><span class="cat cat-麦芽">麦芽</span>サゼラックによる買収が明らかになったフルセイル、オレゴン州フッドリバーのブルーパブが突然閉店　元醸造長は「25人が職を失った」</a></li><li><a href="archive/brew_daily_20261107.html#article-3"><span class="cat cat-麦芽">麦芽</span>醸造・充填設備の独クロネス、1〜9月期の売上高は41億ユーロとほぼ横ばい　通期の成長見通しを「3〜5%」から「1〜2%」に下方修正</a></li><li><a href="archive/brew_daily_20261107.html#article-4"><span class="cat cat-麦芽">麦芽</span>スプリングバレーブルワリー、東京・京都で「ENJOY! CRAFT 年末大感謝祭 2026」　歴代ヘッドブルワーが集う「ブリュワーズナイト」や、「豊潤 496」を割り下に使うすき鍋も</a></li><li><a href="archive/brew_daily_20261107.html#article-5"><span class="cat cat-麦芽">麦芽</span>ミュンヘンのホテル「アンダーズ・ミュンヘン」の地下に醸造所併設のヴィアツハウス「シュヴァービンガー・トーア・ブロイ」が開業　街の自家醸造ビアハウスの伝統を復活</a></li><li><a href="archive/brew_daily_20261107.html#article-6"><span class="cat cat-麦芽">麦芽</span>米テキサス州ベルビルのハフ・ブルーイング、約15年の歴史に幕　12月31日で営業終了「ワイルドな旅だったが、いい旅だった」</a></li></ol><a class="open-issue" href="archive/brew_daily_20261107.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">11月6日（金）号</span><span class="count">6本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261106.html#article-1"><span class="cat cat-ホップ">ホップ</span>日本産ホップだけのビールが集まる「クラフトビール ジャパンホップ フェスト2026」、あす11月7日・8日に代官山のSVB東京で開催　全国18ブルワリー・最大20種</a></li><li><a href="archive/brew_daily_20261106.html#article-2"><span class="cat cat-麦芽">麦芽</span>米酒類大手サゼラック、オレゴン州の老舗クラフトブルワリー「フルセイル」を買収　狙いはビールではなく生産設備、ビールの製造・販売は長期的には続けない方針</a></li><li><a href="archive/brew_daily_20261106.html#article-3"><span class="cat cat-麦芽">麦芽</span>米ジョージア州のスリー・タバーンズ、創業13年の本拠ニューストリート醸造所での生産を休止　「閉鎖ではない」として2つのタップルームは営業を続ける</a></li><li><a href="archive/brew_daily_20261106.html#article-4"><span class="cat cat-麦芽">麦芽</span>デンバー・ビア・カンパニーなどを持つ米ウィルディング・ブランズ、デンバーの3,250㎡の醸造所を閉鎖し委託醸造へ　「短期的に安くなるかはわからないが、別のビジネスモデルだ」</a></li><li><a href="archive/brew_daily_20261106.html#article-5"><span class="cat cat-麦芽">麦芽</span>醸造・飲料の国際見本市「ブラウベビアーレ2026」、来週11月10日〜12日に独ニュルンベルクで開催　新しいモットーは「All Beverages. One Future.」</a></li><li><a href="archive/brew_daily_20261106.html#article-6"><span class="cat cat-麦芽">麦芽</span>独アインベッカー醸造所、ワインに参入　プファルツのワイナリーと組み、1,200本限定の白ワインを11月中旬から自社オンラインショップで販売</a></li></ol><a class="open-issue" href="archive/brew_daily_20261106.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">11月5日（木）号</span><span class="count">6本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261105.html#article-1"><span class="cat cat-ホップ">ホップ</span>セブン-イレブン、サッポロ「岩手県軽米町の畑から 摘みたてホップ」をきのう11月4日から全国で数量限定発売　今年収穫の軽米町産ホップを100%使用</a></li><li><a href="archive/brew_daily_20261105.html#article-2"><span class="cat cat-麦芽">麦芽</span>米国のビール課税出荷量、9月は前年同月比4.3%減の1150万バレル　1〜9月の累計は5.0%減、9か月連続で前年割れ</a></li><li><a href="archive/brew_daily_20261105.html#article-3"><span class="cat cat-麦芽">麦芽</span>ドイツ醸造者連盟のアイヒェレ事務総長「状況は深刻だ」　消費の弱さ、コスト高、相次ぐ規制がブルワリーを圧迫</a></li><li><a href="archive/brew_daily_20261105.html#article-4"><span class="cat cat-ホップ">ホップ</span>英シェパード・ニーム、1958年生まれの看板エール「ビショップス・フィンガー」からIPA「Bishops Finger IPA Reserve」を発売</a></li><li><a href="archive/brew_daily_20261105.html#article-5"><span class="cat cat-麦芽">麦芽</span>スプリングバレーブルワリー、「ENJOY! CRAFT 年末大感謝祭 2026」を12月に東京・京都で開催　醸造家と語らう飲み放題の「ブリュワーズナイト」など</a></li><li><a href="archive/brew_daily_20261105.html#article-6"><span class="cat cat-麦芽">麦芽</span>英パブ大手グリーン・キング、2月にCEO交代　後任のクレア・プレストン＝ビア氏は227年の歴史で初の女性CEO</a></li></ol><a class="open-issue" href="archive/brew_daily_20261105.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">11月4日（水）号</span><span class="count">6本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261104.html#article-1"><span class="cat cat-麦芽">麦芽</span>「サッポロ クラシック」にJR北海道の新観光列車デザイン缶　きょう11月4日に北海道で数量限定発売</a></li><li><a href="archive/brew_daily_20261104.html#article-2"><span class="cat cat-麦芽">麦芽</span>「パーフェクトサントリービール」をリニューアル　「ダイヤモンド麦芽」を含む麦芽の比率を高め、飲みごたえを強化</a></li><li><a href="archive/brew_daily_20261104.html#article-3"><span class="cat cat-麦芽">麦芽</span>米Tilray、ビール事業で2年間に2000万ドルのコスト削減へ　米国の醸造拠点を10か所から6か所に集約</a></li><li><a href="archive/brew_daily_20261104.html#article-4"><span class="cat cat-麦芽">麦芽</span>ドイツのビットブルガー、組織を再編　営業の管理職の層を減らし、技術とITの人員を増やす</a></li><li><a href="archive/brew_daily_20261104.html#article-5"><span class="cat cat-麦芽">麦芽</span>米ファイアーストーン・ウォーカー、樽熟成ビールの会員制クラブ「2027 Brewmaster&#x27;s Collective」の募集を開始　定員1250人、年会費399ドル</a></li><li><a href="archive/brew_daily_20261104.html#article-6"><span class="cat cat-副原料">副原料</span>英国の醸造所、冬に向けてデザート風スタウトが続々　ココナッツとカカオ、ヘーゼルナッツ菓子、プラム・プディングなど</a></li></ol><a class="open-issue" href="archive/brew_daily_20261104.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">11月3日（火）号</span><span class="count">6本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261103.html#article-1"><span class="cat cat-ホップ">ホップ</span>キリン「一番搾り とれたてホップ生ビール」、今年は11月17日発売　岩手県遠野市で今年収穫した生ホップを急速凍結して使用</a></li><li><a href="archive/brew_daily_20261103.html#article-2"><span class="cat cat-麦芽">麦芽</span>ドイツ・パーダーボルンの醸造所に「デンマークのビール大手」が関心か　約110人の従業員、数週間以内に回答の見通し</a></li><li><a href="archive/brew_daily_20261103.html#article-3"><span class="cat cat-麦芽">麦芽</span>世界の大麦相場は横ばい、黒海の輸送リスクで小幅な上乗せ　ドイツの飼料用大麦は1kgあたり0.22ユーロに上昇</a></li><li><a href="archive/brew_daily_20261103.html#article-4"><span class="cat cat-麦芽">麦芽</span>AB InBevの米国事業、1〜9月の売上高は0.8%増　ノンアルコールの「ミケロブ・ウルトラ・ゼロ」が伸びをけん引</a></li><li><a href="archive/brew_daily_20261103.html#article-5"><span class="cat cat-麦芽">麦芽</span>ミルウォーキー・ブルワーズのワールドシリーズ初優勝を記念、ミラーライトが「優勝の瞬間に詰めていた」ビールの記念缶を4400本限定で</a></li><li><a href="archive/brew_daily_20261103.html#article-6"><span class="cat cat-麦芽">麦芽</span>米オハイオ州のイエロースプリングス醸造所、コロンバス市内の2号店を12月23日で閉店　オハイオ州中部では醸造所の閉店が相次ぐ</a></li></ol><a class="open-issue" href="archive/brew_daily_20261103.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">11月2日（月）号</span><span class="count">6本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261102.html#article-1"><span class="cat cat-麦芽">麦芽</span>カナダの製麦用大麦、2026/27年度は200万トンを割り込む見通し　前年の300万トンから大きく減少　収穫期の雨で品質が低下</a></li><li><a href="archive/brew_daily_20261102.html#article-2"><span class="cat cat-副原料">副原料</span>米専門誌Craft Beer &amp; Brewing、神戸のオープンエアーの「山椒ゴーゼ」のレシピを掲載　2025年ワールド・ビア・カップ金賞のビール</a></li><li><a href="archive/brew_daily_20261102.html#article-3"><span class="cat cat-ホップ">ホップ</span>米オレゴン州のブロック15、ニュージーランド産ホップを使ったヘイジーIPA「Fresh Pow」を10月30日に発売　米国では冬向けの新作が続々</a></li><li><a href="archive/brew_daily_20261102.html#article-4"><span class="cat cat-麦芽">麦芽</span>米カリフォルニアのノンアルコールビール醸造所RationAle、初の値付けを伴う資金調達(シリーズ・シード)を開始　15州で販売、米国アサヒとも商品開発</a></li><li><a href="archive/brew_daily_20261102.html#article-5"><span class="cat cat-麦芽">麦芽</span>「サッポロ 冬物語」、39年目の今年は11月10日に全国で数量限定発売　小麦麦芽を一部使い、麦芽の比率を高めたコクのある冬のビール</a></li><li><a href="archive/brew_daily_20261102.html#article-6"><span class="cat cat-麦芽">麦芽</span>サントリー「パーフェクトサントリービール&lt;アンバーエール&gt;」を11月10日に数量限定発売　「ダイヤモンド麦芽」と濃色麦芽、上面発酵酵母を使った糖質ゼロのエール</a></li></ol><a class="open-issue" href="archive/brew_daily_20261102.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">11月1日（日）号</span><span class="count">6本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261101.html#article-1"><span class="cat cat-麦芽">麦芽</span>ドイツのビール販売量、9月は前年同月比4.6%減の638万ヘクトリットル　国内向けは7.3%減、輸出は9.4%増</a></li><li><a href="archive/brew_daily_20261101.html#article-2"><span class="cat cat-ホップ">ホップ</span>ファミリーマート限定「サッポロ ビアサプライズ コクの神髄」を11月3日に全国発売　4種の麦芽と3種類のホップ、エール酵母で仕込む</a></li><li><a href="archive/brew_daily_20261101.html#article-3"><span class="cat cat-ホップ">ホップ</span>北海道厚岸のユイトリエール、JR花咲線とのコラボ第2弾「AKKESHI AMBER(厚岸アンバー)」をきょう11月1日に発売　カラメルと柑橘の香りのホッピーなアンバーエール</a></li><li><a href="archive/brew_daily_20261101.html#article-4"><span class="cat cat-副原料">副原料</span>高知・日高村のBRAVE &amp; BRAW Brewpub、村産のショウガを使ったアルコール分2.5%のスコティッシュ・ライト「日高ジンジャーライト Ver.1」を提供開始</a></li><li><a href="archive/brew_daily_20261101.html#article-5"><span class="cat cat-麦芽">麦芽</span>世界の大麦相場、10月第3週は軟調　豪州・欧州の現物が下がり、米小麦は14週ぶり安値　ロシアは2027年産の冬作付け計画を1900万ヘクタールに縮小</a></li><li><a href="archive/brew_daily_20261101.html#article-6"><span class="cat cat-麦芽">麦芽</span>世界で唯一の麦芽の品評会「Malt Cup」、2027年大会の参加受け付けを11月20日に開始　ピルスナー麦芽、ウィーン麦芽など8部門</a></li></ol><a class="open-issue" href="archive/brew_daily_20261101.html">この号を開く →</a></details></li>
+</ul></details>
+<details class="month"><summary class="month-head"><span class="month-name">2026年10月</span><span class="month-meta">20号・169記事</span></summary><ul class="issues"><li class="issue"><details><summary><span class="label">10月31日（土）号</span><span class="count">7本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261031.html#article-1"><span class="cat cat-麦芽">麦芽</span>米下院に「Brews to Barns法案」　醸造所が麦芽かす(スペントグレイン)を農業用に寄付すると1ポンド8セントの税額控除、上限は年3万5000ドル</a></li><li><a href="archive/brew_daily_20261031.html#article-2"><span class="cat cat-副原料">副原料</span>富士桜高原麦酒、シャインマスカットと湘南ゴールドのフルーツビールを山梨のワイン樽で約6か月熟成した「サクラノトリコ奏 〜木樽熟成〜」を11月6日に発売</a></li><li><a href="archive/brew_daily_20261031.html#article-3"><span class="cat cat-副原料">副原料</span>ザ・カハラ・ホテル＆リゾート 横浜、規格外の「浜なし」と朝食ブッフェで残ったご飯を使ったビール「YOKOHAMA HAMANASHI CHECK-IN ALE」を11月21日に発売</a></li><li><a href="archive/brew_daily_20261031.html#article-4"><span class="cat cat-麦芽">麦芽</span>英国の穀物市況(10月30日)、ビールとスピリッツの販売不振で製麦会社は買い控え　余った製麦用大麦が飼料用に回り、飼料用大麦は小麦・トウモロコシより大幅に安く</a></li><li><a href="archive/brew_daily_20261031.html#article-5"><span class="cat cat-ホップ">ホップ</span>米国の公的育種ホップを醸造家が評価する「Hopsource」が10回目　試験品種30種に1000件超の評価、2022〜23年に交配した新しい系統が初登場で高評価</a></li><li><a href="archive/brew_daily_20261031.html#article-6"><span class="cat cat-麦芽">麦芽</span>ニュージーランドの製麦会社グラッドフィールド、撤退するマルトゥロップのアシュバートンの大麦保管拠点を買収　国内麦芽の約7割を担ったマルトゥロップは18年で撤退</a></li><li><a href="archive/brew_daily_20261031.html#article-7"><span class="cat cat-副原料">副原料</span>きょうはハロウィン　米イリノイ州フォックスバレーの今月のビールは、本物のカボチャのエールからチョコレートとコーヒーのインペリアル・パンプキン・ポーター(8.3%)、オレンジとバニラの小麦エールまで</a></li></ol><a class="open-issue" href="archive/brew_daily_20261031.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">10月30日（金）号</span><span class="count">7本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261030.html#article-1"><span class="cat cat-麦芽">麦芽</span>英国の麦芽需要、スコッチウイスキー減速で約30万トン減　クリスプ・モルト幹部「業界は大きな落ち込みの中にある」　製麦用大麦の上乗せ価格は1トン5〜15ポンドまで縮小</a></li><li><a href="archive/brew_daily_20261030.html#article-2"><span class="cat cat-水">水</span>英国最古級の醸造所シェパード・ニーム、1500万ポンドでフェイバーシャムに小型の新醸造所　自社の掘り抜き井戸の水は引き続き使用、シンハー・ラガーの受託醸造は2027年4月で終了</a></li><li><a href="archive/brew_daily_20261030.html#article-3"><span class="cat cat-ホップ">ホップ</span>東京・大崎のオフィスビル「ThinkPark」で育てたホップのクラフトビール、本日10月30日の「ThinkPark ビアテラス 2026」で初お披露目</a></li><li><a href="archive/brew_daily_20261030.html#article-4"><span class="cat cat-副原料">副原料</span>ハロウィン目前の米ニューメキシコ州、パンプキンのインペリアル・スタウト(10%)から抹茶とジンジャーのブロンド、ウチワサボテンの小麦エールまで　地元ビール情報サイトが今週の注目を紹介</a></li><li><a href="archive/brew_daily_20261030.html#article-5"><span class="cat cat-麦芽">麦芽</span>香川の四国計測工業とミロクブルワリー、生産量日本一の愛媛県産「はだか麦」を使ったクラフトビール「PLATO(プラトン)」を発売</a></li><li><a href="archive/brew_daily_20261030.html#article-6"><span class="cat cat-水">水</span>仏北部ブラッスリー・トロワ・モン、干ばつによる取水制限の緩和で週5日の仕込みを再開　経営陣は干ばつの損失を約100万ユーロと試算</a></li><li><a href="archive/brew_daily_20261030.html#article-7"><span class="cat cat-ホップ">ホップ</span>米アイダホ州農務省の2026年ホップシーズン集計、処理されたベール数は5万6907　最多はCTZの9412、新品種ヘリオスとテラサージが続く</a></li></ol><a class="open-issue" href="archive/brew_daily_20261030.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">10月29日（木）号</span><span class="count">7本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261029.html#article-1"><span class="cat cat-ホップ">ホップ</span>ドイツ・テトナング産地の2026年ホップ、10月25日時点の計量は2300トン　生産者団体の総会では「厳しい収穫」「アルファ値は低調」「市場はなお供給過剰」</a></li><li><a href="archive/brew_daily_20261029.html#article-2"><span class="cat cat-麦芽">麦芽</span>仏マルトゥロップ、中国・江蘇省で買収した年22万トンの製麦工場の開所式　欧州では製麦工場の閉鎖が相次ぎ、ドイツでは能力の約17%が消える</a></li><li><a href="archive/brew_daily_20261029.html#article-3"><span class="cat cat-ホップ">ホップ</span>霧島酒造、ホップ「ADHA1631」を初めて使った「KIRISHIMA BEER〈FUN FAN BREW〉West Coast Lager」を10月26日から数量限定発売</a></li><li><a href="archive/brew_daily_20261029.html#article-4"><span class="cat cat-水">水</span>チェコのブドヴァル、ノンアルコール「Budvar 0.0%」の缶を英国で発売　氷河期の帯水層の水、ジャテツのザーツ、モラヴィアの大麦で通常品と同じ仕込み</a></li><li><a href="archive/brew_daily_20261029.html#article-5"><span class="cat cat-副原料">副原料</span>ヤッホーブルーイング、米とゆず、少量の食塩を使った「コンフォートライスユズエール」を10月27日からYONA YONA TOKYO BREWERYで数量限定提供</a></li><li><a href="archive/brew_daily_20261029.html#article-6"><span class="cat cat-麦芽">麦芽</span>サッポロビール、「旨さ長持ち麦芽」を使い通常の黒ラベルの1.2倍長く熟成した「黒ラベル EXTRA DEEP」を10月27日に全国で数量限定発売</a></li><li><a href="archive/brew_daily_20261029.html#article-7"><span class="cat cat-副原料">副原料</span>銚子のチョウシ・チアーズ、回転ずし「銚子丸」で提供できなくなったシャリを副原料に使った「君ヶ浜 Brut IPA」を試験販売</a></li></ol><a class="open-issue" href="archive/brew_daily_20261029.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">10月28日（水）号</span><span class="count">7本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261028.html#article-1"><span class="cat cat-ホップ">ホップ</span>国分北海道と網走ビール、上富良野産ホップを使った季節限定「ホップの煌めき」を10月27日発売　生ホップをフレッシュホップ工場へ直送、発売6年目</a></li><li><a href="archive/brew_daily_20261028.html#article-2"><span class="cat cat-麦芽">麦芽</span>英国の2026年産大麦、561万トンで2012年以来の小ささ　AHDB「製麦・醸造・蒸留向けの需要は今季も低調、さらに減少へ」</a></li><li><a href="archive/brew_daily_20261028.html#article-3"><span class="cat cat-水">水</span>インド・テランガナ州のビール工場、マンジーラ川の水の供給がほぼ止まり6年ぶりに地下水へ　「ビールの味が変わる」と地元紙</a></li><li><a href="archive/brew_daily_20261028.html#article-4"><span class="cat cat-副原料">副原料</span>小西酒造、日本酒と麦汁を一緒に発酵させた「米×麦(こめかけるむぎ)」を10月27日発売　完成品のブレンドではなく共発酵で調和</a></li><li><a href="archive/brew_daily_20261028.html#article-5"><span class="cat cat-副原料">副原料</span>六甲ビール醸造所、兵庫県産の酒米「山田錦」とはちみつを使った「SAKAMAI SESSION IPA」を10月27日から全国で数量限定発売</a></li><li><a href="archive/brew_daily_20261028.html#article-6"><span class="cat cat-麦芽">麦芽</span>米カントリー・モルト・グループ、モンタナ・クラフト・モルトの全米独占販売代理店に　「大麦の産地の近くで麦芽を造る」小規模製麦所の販路が全米へ</a></li><li><a href="archive/brew_daily_20261028.html#article-7"><span class="cat cat-ホップ">ホップ</span>ホップ・プロダクツ・オーストラリア、2026年ビア&amp;ブルワー・アワードで「サプライヤー・オブ・ザ・イヤー」を受賞　「豪州産ホップは高アルファ・高オイル」</a></li></ol><a class="open-issue" href="archive/brew_daily_20261028.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">10月27日（火）号</span><span class="count">7本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261027.html#article-1"><span class="cat cat-ホップ">ホップ</span>「キリン ホームタップ」会員20人が遠野でホップ収穫から商品開発まで体験　遠野産ホップ100%のクラフトビールをGOOD HOPSが11月上旬に数量限定発売</a></li><li><a href="archive/brew_daily_20261027.html#article-2"><span class="cat cat-麦芽">麦芽</span>英国の大麦作付け、2026年は12%減の約93万ha　スコットランドは1960年以来の低水準、干ばつで単収も17%落ち込む</a></li><li><a href="archive/brew_daily_20261027.html#article-3"><span class="cat cat-麦芽">麦芽</span>チェコの大麦作付け、10年で約4万ヘクタール減　製麦所は「たんぱく質過多」を懸念、ホップも干ばつで記録的な低アルファ酸に</a></li><li><a href="archive/brew_daily_20261027.html#article-4"><span class="cat cat-麦芽">麦芽</span>米コロラドの農場製麦所ルートシュート・モルティング、GABF新設「クラフトモルト部門」金賞のマイルドエールに麦芽を供給　ほかの顧客も多数メダル</a></li><li><a href="archive/brew_daily_20261027.html#article-5"><span class="cat cat-副原料">副原料</span>スプリングバレーブルワリー「日本のゆずエール」を10月27日全国発売　日本産ゆずピール100%使用、全国27ブルワリーとの共創企画「PLAY CRAFT BEER ACTIONS」が始動</a></li><li><a href="archive/brew_daily_20261027.html#article-6"><span class="cat cat-副原料">副原料</span>淡路ビール、地元・淡路島産の新米を麦汁にブレンドした「新米仕込みピルスナー」を10月27日から島内限定で発売</a></li><li><a href="archive/brew_daily_20261027.html#article-7"><span class="cat cat-ホップ">ホップ</span>サッポロ「黒ラベル 東北ホップ100%」を11月4日に東北エリア限定発売　今年収穫の東北産ホップを100%使用、副原料に宮城県七ヶ宿町産の米</a></li></ol><a class="open-issue" href="archive/brew_daily_20261027.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">10月26日（月）号</span><span class="count">8本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261026.html#article-1"><span class="cat cat-麦芽">麦芽</span>仏マルトゥロップ、中国・江蘇省の春雷麦芽の製麦工場を買収　年産22万トン、中国で唯一の外資系商業麦芽メーカーとして輸出拠点を強化</a></li><li><a href="archive/brew_daily_20261026.html#article-2"><span class="cat cat-麦芽">麦芽</span>カナダの製麦用大麦、2026-27年度は200万トン割れの見通し　8月末からの長雨で品質低下、前年300万トンから大幅減</a></li><li><a href="archive/brew_daily_20261026.html#article-3"><span class="cat cat-麦芽">麦芽</span>米国の2026年産大麦、前年比19%減の1億1600万ブッシェル　主要小粒穀物で最大の落ち込み、製麦用の需給ひっ迫に懸念</a></li><li><a href="archive/brew_daily_20261026.html#article-4"><span class="cat cat-水">水</span>ハイネケン・メキシコ、AIとセンサーで水使用量を「ビール1Lあたり1.5L」へ　メオキ工場はグループ世界最高の1.7L/L</a></li><li><a href="archive/brew_daily_20261026.html#article-5"><span class="cat cat-ホップ">ホップ</span>米ホップ・ブリーディング・カンパニー、高アルファ苦味用ホップ「Terra Alpha」シリーズを発表　新品種「TerraSurge」と実績品種「TerraFlux」</a></li><li><a href="archive/brew_daily_20261026.html#article-6"><span class="cat cat-副原料">副原料</span>長濱浪漫ビール、地元・ハッピー太郎醸造所の黄麹を使った「長濱麹エール」を10月27日発売　全国27ブルワリーの共創企画「PLAY CRAFT BEER ACTIONS」に参画</a></li><li><a href="archive/brew_daily_20261026.html#article-7"><span class="cat cat-副原料">副原料</span>滋賀・近江八幡の地域企業3社、梅酒用に漬けた後に廃棄予定だった青梅でクラフトビール「青梅ラガー 近江 縁結び」　滋賀県内のセブン-イレブンでも発売</a></li><li><a href="archive/brew_daily_20261026.html#article-8"><span class="cat cat-ホップ">ホップ</span>日本産ホップ推進委員会、「クラフトビール ジャパンホップ フェスト 2026 in SVB東京」を11月7・8日に代官山で開催　テーマは日本産ホップと寿司の「JAPAN SESSION」</a></li></ol><a class="open-issue" href="archive/brew_daily_20261026.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">10月25日（日）号</span><span class="count">8本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261025.html#article-1"><span class="cat cat-麦芽">麦芽</span>愛ボートモルト、2026年産ビール用大麦に「追加払いはなし」と通告　アイルランド農業連合の緊急集会で農家の怒り噴出、ギネス原料の先行きに影</a></li><li><a href="archive/brew_daily_20261025.html#article-2"><span class="cat cat-水">水</span>世界最大手AB InBev、「2030年サステナビリティ目標」を発表　全醸造所の水使用効率を2.0hl/hlへ、麦芽サプライヤー全社に農家支援を義務化</a></li><li><a href="archive/brew_daily_20261025.html#article-3"><span class="cat cat-麦芽">麦芽</span>サッポロビール、「GOLD STAR」と「麦とホップ」を&quot;ビール&quot;に区分変更　10月の酒税改定を機に製法刷新、麦芽比率を引き上げ</a></li><li><a href="archive/brew_daily_20261025.html#article-4"><span class="cat cat-ホップ">ホップ</span>豪ホップ・プロダクツ・オーストラリア、「2026年クロップレポート」を公開　新品種「Luna」がデビューシーズンで異例の需要、主要品種は面積・収量とも1割前後縮小</a></li><li><a href="archive/brew_daily_20261025.html#article-5"><span class="cat cat-ホップ">ホップ</span>NZクレイトン・ホップス、2026年産ホップ収穫量は約1500トン　自社品種「NZ Rhapzody」が本格展開へ、創業者は経営から退き新CEOが就任</a></li><li><a href="archive/brew_daily_20261025.html#article-6"><span class="cat cat-麦芽">麦芽</span>米クラフト製麦リバーベンド・モルトハウス、2025年を総括　「リジェネリファイド」認証麦芽を初出荷、500マイル圏内の家族経営農家から全量調達</a></li><li><a href="archive/brew_daily_20261025.html#article-7"><span class="cat cat-副原料">副原料</span>エチゴビール、新ブランド「フルーツビア研究所」始動　新潟産ル・レクチェや栃木産いちご・ラズベリーを使った香料不使用の発泡酒2種</a></li><li><a href="archive/brew_daily_20261025.html#article-8"><span class="cat cat-副原料">副原料</span>高知カンパーニュブルワリー「TOSACO」、地元ロースターUKIKI COFFEE STANDと初コラボ　高知県産コーヒー豆を使ったポーター「UKIKIコーヒーポーター」</a></li></ol><a class="open-issue" href="archive/brew_daily_20261025.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">10月24日（土）号</span><span class="count">10本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261024.html#article-1"><span class="cat cat-麦芽">麦芽</span>仏スフレ・モルト、南アフリカ・ミッドヴァールにハイネケン隣接の新製麦所着工　投資額200億円規模、年間10万トンの麦芽を生産</a></li><li><a href="archive/brew_daily_20261024.html#article-2"><span class="cat cat-ホップ">ホップ</span>チェコのホップ収穫量、2026年は平年比最大25%減の見通し　主力品種「ザーツ」のアルファ酸含量も記録的低水準に</a></li><li><a href="archive/brew_daily_20261024.html#article-3"><span class="cat cat-麦芽">麦芽</span>仏マルトゥロップ、NZ最大の製麦工場「マートン・モルティングス」を閉鎖　国内シェア7割、ビール消費低迷で地元産大麦の需要も急減</a></li><li><a href="archive/brew_daily_20261024.html#article-4"><span class="cat cat-ホップ">ホップ</span>米カントリー・モルト・グループ、2026年の北米大麦・ホップ収穫状況を報告　「シトラ」「モザイク」は高温を乗り切る、品質判定はこれから</a></li><li><a href="archive/brew_daily_20261024.html#article-5"><span class="cat cat-麦芽">麦芽</span>米ブルワーズ・アソシエーション、大麦・ホップの公的研究予算確保へ議会要請　「レジリエント・バーレイ・イニシアチブ」に連邦予算が初配分</a></li><li><a href="archive/brew_daily_20261024.html#article-6"><span class="cat cat-水">水</span>AB InBev、ベルギー・ヘテ川流域で新たな水資源再生プロジェクト　フランダース地方は世界で最も水不足が深刻な地域の一つ</a></li><li><a href="archive/brew_daily_20261024.html#article-7"><span class="cat cat-水">水</span>カールスバーグ、ネパールで水資源保全を強化　WWFと2026〜2028年の3カ年計画、現地に106億円規模を投資</a></li><li><a href="archive/brew_daily_20261024.html#article-8"><span class="cat cat-水">水</span>米オレンジ郡水道局、浄化した再生水で造ったビール「GWRS Brew」を発表　「本物の純水」を掲げ地下水再生システムをPR</a></li><li><a href="archive/brew_daily_20261024.html#article-9"><span class="cat cat-副原料">副原料</span>ファーイースト・ブルーイング、シャトー・メルシャンの摘房ブドウ500kgを使ったビール「Grapevine 2026」を発売　蒸留酒「Grapevine GIN」も同時展開</a></li><li><a href="archive/brew_daily_20261024.html#article-10"><span class="cat cat-副原料">副原料</span>ニチレイフーズ、鍋肌に残る&quot;規格外カレー&quot;をクラフトビールに　山形のブリューラボ・トウハチと「#2101 Part2 Beef Curry」発売</a></li></ol><a class="open-issue" href="archive/brew_daily_20261024.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">10月23日（金）号</span><span class="count">9本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261023.html#article-1"><span class="cat cat-麦芽">麦芽</span>アイルランドの製麦大手ボートモルト、2026年産ビール用大麦に追加払いなしを通告　ギネスの親会社ディアジオの関与を問う声も</a></li><li><a href="archive/brew_daily_20261023.html#article-2"><span class="cat cat-ホップ">ホップ</span>ドイツのホップ農家、2026年は最大1億ユーロの減収見通し　&quot;4年連続の不作か安値&quot;で家族経営が限界に</a></li><li><a href="archive/brew_daily_20261023.html#article-3"><span class="cat cat-ホップ">ホップ</span>米国のホップ在庫、2026年9月時点で前年比9%減の1.05億ポンドに　3年連続の減少も過剰感は根強く</a></li><li><a href="archive/brew_daily_20261023.html#article-4"><span class="cat cat-麦芽">麦芽</span>英クリスプ・モルト、「サステナビリティ・レポート2026」を公表　Scope1・2排出量を2019年比26.2%削減</a></li><li><a href="archive/brew_daily_20261023.html#article-5"><span class="cat cat-水">水</span>ハイネケン系ユナイテッド・ブルワリーズ、インド・テランガナ州で水資源再生プロジェクト「Jal Shakti」始動</a></li><li><a href="archive/brew_daily_20261023.html#article-6"><span class="cat cat-水">水</span>米マサチューセッツ州のアクアティック・ブルーイング、水・エネルギー管理で「グリーン飲料製造者」に認定</a></li><li><a href="archive/brew_daily_20261023.html#article-7"><span class="cat cat-副原料">副原料</span>象印、炊飯器の試験炊き&quot;残りご飯&quot;をビールに　新潟・エチゴビールと「ゾウのマイ」を発売</a></li><li><a href="archive/brew_daily_20261023.html#article-8"><span class="cat cat-副原料">副原料</span>神奈川・海老名の「Better life with upcycle」、規格外の湘南ゴールドと花椒を使ったケルシュ「Oriental Citrus Ale」を発売</a></li><li><a href="archive/brew_daily_20261023.html#article-9"><span class="cat cat-ホップ">ホップ</span>米オレゴン州ウッドバーン、「オレゴン・ホップ・フェスティバル」第3回開催　20軒超のブルワリーがフレッシュホップビールを提供</a></li></ol><a class="open-issue" href="archive/brew_daily_20261023.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">10月22日（木）号</span><span class="count">8本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261022.html#article-1"><span class="cat cat-ホップ">ホップ</span>米アイダホ州のホップ収穫面積、2026年は前年比16%増の5,932エーカーに　生産者団体は「見せかけの数字」と冷静な反応</a></li><li><a href="archive/brew_daily_20261022.html#article-2"><span class="cat cat-麦芽">麦芽</span>アンハイザー・ブッシュ、アイダホ州の製麦拠点に400万ドルを追加投資　700軒超の契約大麦農家網を支える州立大学への研究助成も</a></li><li><a href="archive/brew_daily_20261022.html#article-3"><span class="cat cat-水">水</span>サントリー天然水、国内全4工場で水管理の世界最高認証「AWSプラチナ」を達成　日本で唯一の企業に</a></li><li><a href="archive/brew_daily_20261022.html#article-4"><span class="cat cat-水">水</span>カールスバーグ・ブリティビック、英国で10年間の河川再生パートナーシップを開始　高リスク拠点の水使用量を2032年までに全量相殺へ</a></li><li><a href="archive/brew_daily_20261022.html#article-5"><span class="cat cat-副原料">副原料</span>2026年GABF、カラマンシーからチリペッパーまで　フルーツ・フレーバー系部門で異色のビールが相次ぎ受賞</a></li><li><a href="archive/brew_daily_20261022.html#article-6"><span class="cat cat-麦芽">麦芽</span>カナダのテラ・バイオインダストリーズ、ビール醸造副産物から新食品原料「TERRA Malt」を開発　ヘルスカナダが認可</a></li><li><a href="archive/brew_daily_20261022.html#article-7"><span class="cat cat-ホップ">ホップ</span>遠野ホップ収穫祭2026、無加熱ルプリンパウダー技術で遠野産ホップ100%ビールが誕生</a></li><li><a href="archive/brew_daily_20261022.html#article-8"><span class="cat cat-ホップ">ホップ</span>米ブルワーズ・アソシエーション、2026年プレハーベスト・ホップ・ラウンドアップを発表　USDA公共ホップ育種プログラムに世代交代</a></li></ol><a class="open-issue" href="archive/brew_daily_20261022.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">10月21日（水）号</span><span class="count">10本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261021.html#article-1"><span class="cat cat-麦芽">麦芽</span>キリン、看板「本麒麟」を麦100%のビールへ刷新　11月4日発売、酒税一本化を見据えた8年越しの悲願</a></li><li><a href="archive/brew_daily_20261021.html#article-2"><span class="cat cat-麦芽">麦芽</span>英クリスプ・モルト、独ハンブルクの製麦工場を2027年3月までに閉鎖へ　スコッチ需要低迷で欧州製麦業界の整理続く</a></li><li><a href="archive/brew_daily_20261021.html#article-3"><span class="cat cat-水">水</span>ハイネケン、2030年目標「水使用量2.6リットル/L」を再確認　水不足地域では使用量の1.5倍を環境に還元</a></li><li><a href="archive/brew_daily_20261021.html#article-4"><span class="cat cat-麦芽">麦芽</span>サッポロビール、減肥料でも品質を保つ耐候性大麦「Dual-S」の成果を公表　温暖化に備えた国産原料開発が前進</a></li><li><a href="archive/brew_daily_20261021.html#article-5"><span class="cat cat-ホップ">ホップ</span>サッポロビール、うどんこ病に強い新品種ホップ「フラノ2004B号」を開発　2027年から契約栽培、温暖化によるカビ被害増に備える</a></li><li><a href="archive/brew_daily_20261021.html#article-6"><span class="cat cat-ホップ">ホップ</span>NZの契約農家エガース・ホップス、新月の夜に収穫した「ネルソン・ソーヴィン」を16カ国90醸造所に提供</a></li><li><a href="archive/brew_daily_20261021.html#article-7"><span class="cat cat-ホップ">ホップ</span>NZのクレイトン・ホップス、2026年収穫は「難しい生育期」も処理効率は過去最速　自社品種「NZ Rhapzody」の商業展開が本格化</a></li><li><a href="archive/brew_daily_20261021.html#article-8"><span class="cat cat-水">水</span>カールスバーグ・カナダ、オンタリオ州キッチナー工場で水使用量を2年で10万立方メートル削減　地域の節水プログラム史上最大規模</a></li><li><a href="archive/brew_daily_20261021.html#article-9"><span class="cat cat-副原料">副原料</span>米ハイランド・ブルーイング、地元ロースターと組んだ「サンダーストラック・コーヒー・ポーター」を初の缶入りで復活</a></li><li><a href="archive/brew_daily_20261021.html#article-10"><span class="cat cat-副原料">副原料</span>米リアル・アメリカン・ビール、高アルコール8%の香味系ビール「RABマックス」を展開　酒類・フレーバーモルト飲料の激戦区に参入</a></li></ol><a class="open-issue" href="archive/brew_daily_20261021.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">10月20日（火）号</span><span class="count">8本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261020.html#article-1"><span class="cat cat-麦芽">麦芽</span>2026年GABF、世界初の「クラフトモルト部門」初代金賞はコロラド州の小さなブルーパブに</a></li><li><a href="archive/brew_daily_20261020.html#article-2"><span class="cat cat-副原料">副原料</span>2026年GABF、新設「ライスラガー部門」初代金賞はオハイオ州のブルワリー　ビール名は「Oni Giri」</a></li><li><a href="archive/brew_daily_20261020.html#article-3"><span class="cat cat-水">水</span>2026年GABF、新設「ホップウォーター部門」初代金賞はミシガン州Founders Brewing　ノンアル飲料にホップが本格進出</a></li><li><a href="archive/brew_daily_20261020.html#article-4"><span class="cat cat-水">水</span>米コンステレーション・ブランズ、ホップ香る炭酸水「Hopwtr」を完全子会社化　ノンアル市場でホップの存在感が拡大</a></li><li><a href="archive/brew_daily_20261020.html#article-5"><span class="cat cat-麦芽">麦芽</span>フランス系ソフレ・モルト、南アフリカにハイネケンと並走する約118億円規模の新製麦所　地元大麦農家100%調達目指す</a></li><li><a href="archive/brew_daily_20261020.html#article-6"><span class="cat cat-ホップ">ホップ</span>米オレゴン州、2026年のホップ収穫は「極上の品質」　栽培面積は小幅増も全米のビール消費減が重荷</a></li><li><a href="archive/brew_daily_20261020.html#article-7"><span class="cat cat-ホップ">ホップ</span>横浜の酒屋発「TDM 1874 Brewery」、下北沢の商業ビル屋上で育てたホップでビール「Hop on the Roof」を限定醸造</a></li><li><a href="archive/brew_daily_20261020.html#article-8"><span class="cat cat-副原料">副原料</span>神戸・菊正宗酒造、初の自社クラフトビール「Xross」を発売　日本酒の酵母と吉野杉で個性を出す</a></li></ol><a class="open-issue" href="archive/brew_daily_20261020.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">10月19日（月）号</span><span class="count">10本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261019.html#article-1"><span class="cat cat-ホップ">ホップ</span>キリン、岩手県遠野産「とれたてホップ」を使った期間限定ビールを11月17日発売</a></li><li><a href="archive/brew_daily_20261019.html#article-2"><span class="cat cat-ホップ">ホップ</span>ドイツ・ハラタウ地方、2026年ホップ収穫量が前年比22.8%減の見通し　猛暑による減収が深刻化</a></li><li><a href="archive/brew_daily_20261019.html#article-3"><span class="cat cat-麦芽">麦芽</span>ハイネケンUK、英国内で大規模な「再生型農業」麦芽用大麦プログラムを開始</a></li><li><a href="archive/brew_daily_20261019.html#article-4"><span class="cat cat-水">水</span>バドワイザー・ブルーイング・グループ英サムズベリー醸造所、廃水からバイオガスを生成する新設備が稼働</a></li><li><a href="archive/brew_daily_20261019.html#article-5"><span class="cat cat-ホップ">ホップ</span>バートハース社「2025/2026年版グローバル・ホップレポート」を公開　世界のホップ栽培面積が5%減少</a></li><li><a href="archive/brew_daily_20261019.html#article-6"><span class="cat cat-水">水</span>サントリー、「ネイチャーポジティブ フォーラム2026」を9月8日に開催　「天然水の森」は16都府県27カ所・1万2000ha超に拡大</a></li><li><a href="archive/brew_daily_20261019.html#article-7"><span class="cat cat-麦芽">麦芽</span>キリン「秋味」が発売36年目、通常より麦芽を増量した仕上がりに　紅葉デザインの新パッケージで8月発売</a></li><li><a href="archive/brew_daily_20261019.html#article-8"><span class="cat cat-麦芽">麦芽</span>米クラフトモルトスターズギルド、「2027年モルトカップ」の登録受付を開始　世界初とされる麦芽専門コンペ、9回目の開催</a></li><li><a href="archive/brew_daily_20261019.html#article-9"><span class="cat cat-副原料">副原料</span>米コロラド州リビング・ザ・ドリーム・ブルーイング、「パウダーラン・ピスタチオ・クリームエール」を発売</a></li><li><a href="archive/brew_daily_20261019.html#article-10"><span class="cat cat-副原料">副原料</span>米オレゴン州パブリックコースト・ブルーイング、創業10周年で新作「ピーチサワー」を発売　ウィラメットバレー産の桃を使用</a></li></ol><a class="open-issue" href="archive/brew_daily_20261019.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">10月18日（日）号</span><span class="count">8本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261018.html#article-1"><span class="cat cat-麦芽">麦芽</span>米国の2026年産大麦生産量、前年比19%減の1億1600万ブッシェルに　USDAが確定値を発表</a></li><li><a href="archive/brew_daily_20261018.html#article-2"><span class="cat cat-麦芽">麦芽</span>カリフォルニア初のクラフトモルトハウス「アドミラル・モルティングス」が操業終了　「採算が取れなかった」</a></li><li><a href="archive/brew_daily_20261018.html#article-3"><span class="cat cat-麦芽">麦芽</span>英国、記録的熱波で2026年の大麦収穫が「史上最悪クラス」に　収量は平年比19%減</a></li><li><a href="archive/brew_daily_20261018.html#article-4"><span class="cat cat-副原料">副原料</span>ニチレイフーズ、業務用カレーの「規格外」をビールにアップサイクル　シリーズ第4弾を山形の醸造所から発売</a></li><li><a href="archive/brew_daily_20261018.html#article-5"><span class="cat cat-ホップ">ホップ</span>米ワイン&amp;ビアサプライ、東部で手薄だったホップ商社「ホップ・ハボック」を買収　ワイン・ビール資材の一括提供を強化</a></li><li><a href="archive/brew_daily_20261018.html#article-6"><span class="cat cat-ホップ">ホップ</span>米ニューレルム・ブルーイング、創業初のフレッシュホップビールを醸造　24時間以内にNY州から生ホップを輸送</a></li><li><a href="archive/brew_daily_20261018.html#article-7"><span class="cat cat-水">水</span>米ハンナズ・ブルーイング、「BetterBev」のグリーン・ブルワリー認定を取得　電動仕込み設備とワンススルー回避の水管理が評価</a></li><li><a href="archive/brew_daily_20261018.html#article-8"><span class="cat cat-副原料">副原料</span>米ハイランド・ブルーイング、人気のコーヒーポーター「Thunderstruck」を初の缶入りで復刻発売</a></li></ol><a class="open-issue" href="archive/brew_daily_20261018.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">10月17日（土）号</span><span class="count">9本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261017.html#article-1"><span class="cat cat-水">水</span>独・墺で記録的な熱波と干ばつ、ホップ・大麦の生産に打撃　オクトーバーフェストのビール供給に懸念の声</a></li><li><a href="archive/brew_daily_20261017.html#article-2"><span class="cat cat-麦芽">麦芽</span>アイルランドのBoortmalt、2026年産モルト用大麦の価格上乗せを見送り　生産者から「金がない」発言に猛反発</a></li><li><a href="archive/brew_daily_20261017.html#article-3"><span class="cat cat-水">水</span>米コロラド州の記録的干ばつ、ビール醸造に水質面・コスト面の両方で影響</a></li><li><a href="archive/brew_daily_20261017.html#article-4"><span class="cat cat-ホップ">ホップ</span>Hop Products Australia、2026年収穫レポートを公開　新品種「Luna」は初年度から契約が集中</a></li><li><a href="archive/brew_daily_20261017.html#article-5"><span class="cat cat-ホップ">ホップ</span>NZ・エガーズホップス、「新月収穫」のネルソン・ソーヴィンで16カ国90醸造所との国際コラボを実施</a></li><li><a href="archive/brew_daily_20261017.html#article-6"><span class="cat cat-副原料">副原料</span>Far Yeast Brewing、ワイン畑の摘房ブドウを使った限定ビール「Grapevine 2026」とアップサイクルジンを発売</a></li><li><a href="archive/brew_daily_20261017.html#article-7"><span class="cat cat-副原料">副原料</span>象印、炊飯テストで余った米をアップサイクルしたクラフトビール「ゾウのマイ」を発売</a></li><li><a href="archive/brew_daily_20261017.html#article-8"><span class="cat cat-麦芽">麦芽</span>サントリー、伝統製法「ダイヤモンド麦芽」を使った季節限定ビール「梅子黄」を発売</a></li><li><a href="archive/brew_daily_20261017.html#article-9"><span class="cat cat-副原料">副原料</span>米ブルワーズ・アソシエーション、ワールドビアカップ受賞者によるライスラガー醸造のコツを公開</a></li></ol><a class="open-issue" href="archive/brew_daily_20261017.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">10月16日（金）号</span><span class="count">9本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261016.html#article-1"><span class="cat cat-麦芽">麦芽</span>英クリスプ・モルト、独ハンブルクのモルトハウスを2027年3月までに閉鎖へ　スコッチウイスキー不振が直撃</a></li><li><a href="archive/brew_daily_20261016.html#article-2"><span class="cat cat-麦芽">麦芽</span>米ルート・シュート・モルティング、コロラド州の麦芽業者として初の「Regenified」認証を取得</a></li><li><a href="archive/brew_daily_20261016.html#article-3"><span class="cat cat-ホップ">ホップ</span>米ホップ在庫、2026年9月時点で前年比9%減の1億500万ポンドに　USDAが発表</a></li><li><a href="archive/brew_daily_20261016.html#article-4"><span class="cat cat-ホップ">ホップ</span>米ネブラスカ大学の自社開発ホップ「マージー」、初の商業ビールに採用　品種開発プログラム史上初</a></li><li><a href="archive/brew_daily_20261016.html#article-5"><span class="cat cat-水">水</span>米研究チーム、市販ビールのPFAS（有機フッ素化合物）汚染を初めて体系的に調査　水源地との関連を指摘</a></li><li><a href="archive/brew_daily_20261016.html#article-6"><span class="cat cat-水">水</span>AB InBev、ベルギーで水源再生プロジェクトを開始　5年で3.5億リットルの水源確保を目指す</a></li><li><a href="archive/brew_daily_20261016.html#article-7"><span class="cat cat-水">水</span>米オレンジ郡の下水・水道当局、浄化した再生水で醸造した「GWRS Brew」を公開</a></li><li><a href="archive/brew_daily_20261016.html#article-8"><span class="cat cat-副原料">副原料</span>米ブルワーズ・アソシエーション、2026年版ビアスタイルガイドラインに「ライス・ラガー」を新設</a></li><li><a href="archive/brew_daily_20261016.html#article-9"><span class="cat cat-副原料">副原料</span>名古屋のY.MARKET BREWING、ラーメン「AFURI」とコラボした柚子ペールエール「THE PIONEERS」を発売</a></li></ol><a class="open-issue" href="archive/brew_daily_20261016.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">10月14日（水）号</span><span class="count">9本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261014.html#article-1"><span class="cat cat-麦芽">麦芽</span>米ブルワーズ・アソシエーション、2026年GABFに「クラフトモルト」カテゴリーを新設</a></li><li><a href="archive/brew_daily_20261014.html#article-2"><span class="cat cat-麦芽">麦芽</span>米国産バレー（大麦）の作付面積、2025年産は史上最低の230万エーカーに</a></li><li><a href="archive/brew_daily_20261014.html#article-3"><span class="cat cat-ホップ">ホップ</span>欧米ホップ栽培面積、2026年は世界で約3%減　スロベニアでは降雹被害も発生</a></li><li><a href="archive/brew_daily_20261014.html#article-4"><span class="cat cat-ホップ">ホップ</span>サッポロビール、うどんこ病に強い新品種ホップ「フラノ2004B号」を開発　2027年から契約栽培へ</a></li><li><a href="archive/brew_daily_20261014.html#article-5"><span class="cat cat-ホップ">ホップ</span>「ホップ栽培面積国内No.1」岩手県遠野市で「遠野ホップ収穫祭2026」開催　市内3醸造所が遠野産ホップの限定ビールを提供</a></li><li><a href="archive/brew_daily_20261014.html#article-6"><span class="cat cat-水">水</span>英ヘップワース醸造所、英国初の排水発電システムを本格稼働　年362MWhを自家消費</a></li><li><a href="archive/brew_daily_20261014.html#article-7"><span class="cat cat-水">水</span>米ハンナズ・ブルーイング、「BetterBev」グリーン飲料生産者認定を取得　電動仕込み設備と使い切り型の水使用が評価</a></li><li><a href="archive/brew_daily_20261014.html#article-8"><span class="cat cat-副原料">副原料</span>エチゴビール、新ブランド「フルーツビア研究所」を始動　新潟県産ル・レクチェや栃木県産イチゴを使った発泡酒2種を発売</a></li><li><a href="archive/brew_daily_20261014.html#article-9"><span class="cat cat-副原料">副原料</span>米穀物団体USA Rice、クラフトブルワーズ・カンファレンスで「ライス・ルネッサンス」セミナーを開催　副原料としての米の価値を訴求</a></li></ol><a class="open-issue" href="archive/brew_daily_20261014.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">10月13日（火）号</span><span class="count">10本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261013.html#article-1"><span class="cat cat-ホップ">ホップ</span>米ホップクオリティグループとUSDA、知財フリーの新品種「ソラ（Thora）」を発表</a></li><li><a href="archive/brew_daily_20261013.html#article-2"><span class="cat cat-麦芽">麦芽</span>米モルトメーカーBriess社、創業150周年　「スペシャルティモルトの首都」マニトウォックの歴史を振り返る</a></li><li><a href="archive/brew_daily_20261013.html#article-3"><span class="cat cat-ホップ">ホップ</span>米ブルワーズ・アソシエーション、2026年「収穫前ホップ速報」を公開　USDA育種拠点に体制変更</a></li><li><a href="archive/brew_daily_20261013.html#article-4"><span class="cat cat-水">水</span>バドワイザー・ブルーイング・グループ、英サムズベリー醸造所に排水処理・バイオガス回収設備を稼働</a></li><li><a href="archive/brew_daily_20261013.html#article-5"><span class="cat cat-麦芽">麦芽</span>仏RAGT社、新品種モルト用大麦「Arrow」を発表　主力品種「Laureate」の後継候補に</a></li><li><a href="archive/brew_daily_20261013.html#article-6"><span class="cat cat-ホップ">ホップ</span>米プエブロ・ビダ・ブルーイング、収穫当日空輸のフレッシュホップIPA「Logistics」を6年連続リリース</a></li><li><a href="archive/brew_daily_20261013.html#article-7"><span class="cat cat-麦芽">麦芽</span>サッポロビール、北海道の高温化に対応した「秋まき二条大麦」の開発に着手</a></li><li><a href="archive/brew_daily_20261013.html#article-8"><span class="cat cat-水">水</span>チェコ・ラデガスト醸造所、「種から一杯まで」の水使用量調査結果を公表</a></li><li><a href="archive/brew_daily_20261013.html#article-9"><span class="cat cat-副原料">副原料</span>JR中央線ビアワークス、開業1周年記念に栗を使った「栗アンバーエール」を発売</a></li><li><a href="archive/brew_daily_20261013.html#article-10"><span class="cat cat-副原料">副原料</span>独ビットブルガー、酵素処理でグルテンを減らした「グルテン・リデュースド・ラガー」を米国市場に投入</a></li></ol><a class="open-issue" href="archive/brew_daily_20261013.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">10月12日（月）号</span><span class="count">9本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261012.html#article-1"><span class="cat cat-ホップ">ホップ</span>独BarthHaas社、「ホップレポート2025/26」を発表　世界的な供給過剰が構造化</a></li><li><a href="archive/brew_daily_20261012.html#article-2"><span class="cat cat-麦芽">麦芽</span>仏モルトロップ社、ニュージーランドの製麦工場を閉鎖へ　現地クラフト業界に動揺</a></li><li><a href="archive/brew_daily_20261012.html#article-3"><span class="cat cat-ホップ">ホップ</span>独ホップ収穫量、2026年産は前年比21.7%減　主産地ハラタウは22.8%減の見通し</a></li><li><a href="archive/brew_daily_20261012.html#article-4"><span class="cat cat-ホップ">ホップ</span>ホップ育種会社HBC、高アルファ酸品種シリーズ「Terra Alpha Hops」を発表</a></li><li><a href="archive/brew_daily_20261012.html#article-5"><span class="cat cat-水">水</span>ハイネケン、2030年までに水使用量をさらに削減する新目標を発表</a></li><li><a href="archive/brew_daily_20261012.html#article-6"><span class="cat cat-麦芽">麦芽</span>北米クラフトモルティングギルド、2027年「Malt Cup」の応募登録を開始　前回最優秀賞はアルバータ州の大麦麦芽</a></li><li><a href="archive/brew_daily_20261012.html#article-7"><span class="cat cat-副原料">副原料</span>全米ハニーボード、2026年「ハニービア・コンペティション」結果を発表　150銘柄超が出品</a></li><li><a href="archive/brew_daily_20261012.html#article-8"><span class="cat cat-麦芽">麦芽</span>北米クラフトモルティングギルド、9月の「Craft Malt Month」第3回を開催</a></li><li><a href="archive/brew_daily_20261012.html#article-9"><span class="cat cat-副原料">副原料</span>米リビング・ザ・ドリーム・ブルーイング、ピスタチオ使用のクリームエール「Powder Run Pistachio Cream Ale」を発売</a></li></ol><a class="open-issue" href="archive/brew_daily_20261012.html">この号を開く →</a></details></li>
+<li class="issue"><details><summary><span class="label">10月10日（土）号</span><span class="count">9本</span></summary><ol class="heads"><li><a href="archive/brew_daily_20261010.html#article-1"><span class="cat cat-副原料">副原料</span>ノースカロライナ発、モルトハウス×コーヒー焙煎所のコラボラガー「Bimble」</a></li><li><a href="archive/brew_daily_20261010.html#article-2"><span class="cat cat-麦芽">麦芽</span>サッポロビール×北海道大学、日本初のビール用大麦品種「北大1号」で150周年記念ビールを共同開発</a></li><li><a href="archive/brew_daily_20261010.html#article-3"><span class="cat cat-ホップ">ホップ</span>米国ブルワーズ・アソシエーション、2026年ホップ収穫前レポートを公開　作付面積は4年連続減も下げ止まりの兆し</a></li><li><a href="archive/brew_daily_20261010.html#article-4"><span class="cat cat-麦芽">麦芽</span>独ベストモルツ、新品種大麦「Excalibur」を製麦ラインナップに追加　主力品種「Amidala」を置き換えへ</a></li><li><a href="archive/brew_daily_20261010.html#article-5"><span class="cat cat-水">水</span>カールスバーグ・カナダ、水効率化の取り組みで「2026 Impact Award」を受賞　2年間で10万立方メートル削減</a></li><li><a href="archive/brew_daily_20261010.html#article-6"><span class="cat cat-麦芽">麦芽</span>米リバーベンド・モルトハウス、赤系麦芽の新製品「Ridgeline Red」を発売　グレインビル100%まで使用可</a></li><li><a href="archive/brew_daily_20261010.html#article-7"><span class="cat cat-ホップ">ホップ</span>ニュージーランド・クレイトンホップス、2026年収穫レポートを公開　自社開発品種「NZ Rhapzody」は収量減もアロマは高評価</a></li><li><a href="archive/brew_daily_20261010.html#article-8"><span class="cat cat-麦芽">麦芽</span>米コーネル大学、118年の育種プログラム史上初の「冬播き製麦用大麦」新品種「LakeEffect」を発表</a></li><li><a href="archive/brew_daily_20261010.html#article-9"><span class="cat cat-水">水</span>米アクアティック・ブルーイング、「BetterBev」グリーン飲料生産者認定を取得　仕込み水を再利用</a></li></ol><a class="open-issue" href="archive/brew_daily_20261010.html">この号を開く →</a></details></li>
+</ul></details>
+
+  </section>
+
   <p class="back"><a href="index.html">← 最新号に戻る</a></p>
 </main>
 <footer>
   <p><strong>BREW DAILY</strong> — 世界の醸造所公式情報を AI が毎朝収集・翻訳・解説</p>
 </footer>
+<script>
+(function () {
+  var DATA = null;
+  var WD = ['日','月','火','水','木','金','土'];
+  var PAGE = 30;
+  var $q = document.getElementById('q'), $month = document.getElementById('month');
+  var $res = document.getElementById('results'), $status = document.getElementById('status');
+  var $sec = document.getElementById('search-results'), $list = document.getElementById('archive-list');
+  var $more = document.getElementById('more');
+  var state = { cat: '', shown: PAGE };
+
+  // 全角/半角・大文字/小文字の違いを吸収
+  function norm(s) { return (s || '').normalize('NFKC').toLowerCase(); }
+
+  function esc(s) {
+    return (s || '').replace(/[&<>"']/g, function (c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function reEsc(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+  function highlight(s, terms) {
+    var out = esc(s);
+    if (!terms.length) return out;
+    var re = new RegExp('(' + terms.map(function (t) { return reEsc(esc(t)); }).join('|') + ')', 'gi');
+    return out.replace(re, '<mark>$1</mark>');
+  }
+  function snippet(a, terms) {
+    var src = (a.b + '\n' + a.an).replace(/\n/g, ' ');
+    if (!terms.length) return src.slice(0, 120) + (src.length > 120 ? '…' : '');
+    var n = norm(src), pos = -1;
+    for (var i = 0; i < terms.length && pos < 0; i++) pos = n.indexOf(terms[i]);
+    if (pos < 0) return a.k || src.slice(0, 120) + '…';
+    var start = Math.max(0, pos - 50), end = Math.min(src.length, pos + 90);
+    return (start > 0 ? '…' : '') + src.slice(start, end) + (end < src.length ? '…' : '');
+  }
+  function dateLabel(d) {
+    var dt = new Date(+d.slice(0, 4), +d.slice(4, 6) - 1, +d.slice(6, 8));
+    return dt.getFullYear() + '年' + (dt.getMonth() + 1) + '月' + dt.getDate() + '日（' + WD[dt.getDay()] + '）号';
+  }
+  var COLORS = {'麦芽':'var(--c-malt)','ホップ':'var(--c-hop)','水':'var(--c-water)','副原料':'var(--c-adj)'};
+
+  function run(keepShown) {
+    var raw = $q.value.trim();
+    var terms = norm(raw).split(/\s+/).filter(Boolean);
+    var month = $month.value, cat = state.cat;
+    var active = terms.length || month || cat;
+    $sec.hidden = !active; $list.hidden = !!active;
+    if (!keepShown) state.shown = PAGE;
+    syncUrl(raw, cat, month);
+    if (!active) return;
+    if (!DATA) { $status.textContent = '検索データを読み込み中…'; $res.innerHTML = ''; $more.hidden = true; return; }
+
+    var hits = DATA.filter(function (a) {
+      if (cat && a.c !== cat) return false;
+      if (month && a.d.slice(0, 6) !== month) return false;
+      for (var i = 0; i < terms.length; i++) if (a._t.indexOf(terms[i]) < 0) return false;
+      return true;
+    });
+    // 見出しに含まれる記事を優先し、その中では新しい号順
+    hits.sort(function (x, y) {
+      var hx = terms.every(function (t) { return norm(x.h).indexOf(t) >= 0; }) ? 1 : 0;
+      var hy = terms.every(function (t) { return norm(y.h).indexOf(t) >= 0; }) ? 1 : 0;
+      return (hy - hx) || (y.d.localeCompare(x.d)) || (x.r - y.r);
+    });
+    var issuesHit = {};
+    hits.forEach(function (a) { issuesHit[a.d] = 1; });
+    $status.innerHTML = hits.length
+      ? '<strong>' + hits.length + '</strong> 件の記事（' + Object.keys(issuesHit).length + '号）が見つかりました'
+      : '';
+    if (!hits.length) {
+      $res.innerHTML = '<li class="noresult">該当する記事が見つかりませんでした。<br>別のキーワードや、カテゴリ・月の絞り込みを外してお試しください。</li>';
+      $more.hidden = true;
+      return;
+    }
+    var termsRaw = raw.split(/\s+/).filter(Boolean);
+    var hlTerms = termsRaw.concat(termsRaw.map(function (t) { return t.normalize('NFKC'); }));
+    $res.innerHTML = hits.slice(0, state.shown).map(function (a) {
+      var link = 'archive/' + a.f + '#' + a.a;
+      var meta = [
+        '<span class="cat cat-' + esc(a.c) + '">' + esc(a.c) + '</span>',
+        '<span>' + dateLabel(a.d) + '</span>',
+        a.src ? '<span>' + highlight(a.src, hlTerms) + '</span>' : '',
+        a.co ? '<span>' + highlight(a.co, hlTerms) + '</span>' : ''
+      ].join('');
+      return '<li class="result" style="--cc:' + (COLORS[a.c] || 'var(--amber)') + '">' +
+        '<div class="result-meta">' + meta + '</div>' +
+        '<h3><a href="' + link + '">' + highlight(a.h, hlTerms) + '</a></h3>' +
+        '<p class="snippet">' + highlight(snippet(a, terms), hlTerms) + '</p>' +
+        '<p class="result-links"><a href="' + link + '">この号で読む →</a>' +
+        (a.u ? '<a href="' + esc(a.u) + '" target="_blank" rel="noopener">オリジナル記事 ↗</a>' : '') +
+        '</p></li>';
+    }).join('');
+    $more.hidden = hits.length <= state.shown;
+    $more.textContent = 'さらに表示（残り ' + (hits.length - state.shown) + ' 件）';
+  }
+
+  function syncUrl(q, cat, month) {
+    try {
+      var p = new URLSearchParams();
+      if (q) p.set('q', q);
+      if (cat) p.set('cat', cat);
+      if (month) p.set('m', month);
+      var s = p.toString();
+      history.replaceState(null, '', location.pathname + (s ? '?' + s : ''));
+    } catch (e) {}
+  }
+  function setCat(cat) {
+    state.cat = cat;
+    document.querySelectorAll('#filters .chip').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.cat === cat));
+    });
+  }
+
+  var timer;
+  $q.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(function () { run(); }, 120); });
+  $month.addEventListener('change', function () { run(); });
+  document.getElementById('filters').addEventListener('click', function (e) {
+    var b = e.target.closest('.chip'); if (!b) return;
+    setCat(b.dataset.cat); run();
+  });
+  $more.addEventListener('click', function () { state.shown += PAGE; run(true); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === '/' && document.activeElement !== $q) { e.preventDefault(); $q.focus(); }
+    if (e.key === 'Escape' && document.activeElement === $q) { $q.value = ''; run(); }
+  });
+
+  // URL の ?q=…&cat=…&m=… から検索状態を復元（検索結果を共有できる）
+  var p = new URLSearchParams(location.search);
+  $q.value = p.get('q') || '';
+  if (p.get('cat')) setCat(p.get('cat'));
+  if (p.get('m')) $month.value = p.get('m');
+  run();
+
+  fetch('archive/search-index.json?v=20261111')
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (d) {
+      d.forEach(function (a) { a._t = norm([a.h, a.k, a.src, a.co, a.b, a.an].join('\n')); });
+      DATA = d; run(true);
+    })
+    .catch(function () {
+      DATA = [];
+      $status.textContent = '検索データを読み込めませんでした。ページを再読み込みしてください。';
+    });
+})();
+</script>
 </body>
 </html>
