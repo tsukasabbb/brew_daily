@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BREW DAILY — 2026年11月27日（Fri）</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --amber:   #C8860A;
+            --amber2:  #F5A623;
+            --ink:     #0F0C08;
+            --ink2:    #3D2B1F;
+            --muted:   #7A6A5A;
+            --paper:   #F9F6F0;
+            --card:    #FFFFFF;
+            --rule:    #D4C4A8;
+            --blue:    #1A4E8C;
+            --blue-bg: #EBF2FB;
+            --malt:    #8B5E00;
+            --hop:     #2E6B1A;
+            --water:   #1A4E8C;
+            --adjunct: #7A3A8C;
+            --nav-h:   52px;
+        }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { font-size:17px; scroll-behavior:smooth; scroll-padding-top:calc(var(--nav-h) + 8px); }
+        body {
+            font-family:'Noto Serif JP',Georgia,serif;
+            background:var(--paper);
+            color:var(--ink);
+            line-height:1.9;
+            -webkit-font-smoothing:antialiased;
+        }
+
+        /* ════ MASTHEAD ════ */
+        .masthead {
+            background:var(--ink);
+            color:#fff;
+            padding:2.2rem 1.5rem 1.6rem;
+            text-align:center;
+            position:relative;
+            overflow:hidden;
+        }
+        .masthead::before {
+            content:'';
+            position:absolute; inset:0;
+            background:repeating-linear-gradient(
+                90deg,
+                rgba(200,134,10,.07) 0px, rgba(200,134,10,.07) 1px,
+                transparent 1px, transparent 60px
+            );
+            pointer-events:none;
+        }
+        .masthead-eyebrow {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.65rem;
+            letter-spacing:.35em;
+            color:var(--amber2);
+            text-transform:uppercase;
+            margin-bottom:.8rem;
+        }
+        .masthead-title {
+            font-family:'Playfair Display','Noto Serif JP',serif;
+            font-size:clamp(2.8rem,8vw,5.5rem);
+            font-weight:900;
+            letter-spacing:.06em;
+            color:#fff;
+            line-height:1;
+            text-shadow:0 2px 24px rgba(200,134,10,.3);
+        }
+        .masthead-rule {
+            border:none;
+            height:1px;
+            background:linear-gradient(90deg,transparent,var(--amber),transparent);
+            margin:.9rem auto;
+            width:min(480px,80%);
+        }
+        .masthead-meta {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.68rem;
+            color:rgba(255,255,255,.55);
+            display:flex;
+            justify-content:center;
+            gap:1.5rem;
+            flex-wrap:wrap;
+        }
+        .masthead-meta span { display:flex; align-items:center; gap:.35rem; }
+        .masthead-editor {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.72rem;
+            color:rgba(255,255,255,.65);
+            letter-spacing:.05em;
+            margin-bottom:.6rem;
+        }
+        .masthead-tagline {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.72rem;
+            color:rgba(255,255,255,.4);
+            margin-top:.7rem;
+            letter-spacing:.08em;
+        }
+
+        /* ════ GREETING ════ */
+        .greeting-band {
+            background:var(--paper);
+            border-bottom:1px solid var(--rule);
+            padding:1.2rem var(--side);
+            max-width:var(--max-w);
+            margin:0 auto;
+            width:100%;
+        }
+        .greeting-text {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.88rem;
+            color:var(--ink2);
+            line-height:1.8;
+            margin-bottom:.3rem;
+        }
+        .greeting-link {
+            margin-top:.6rem;
+            font-size:.82rem;
+        }
+        .greeting-link a {
+            color:var(--amber);
+            text-decoration:none;
+            border-bottom:1px solid currentColor;
+            padding-bottom:1px;
+        }
+        .greeting-link a:hover { color:var(--ink); }
+
+        /* ════ NAV ════ */
+        .category-nav {
+            background:var(--ink);
+            border-top:1px solid #2a2218;
+            height:var(--nav-h);
+            display:flex;
+            align-items:stretch;
+            justify-content:center;
+            position:sticky;
+            top:0;
+            z-index:200;
+            box-shadow:0 2px 12px rgba(0,0,0,.4);
+        }
+        .nav-filter, .nav-archive {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.72rem;
+            font-weight:700;
+            letter-spacing:.1em;
+            color:rgba(255,255,255,.5);
+            text-decoration:none;
+            padding:0 1.1rem;
+            display:flex;
+            align-items:center;
+            gap:.45rem;
+            border:none;
+            background:none;
+            cursor:pointer;
+            position:relative;
+            transition:color .2s;
+            white-space:nowrap;
+        }
+        .nav-filter::after {
+            content:'';
+            position:absolute;
+            bottom:0; left:50%; right:50%;
+            height:2px;
+            background:var(--amber2);
+            transition:left .2s, right .2s;
+        }
+        .nav-filter:hover, .nav-archive:hover { color:rgba(255,255,255,.9); }
+        .nav-filter.active { color:#fff; }
+        .nav-filter.active::after { left:0; right:0; }
+        .nav-dot {
+            width:7px; height:7px;
+            border-radius:50%;
+            flex-shrink:0;
+        }
+        .nav-badge {
+            font-size:.6rem;
+            background:rgba(255,255,255,.12);
+            color:rgba(255,255,255,.5);
+            border-radius:9px;
+            padding:.05rem .42rem;
+            font-weight:500;
+        }
+        .nav-filter.active .nav-badge {
+            background:var(--amber);
+            color:#fff;
+        }
+        .nav-sep {
+            width:1px;
+            background:rgba(255,255,255,.1);
+            align-self:center;
+            height:60%;
+            flex-shrink:0;
+        }
+        .nav-archive {
+            border-left:1px solid rgba(255,255,255,.1);
+            margin-left:.5rem;
+            padding-left:1.2rem;
+            color:var(--amber2);
+            opacity:.8;
+        }
+        .nav-archive:hover { opacity:1; }
+
+        /* ════ MAIN ════ */
+        main {
+            max-width:760px;
+            margin:0 auto;
+            padding:2.8rem 1.5rem 5rem;
+        }
+        .section-heading {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.65rem;
+            font-weight:700;
+            letter-spacing:.28em;
+            text-transform:uppercase;
+            color:var(--amber);
+            border-bottom:1px solid var(--rule);
+            padding-bottom:.6rem;
+            margin-bottom:2.2rem;
+            display:flex;
+            align-items:center;
+            gap:.6rem;
+        }
+        .section-heading::before {
+            content:''; display:block;
+            width:18px; height:2px; background:var(--amber);
+        }
+
+        /* ════ ARTICLE ════ */
+        .article {
+            background:var(--card);
+            border-left:4px solid var(--cat-color, var(--muted));
+            border-radius:0 4px 4px 0;
+            padding:1.8rem 2rem 1.6rem;
+            margin-bottom:1.6rem;
+            box-shadow:0 1px 4px rgba(0,0,0,.06);
+            transition:opacity .25s, transform .25s;
+        }
+        .article.hidden {
+            display:none;
+        }
+        .article-kicker {
+            display:flex;
+            align-items:center;
+            gap:.6rem;
+            margin-bottom:.7rem;
+        }
+        .article-rank {
+            font-family:'Playfair Display',serif;
+            font-size:1.7rem;
+            font-weight:900;
+            color:var(--rule);
+            line-height:1;
+            min-width:2rem;
+        }
+        .article-category {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.62rem;
+            font-weight:700;
+            letter-spacing:.15em;
+            color:#fff;
+            background:var(--cat-color, var(--muted));
+            padding:.18rem .65rem;
+            border-radius:2px;
+        }
+        .article-popularity { margin-left:auto; font-size:.75rem; color:var(--amber2); }
+        .article-headline {
+            font-family:'Noto Serif JP',serif;
+            font-size:1.3rem;
+            font-weight:700;
+            line-height:1.55;
+            color:var(--ink);
+            margin-bottom:.6rem;
+        }
+        .article-deck {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.85rem;
+            font-weight:500;
+            color:var(--ink2);
+            border-left:3px solid var(--amber);
+            padding-left:.75rem;
+            margin-bottom:.85rem;
+            line-height:1.65;
+        }
+        .article-byline {
+            display:flex;
+            gap:1rem;
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.68rem;
+            color:var(--muted);
+            padding-bottom:.75rem;
+            border-bottom:1px solid var(--rule);
+            margin-bottom:1.1rem;
+            flex-wrap:wrap;
+        }
+        .article-body p {
+            font-size:.95rem;
+            line-height:1.95;
+            color:#3D2B1F;
+            margin-bottom:1.1em;
+            text-align:justify;
+        }
+        .article-body p:last-child { margin-bottom:0; }
+        .analysis {
+            background:var(--blue-bg);
+            border-left:3px solid var(--blue);
+            padding:.9rem 1.1rem;
+            margin-top:1.3rem;
+            border-radius:0 3px 3px 0;
+        }
+        .analysis-label {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.62rem;
+            font-weight:700;
+            letter-spacing:.18em;
+            text-transform:uppercase;
+            color:var(--blue);
+            display:block;
+            margin-bottom:.4rem;
+        }
+        .analysis p {
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.82rem;
+            line-height:1.85;
+            color:#1a2a3a;
+        }
+        .article-source {
+            margin-top:1.1rem;
+            font-family:'Noto Sans JP',sans-serif;
+        }
+        .article-source a {
+            font-size:.72rem;
+            color:var(--blue);
+            text-decoration:none;
+            border-bottom:1px solid currentColor;
+            padding-bottom:1px;
+            opacity:.8;
+        }
+        .article-source a:hover { opacity:1; color:var(--amber); }
+
+        /* ── no-results ── */
+        .no-results {
+            text-align:center;
+            padding:3rem;
+            color:var(--muted);
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.85rem;
+            display:none;
+        }
+
+        /* ════ FOOTER ════ */
+        .site-footer {
+            background:var(--ink);
+            color:rgba(255,255,255,.35);
+            text-align:center;
+            padding:2.5rem 1rem;
+            font-family:'Noto Sans JP',sans-serif;
+            font-size:.7rem;
+            line-height:2;
+        }
+        .site-footer strong { color:var(--amber2); }
+        .footer-links { margin-top:.6rem; display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; }
+        .footer-links a { color:rgba(255,255,255,.45); text-decoration:none; }
+        .footer-links a:hover { color:var(--amber2); }
+
+        /* ════ RESPONSIVE ════ */
+        @media(max-width:600px) {
+            html { font-size:15px; }
+            main { padding:1.8rem 1rem 3.5rem; }
+            .article { padding:1.3rem 1.2rem 1.2rem; }
+            .article-headline { font-size:1.15rem; }
+            .nav-filter, .nav-archive { padding:0 .7rem; font-size:.65rem; }
+            .nav-badge { display:none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="masthead" style="background-color:#0F0C08;">
+        <p class="masthead-eyebrow" style="color:#F5A623;">世界のブルワリー最新情報マガジン</p>
+        <h1 class="masthead-title" style="color:#ffffff;">BREW DAILY</h1>
+        <div class="masthead-rule" style="background-color:#C8860A;"></div>
+        <p class="masthead-editor" style="color:rgba(255,255,255,.65);">✍ 編集者　高橋司（株式会社ベアレン醸造所営業部長／岩手日独協会会長）</p>
+        <div class="masthead-meta">
+            <span style="color:rgba(255,255,255,.55);">📅 2026年11月27日（Fri） 発行</span>
+            <span style="color:rgba(255,255,255,.55);">🍺 麦芽・ホップ・水・副原料 Top 6</span>
+            <span style="color:rgba(255,255,255,.55);">✦ Powered by Claude AI</span>
+        </div>
+        <p class="masthead-tagline" style="color:rgba(255,255,255,.4);">ビール業界関係者のための毎日の情報誌</p>
+    </header>
+
+    <div class="greeting-band">
+        <p class="greeting-text">いつもご覧いただきありがとうございます。編集者の高橋司です。</p>
+        <p class="greeting-text">本日の最新号をお届けします。世界の醸造所・業界団体の公式情報を AI が収集・翻訳・解説しています。</p>
+        <p class="greeting-link"><a href="https://tsukasabbb.github.io/brew_daily/">▶ 最新号をブラウザで読む　https://tsukasabbb.github.io/brew_daily/</a></p>
+    </div>
+
+    <nav class="category-nav" aria-label="カテゴリフィルター" style="background-color:#0F0C08;">
+        <button class="nav-filter active" onclick="filter(this,'all')" style="color:#ffffff;">
+            <span class="nav-dot" style="background-color:#888"></span>すべて
+            <span class="nav-badge" style="background-color:#C8860A;color:#ffffff;">6</span>
+        </button>
+        <span class="nav-sep" style="background-color:rgba(255,255,255,.15);"></span>
+        <button class="nav-filter" onclick="filter(this,'麦芽')" style="color:rgba(255,255,255,.75);">
+            <span class="nav-dot" style="background-color:#8B5E00"></span>麦芽
+            <span class="nav-badge" style="background-color:rgba(255,255,255,.15);color:rgba(255,255,255,.75);">3</span>
+        </button>
+        <button class="nav-filter" onclick="filter(this,'ホップ')" style="color:rgba(255,255,255,.75);">
+            <span class="nav-dot" style="background-color:#2E6B1A"></span>ホップ
+            <span class="nav-badge" style="background-color:rgba(255,255,255,.15);color:rgba(255,255,255,.75);">1</span>
+        </button>
+        <button class="nav-filter" onclick="filter(this,'水')" style="color:rgba(255,255,255,.75);">
+            <span class="nav-dot" style="background-color:#1A4E8C"></span>水
+            <span class="nav-badge" style="background-color:rgba(255,255,255,.15);color:rgba(255,255,255,.75);">1</span>
+        </button>
+        <button class="nav-filter" onclick="filter(this,'副原料')" style="color:rgba(255,255,255,.75);">
+            <span class="nav-dot" style="background-color:#7A3A8C"></span>副原料
+            <span class="nav-badge" style="background-color:rgba(255,255,255,.15);color:rgba(255,255,255,.75);">1</span>
+        </button>
+        <span class="nav-sep" style="background-color:rgba(255,255,255,.15);"></span>
+        <a class="nav-archive" href="https://tsukasabbb.github.io/brew_daily/archive.html" target="_blank" rel="noopener" style="color:#F5A623;">📚 バックナンバー</a>
+    </nav>
+
+    <main>
+        <p class="section-heading">Today's Ranking — Top 6</p>
+
+        <article class="article" id="article-1" data-category="麦芽" style="--cat-color:#8B6914">
+            <div class="article-kicker">
+                <span class="article-rank">01</span>
+                <span class="article-category">🌾 麦芽</span>
+                <span class="article-popularity">⭐⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-headline">岩手・花巻のBrewBeast、敷地の約7割を「余白」にした「パブリックブルワリー」を花巻駅近くに計画　ふるさと納税型クラウドファンディングで1,783万円を募る</h2>
+            <p class="article-deck">新醸造所の生産能力は現在の約6倍が目標　遠心分離機とPCR検査器を入れて常温流通をめざし、麦芽の搾りかすは地元の酪農家へ</p>
+            <div class="article-byline">
+                <span>株式会社トルクスト(PR TIMES)</span>
+                <span>日本(岩手県花巻市)</span>
+                <span>発表日: 2026年11月26日</span>
+            </div>
+            <div class="article-body">
+                <p>クラフトビール「BrewBeast(ブリュービースト)」を造る株式会社トルクスト(岩手県花巻市、代表取締役 高橋亮)は2026年11月26日、花巻駅の近くに新しい醸造所と地域に開かれた交流空間を合わせた「パブリックブルワリー」をつくる計画で、花巻市のクラウドファンディング型ふるさと納税を実施していると発表した。募集期間は10月20日から2027年1月5日まで、目標額は17,836,000円。建築費や設備費の高騰が寄附を募る理由だという。返礼品はBrewBeastのクラフトビールセットなど。完成は2027年6月ごろの予定。</p>
+                <p>醸造所が使うのは敷地の約3割で、残りの約7割は芝生や外灯、トイレを整えた誰でも自由に過ごせる空間にする。新醸造所では生産能力を現在の約6倍に増やし、酵母や微粒子を取り除く遠心分離機と、微生物を調べるPCR検査器を入れて品質管理を強める。今は基本的に冷蔵で流通させているビールを、常温で流通できるようにすることをめざす。麦芽の搾りかすは乾燥させて地域の酪農家に飼料として渡す仕組みも計画している。同社は2019年に自ら改装した醸造所を立ち上げ、「IMPACT」がジャパン・グレートビア・アワーズ2023で金賞を受けた。</p>
+            </div>
+            <div class="analysis">
+                <span class="analysis-label">編集部の考察</span>
+                <p>同じ岩手の醸造所が、設備の増強と同時に「まちの広場」をつくろうとしている。常温流通の実現は販路を大きく広げる一方、品質管理への投資が前提になる。ふるさと納税を資金集めに使う手法も、地方の醸造所にとって参考になる。</p>
+            </div>
+            <div class="article-source">
+                <a href="https://prtimes.jp/main/html/rd/p/000000001.000077161.html" target="_blank" rel="noopener">
+                    オリジナル記事を読む →
+                </a>
+            </div>
+        </article>
+
+        <article class="article" id="article-2" data-category="水" style="--cat-color:#1A4E8C">
+            <div class="article-kicker">
+                <span class="article-rank">02</span>
+                <span class="article-category">💧 水</span>
+                <span class="article-popularity">⭐⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-headline">独クロムバッハー、テューリンゲン州の州有林と2年で20万本を植樹　「水は最も大切な天然資源」として森づくりを全国で続ける</h2>
+            <p class="article-deck">2025年に133,333本、2026年に66,667本　30種以上の木で気候変動に強い混交林へ</p>
+            <div class="article-byline">
+                <span>about-drinks.com</span>
+                <span>ドイツ(テューリンゲン州)</span>
+                <span>発表日: 2026年11月25日</span>
+            </div>
+            <div class="article-body">
+                <p>ドイツの飲料業界サイトabout-drinks.comは2026年11月25日、大手醸造所クロムバッハーがテューリンゲン州の州有林管理機関テューリンゲンフォルストと、2025年と2026年の2年間で同州に20万本の木を植えたと報じた。内訳は2025年が133,333本、2026年が66,667本。ノイハウス、ゾンネベルク、ブライヒェローデ＝南ハルツ、オーバーホーフなど複数の営林署の管内で、地元の専門家が場所と樹種を選び、30種以上の木を植えた。干ばつや嵐、害虫で傷んだ森を作り替える取り組みの一つだという。</p>
+                <p>この植樹は、クロムバッハーが各州の森林当局と進める全国規模の再植林事業の一部で、ドイツ全体では2025年に約130万本、2026年にさらに100万本を植え、2年で200万本を超えた。中心は本拠地のジーガーラント・ザウアーラント地方で、ヘッセン、ニーダーザクセン、シュレスヴィヒ＝ホルシュタインの各州でも進めている。記事は森と水の供給のつながりにふれ、クロムバッハーが水を製品づくりで最も大切な天然資源と位置づけていると伝えている。同社の持続可能性管理の責任者ヴォルフガング・シェッツ氏は、森は世代を超えて育つものだと述べた。</p>
+            </div>
+            <div class="analysis">
+                <span class="analysis-label">編集部の考察</span>
+                <p>仕込み水を守るには、水源となる森を守ることが欠かせない。クロムバッハーは植樹を広告ではなく原料の確保として進めている。岩手の醸造所にとっても、地元の水源の森との関わり方を考えるきっかけになる。</p>
+            </div>
+            <div class="article-source">
+                <a href="https://www.about-drinks.com/krombacher-und-thueringenforst-pflanzen-200-000-baeume-in-thueringen/" target="_blank" rel="noopener">
+                    オリジナル記事を読む →
+                </a>
+            </div>
+        </article>
+
+        <article class="article" id="article-3" data-category="麦芽" style="--cat-color:#8B6914">
+            <div class="article-kicker">
+                <span class="article-rank">03</span>
+                <span class="article-category">🌾 麦芽</span>
+                <span class="article-popularity">⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-headline">独バイエルンの有機醸造所リーデンブルガー、化石燃料を使わない新醸造棟で州の「チーム・エネルギー転換」に選ばれる</h2>
+            <p class="article-deck">天然ガスをやめて電気と仕込みの廃熱を使い、ビール造りのエネルギーを約3分の2減らす計画　1994年から原料はすべて有機</p>
+            <div class="article-byline">
+                <span>about-drinks.com</span>
+                <span>ドイツ(バイエルン州リーデンブルク)</span>
+                <span>発表日: 2026年11月24日</span>
+            </div>
+            <div class="article-body">
+                <p>about-drinks.comは2026年11月24日、アルトミュール渓谷にある家族経営の有機醸造所リーデンブルガー・ブラウハウスが、バイエルン州の「チーム・エネルギーヴェンデ・バイエルン」の新しい支援者9者の一つに選ばれたと報じた。ニーダーバイエルン行政区のライナー・ハーゼルベック長官が、経営者のマクシミリアン・クリーガー氏に表彰状を手渡した。今の敷地に建てた新しい醸造棟では、ビールの生産をすべて化石燃料なしで行うことをめざしている。</p>
+                <p>新しいエネルギーの仕組みでは、熱源を天然ガスから電気に切り替え、仕込みで出る熱を回収・蓄えて再び使う。電気の一部は自社の太陽光発電でまかなう。これによりビール造りに必要なエネルギーを約3分の2減らす計画だ。建設には二酸化炭素の排出を抑えたコンクリートを使い、地元の職人や技術会社と組んだ。同社は8代目の家族経営で、1994年から原料をすべて有機に切り替え、クラフトビールとノンアルコールビールに力を入れている。クリーガー氏は、中規模の家族企業にとって大きな投資で挑戦だが、生き残るために進むべき道だという趣旨を語った。得た経験は今後ほかの醸造所や企業とも共有するという。投資額は明らかにしていない。</p>
+            </div>
+            <div class="analysis">
+                <span class="analysis-label">編集部の考察</span>
+                <p>仕込みの煮沸はビール造りで最もエネルギーを使う工程だ。廃熱の回収と電化でガスをなくす取り組みは、燃料費の高い日本の小規模醸造所にとっても、設備更新の際に検討する価値がある。</p>
+            </div>
+            <div class="article-source">
+                <a href="https://www.about-drinks.com/riedenburger-fuer-engagement-bei-energiewende-ausgezeichnet/" target="_blank" rel="noopener">
+                    オリジナル記事を読む →
+                </a>
+            </div>
+        </article>
+
+        <article class="article" id="article-4" data-category="副原料" style="--cat-color:#9B4E9E">
+            <div class="article-kicker">
+                <span class="article-rank">04</span>
+                <span class="article-category">🍊 副原料</span>
+                <span class="article-popularity">⭐⭐⭐⭐</span>
+            </div>
+            <h2 class="article-headline">サンクトガーレン、「飲むシュトーレン」のような冬限定ビール「ウィンターフルーツタルトエール」を11月26日発売　訳ありの「あしがらいちじく」と焼いたりんごを使用</h2>
+            <p class="article-deck">ジンジャーとシナモンを加えた琥珀色のデザートビール　330ml瓶、アルコール分5%、税込539円</p>
+            <div class="article-byline">
+                <span>サンクトガーレン有限会社(PR TIMES)</span>
+                <span>日本(神奈川県厚木市)</span>
+                <span>発表日: 2026年11月12日</span>
+            </div>
+            <div class="article-body">
+                <p>サンクトガーレン有限会社(神奈川県厚木市)は、冬季限定ビール「ウィンターフルーツタルトエール」を2026年11月26日に発売した(発表は11月12日)。軽く焦がしたカラメル麦芽を使った琥珀色のビールに、完熟した「あしがらいちじく」の濃い甘み、国産りんごの酸味、ジンジャーとシナモンの香りを重ねた。果実の使用量がビールの基準を超えるため、酒税法上の品目は発泡酒になる。</p>
+                <p>いちじくは神奈川県足柄地区の、傷などで通常は出回らない「訳あり果実」を使う。りんごは長野県伊那市産で、使う前に軽く焼き目をつける。原材料は麦芽、ホップ、いちじく、りんご、シナモン、ジンジャー、糖類。330ml瓶、アルコール分5%で、希望小売価格は税込539円。公式オンラインショップや一部の取扱店で売り、本厚木駅近くの直営タップルームでは樽生を出す。客からは「飲むシュトーレンのよう」「ジンジャークッキーを液体にしたよう」という声が寄せられているという。欧米のクリスマス限定のスパイスビールの文化をイメージした。</p>
+            </div>
+            <div class="analysis">
+                <span class="analysis-label">編集部の考察</span>
+                <p>訳ありの果実を地元の農家から仕入れ、季節の限定品にする手法は、農家と醸造所の双方に利点がある。果実を焼いてから使うといった一手間が、ほかにない味わいの理由になっている。</p>
+            </div>
+            <div class="article-source">
+                <a href="https://prtimes.jp/main/html/rd/p/000000287.000025081.html" target="_blank" rel="noopener">
+                    オリジナル記事を読む →
+                </a>
+            </div>
+        </article>
+
+        <article class="article" id="article-5" data-category="ホップ" style="--cat-color:#2E6B1A">
+            <div class="article-kicker">
+                <span class="article-rank">05</span>
+                <span class="article-category">🌿 ホップ</span>
+                <span class="article-popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-headline">マイゼル＆フレンズとブラウベビアーレ、第10回ホームブルワー大会のテーマを「ブラックIPA」に　優勝作は25ヘクトリットルの設備で商品化</h2>
+            <p class="article-deck">登録締め切りは2027年3月25日　表彰は4月2〜3日のビール祭「ホームブリュー・バイロイト」で</p>
+            <div class="article-byline">
+                <span>about-drinks.com</span>
+                <span>ドイツ(バイエルン州バイロイト)</span>
+                <span>発表日: 2026年11月24日</span>
+            </div>
+            <div class="article-body">
+                <p>about-drinks.comは2026年11月24日、バイロイトのマイゼル＆フレンズと飲料技術見本市ブラウベビアーレが共同で開く自家醸造コンテストの2027年大会(第10回)の参加登録が始まったと報じた。テーマは「ブラックIPA」。IPAのはっきりしたホップの香りに、濃色麦芽による黒い色と軽いロースト香を合わせたスタイルで、ホップの香りと控えめな濃色麦芽の風味の釣り合いが問われる。</p>
+                <p>登録はマイゼル＆フレンズのウェブサイトで受け付け、締め切りは2027年3月25日。ビールは3月15日から30日までに提出する。ビアソムリエ、醸造長、専門誌の記者による審査員が試飲して採点する。優勝者はマイゼル＆フレンズ・ブラウヴェルクシュタットの25ヘクトリットルの仕込み設備で醸造長と一緒にビールを造り、ラベルや名前のデザインにも加わる。完成したビールは同社のオンラインショップで売られ、優勝者には自分のビール1パレット分が届けられる。表彰は2027年4月2日と3日にバイロイトで開くビール祭「ホームブリュー・バイロイト」で行う。</p>
+            </div>
+            <div class="analysis">
+                <span class="analysis-label">編集部の考察</span>
+                <p>ブラックIPAはホップと焙煎麦芽の香りがぶつかりやすく、造り手の腕が問われるスタイルだ。愛好家の作品を本格的な設備で商品にする仕組みは、ファンとのつながりを深める企画として日本の醸造所でも応用できる。</p>
+            </div>
+            <div class="article-source">
+                <a href="https://www.about-drinks.com/hobbybrauer-maisel-friends-und-braubeviale-suchen-bestes-black-ipa/" target="_blank" rel="noopener">
+                    オリジナル記事を読む →
+                </a>
+            </div>
+        </article>
+
+        <article class="article" id="article-6" data-category="麦芽" style="--cat-color:#8B6914">
+            <div class="article-kicker">
+                <span class="article-rank">06</span>
+                <span class="article-category">🌾 麦芽</span>
+                <span class="article-popularity">⭐⭐⭐</span>
+            </div>
+            <h2 class="article-headline">独ザクセン＝アンハルト州の飲料卸WVG、2027年1月から共同購買グループ「チーム・ベバレッジ」に参加</h2>
+            <p class="article-deck">従業員400人超、取扱2,500品目、直営の飲料店70店　仕入れ力の強化とデジタル化をねらう</p>
+            <div class="article-byline">
+                <span>about-drinks.com</span>
+                <span>ドイツ(ザクセン＝アンハルト州)</span>
+                <span>発表日: 2026年11月23日</span>
+            </div>
+            <div class="article-body">
+                <p>about-drinks.comは2026年11月23日、ザクセン＝アンハルト州の大手飲料卸WVGゲトレンケ・ファッハグロースハンデルが、2027年1月1日から飲食店の取引先とともに、ブレーメンに本拠を置くチーム・ベバレッジの卸売グループに加わると報じた。WVGはテューリンゲン州とザクセン州でも営業している。提携の中心は共同での仕入れと、業務の改善やデジタル化だ。金額などの条件は明らかにしていない。</p>
+                <p>WVGは従業員が400人を超え、2,500品目以上を扱う。卸売のほかに、客が自分で受け取りに来る飲料店「ゲトレンケ・クヴェレ」を70店営み、同州で最大の飲料店の運営会社とされる。店の販売は今の形を続ける。配送にはトラックとトラクター35台、トレーラー50台を使う。東西ドイツの国境が開いた後にマンフレート・ヴァイドリンガー氏が創業し、今はアクセル・ヴァイドリンガー氏とトーマス・シャルフ氏が経営する。アクセル氏は、一緒に仕入れの立場を強め、業務とデジタル化を進めたいと述べた。</p>
+            </div>
+            <div class="analysis">
+                <span class="analysis-label">編集部の考察</span>
+                <p>ドイツでは醸造所だけでなく、卸の側でも共同購買による集約が進んでいる。卸の交渉力が強まれば、醸造所の取引条件にも影響が出る。日本でも流通側の動きを注視しておきたい。</p>
+            </div>
+            <div class="article-source">
+                <a href="https://www.about-drinks.com/wvg-getraenke-fachgrosshandel-wird-partner-im-team-beverage-grosshandel/" target="_blank" rel="noopener">
+                    オリジナル記事を読む →
+                </a>
+            </div>
+        </article>
+
+        <p class="no-results" id="no-results">該当する記事がありません</p>
+    </main>
+
+    <script>
+    function filter(btn, cat) {
+        document.querySelectorAll('.nav-filter').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        let visible = 0;
+        document.querySelectorAll('article.article').forEach(a => {
+            const show = cat === 'all' || a.dataset.category === cat;
+            a.classList.toggle('hidden', !show);
+            if (show) visible++;
+        });
+        document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+    }
+    </script>
+
+    <footer class="site-footer" style="background-color:#0F0C08;">
+        <p style="color:rgba(255,255,255,.55);"><strong style="color:#F5A623;">BREW DAILY</strong> — ビール業界関係者のための毎日の情報誌</p>
+        <p style="color:rgba(255,255,255,.55);">編集者：高橋司（株式会社ベアレン醸造所営業部長／岩手日独協会会長）</p>
+        <p style="color:rgba(255,255,255,.55);">2026年11月27日（Fri） 発行 &nbsp;|&nbsp; 世界の醸造所公式情報を AI が自動収集・日本語翻訳・解説</p>
+        <div class="footer-links">
+            <a href="https://tsukasabbb.github.io/brew_daily/archive.html" target="_blank" rel="noopener" style="color:rgba(255,255,255,.75);">📚 バックナンバー</a>
+            <a href="https://tsukasabbb.github.io/brew_daily/subscribe.html" target="_blank" rel="noopener" style="color:rgba(255,255,255,.75);">📧 メルマガ登録</a>
+        </div>
+    </footer>
+
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "36d15d4306134855b84fea6a3cf4a0b3"}'></script>
+</body>
+</html>
